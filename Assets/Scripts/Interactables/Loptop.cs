@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Laptop : Interactable {
+public class Loptop : Interactable {
 
     [Header("References")]
     private GameManager gameManager;

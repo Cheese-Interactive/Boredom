@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SceneFusionConfig
   m_EditorClassIdentifier: 
   Debug: 1
-  LastVersion: 0.0.0
+  LastVersion: 2.4.1
   ShowGettingStartedScreen: 1
   UI:
     ShowOnlineIndicator: 1
@@ -35,4 +35,4 @@ MonoBehaviour:
     MaxChangeCheckRate: 0
     PropertySyncRate: 10
     TerrainSyncRate: 2
-  m_projectId: -1
+  m_projectId: 8825
