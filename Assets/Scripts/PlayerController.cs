@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,12 +10,15 @@ public class PlayerController : MonoBehaviour {
 
     [Header("References")]
     private Rigidbody2D rb;
+    private Animator animator;
 
     [Header("Mechanics")]
     private bool[] mechanicStatuses;
 
     [Header("Movement")]
     [SerializeField] private float baseMoveSpeed;
+    private float horizontalInput;
+    private float verticalInput;
     private float moveSpeed;
 
     [Header("Boredom")]
@@ -29,17 +33,22 @@ public class PlayerController : MonoBehaviour {
     private bool hasPhoneOut;
 
     [Header("Interactables")]
+    [SerializeField] private SpriteRenderer interactKeyIcon;
+    [SerializeField] private float iconFadeDuration;
     [SerializeField] private float interactRadius;
     [SerializeField] private LayerMask interactMask;
-    private List<Interactable> detectedInteractables; // to remove interact key icon when player is not in range
+    private Tweener keyIconTweenIn;
+    private Tweener keyIconTweenOut;
+    private bool keyIconVisible;
+    private Color startColor;
 
     [Header("Keybinds")]
     [SerializeField] private KeyCode interactKey;
 
-    // Start is called before the first frame update
-    void Start() {
+    private void Start() {
 
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
 
         moveSpeed = baseMoveSpeed;
 
@@ -52,12 +61,17 @@ public class PlayerController : MonoBehaviour {
         boredom = boredomMax * 0.7f;
         StartCoroutine(TickBoredom());
 
-        detectedInteractables = new List<Interactable>();
+        startColor = interactKeyIcon.color;
+        interactKeyIcon.gameObject.SetActive(false);
+        interactKeyIcon.color = Color.clear; // set to clear for fade in
 
     }
 
-    // Update is called once per frame
-    void Update() {
+    private void Update() {
+
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+        verticalInput = Input.GetAxisRaw("Vertical");
+        animator.SetBool("isWalking", !(horizontalInput == 0f && verticalInput == 0f));
 
         if (Input.GetKey(KeyCode.Space))
             hasPhoneOut = true;
@@ -67,6 +81,7 @@ public class PlayerController : MonoBehaviour {
 
         if (boredom > boredomMax)
             boredom = boredomMax;
+
         if (boredom < 0f) //should end game
             boredom = 1f;
 
@@ -75,28 +90,32 @@ public class PlayerController : MonoBehaviour {
         else
             moveSpeed = baseMoveSpeed;
 
-        if (mechanicStatuses[(int) MechanicType.Movement])
-            rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * moveSpeed;
-
         Interactable interactable = Physics2D.OverlapCircle(transform.position, interactRadius, interactMask)?.GetComponent<Interactable>(); // get interactable
 
         if (interactable != null) { // if interactable is not null
 
             // show interact key icon and add to detected interactables list
-            interactable.ShowInteractKeyIcon();
-            detectedInteractables.Add(interactable);
+            ShowInteractKeyIcon();
 
             if (Input.GetKeyDown(interactKey)) // check for interact key press
                 interactable.Interact();
 
-        }
+        } else {
 
-        foreach (Interactable detected in detectedInteractables)
-            if (detected != interactable) detected.HideInteractKeyIcon(); // hide interact key icon for all detected interactables except the current interactable
+            HideInteractKeyIcon(); // if no interactables in range, hide interact key icon
+
+        }
+    }
+
+    private void FixedUpdate() {
+
+        if (mechanicStatuses[(int) MechanicType.Movement])
+            rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * moveSpeed;
 
     }
 
     private IEnumerator TickBoredom() {
+
         while (true) {
 
             if (hasPhoneOut)
@@ -109,4 +128,26 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    public void ShowInteractKeyIcon() {
+
+        if (keyIconVisible) return;
+
+        if (keyIconTweenOut != null && keyIconTweenOut.IsActive()) keyIconTweenOut.Kill();
+
+        keyIconVisible = true;
+        interactKeyIcon.gameObject.SetActive(true);
+        interactKeyIcon.DOColor(startColor, iconFadeDuration);
+
+    }
+
+    public void HideInteractKeyIcon() {
+
+        if (!keyIconVisible) return;
+
+        if (keyIconTweenIn != null && keyIconTweenIn.IsActive()) keyIconTweenIn.Kill();
+
+        keyIconVisible = false;
+        keyIconTweenOut = interactKeyIcon.DOColor(Color.clear, iconFadeDuration).OnComplete(() => interactKeyIcon.gameObject.SetActive(false));
+
+    }
 }
