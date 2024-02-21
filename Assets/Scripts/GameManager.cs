@@ -26,9 +26,12 @@ public class GameManager : MonoBehaviour {
     }
 
     private void shuffleTask() {
+        Laptop temp = currentLoptop;
         for (int i = 0; i < tasks.Count; i++)
             tasks[i].ChangeStatus(false);
+        tasks.Remove(currentLoptop);
         currentLoptop = tasks[Random.Range(0, tasks.Count)];
         currentLoptop.ChangeStatus(true);
+        tasks.Add(temp);
     }
 }
