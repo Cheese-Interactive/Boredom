@@ -1,6 +1,4 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour {
@@ -17,6 +15,8 @@ public abstract class Interactable : MonoBehaviour {
     private Tweener keyIconTweenIn;
     private Tweener keyIconTweenOut;
 
+    protected bool isInteractable;
+
     protected void Awake() {
 
         playerController = FindObjectOfType<PlayerController>();
@@ -31,7 +31,7 @@ public abstract class Interactable : MonoBehaviour {
 
     public void ShowInteractKeyIcon() {
 
-        if (isVisible) return;
+        if (isVisible || !isInteractable) return;
 
         if (keyIconTweenOut != null && keyIconTweenOut.IsActive()) keyIconTweenOut.Kill();
 
@@ -54,4 +54,7 @@ public abstract class Interactable : MonoBehaviour {
 
     public void SetPlayerController(PlayerController playerController) { this.playerController = playerController; }
 
+    public void ChangeStatus(bool status) {
+        isInteractable = status;
+    }
 }
