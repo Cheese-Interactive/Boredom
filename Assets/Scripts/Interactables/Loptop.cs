@@ -1,20 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Loptop : Interactable {
-
-    [Header("References")]
-    private GameManager gameManager;
-
-    private void Start() {
-
-        gameManager = FindObjectOfType<GameManager>();
-
-    }
+public class Loptop : TaskInteractable {
 
     public override void Interact() {
 
-        if (isInteractable)
-            gameManager.FinishTask();
+        playerController.AssignTask(tasks[Random.Range(0, tasks.Count)]);
 
     }
 }

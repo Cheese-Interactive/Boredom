@@ -10,7 +10,11 @@ public class PlayerController : MonoBehaviour {
 
     [Header("References")]
     private Rigidbody2D rb;
+    private SpriteRenderer spriteRenderer;
     private Animator animator;
+
+    [Header("Sprites")]
+    [SerializeField][Tooltip("Forward: 0 | Backward: 1 | Left: 2 | Right: 3")] private Sprite[] directionSprites;
 
     [Header("Mechanics")]
     private bool[] mechanicStatuses;
@@ -28,6 +32,9 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float boredomFatigueThreshold; //ex: if this is 0.3, then when under 30% of boredom, you get fatigued
     [SerializeField] private float fatigueSpeedModifier;
     private float boredom;
+
+    [Header("Tasks")]
+    private Task currTask;
 
     [Header("Phone")]
     private bool hasPhoneOut;
@@ -48,6 +55,7 @@ public class PlayerController : MonoBehaviour {
     private void Start() {
 
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
 
         moveSpeed = baseMoveSpeed;
@@ -73,8 +81,19 @@ public class PlayerController : MonoBehaviour {
         verticalInput = Input.GetAxisRaw("Vertical");
         animator.SetBool("isWalking", !(horizontalInput == 0f && verticalInput == 0f));
 
-        if (Input.GetKey(KeyCode.Space))
-            hasPhoneOut = true;
+        if (verticalInput > 0f)
+            spriteRenderer.sprite = directionSprites[0];
+        else if (verticalInput < 0f)
+            spriteRenderer.sprite = directionSprites[1];
+        else if (horizontalInput < 0f)
+            spriteRenderer.sprite = directionSprites[2];
+        else if (horizontalInput > 0f)
+            spriteRenderer.sprite = directionSprites[3];
+
+        if (verticalInput > 0f)
+
+            if (Input.GetKey(KeyCode.Space))
+                hasPhoneOut = true;
 
         if (Input.GetKeyUp(KeyCode.Space))
             hasPhoneOut = false;
@@ -90,7 +109,7 @@ public class PlayerController : MonoBehaviour {
         else
             moveSpeed = baseMoveSpeed;
 
-        Interactable interactable = Physics2D.OverlapCircle(transform.position, interactRadius, interactMask)?.GetComponent<Interactable>(); // get interactable
+        TaskInteractable interactable = Physics2D.OverlapCircle(transform.position, interactRadius, interactMask)?.GetComponent<TaskInteractable>(); // get interactable
 
         if (interactable != null) { // if interactable is not null
 
@@ -126,6 +145,15 @@ public class PlayerController : MonoBehaviour {
             yield return new WaitForSeconds(1f);
 
         }
+    }
+
+    public bool AssignTask(Task task) {
+
+        if (currTask != null && !currTask.IsComplete()) return false;
+
+        currTask = task;
+        return true;
+
     }
 
     public void ShowInteractKeyIcon() {

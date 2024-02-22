@@ -1,11 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Interactable : MonoBehaviour {
+public abstract class TaskInteractable : MonoBehaviour {
 
     [Header("References")]
     protected PlayerController playerController;
 
-    protected bool isInteractable;
+    [Header("Tasks")]
+    [SerializeField] protected List<Task> tasks;
 
     protected void Awake() {
 
@@ -16,9 +18,5 @@ public abstract class Interactable : MonoBehaviour {
     public abstract void Interact();
 
     public void SetPlayerController(PlayerController playerController) { this.playerController = playerController; }
-
-    public bool IsInteractable() { return isInteractable; }
-
-    public void SetInteractable(bool status) { isInteractable = status; }
 
 }
