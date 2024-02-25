@@ -1,9 +1,6 @@
 using DG.Tweening;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
@@ -52,6 +49,9 @@ public class PlayerController : MonoBehaviour {
     [Header("Keybinds")]
     [SerializeField] private KeyCode interactKey;
 
+    private TaskManager taskManager;
+
+
     private void Start() {
 
         rb = GetComponent<Rigidbody2D>();
@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour {
         mechanicStatuses = new bool[Enum.GetValues(typeof(MechanicType)).Length];
 
         foreach (MechanicType mechanicType in Enum.GetValues(typeof(MechanicType)))
-            mechanicStatuses[(int) mechanicType] = true;
+            mechanicStatuses[(int)mechanicType] = true;
 
         boredom = boredomMax * 0.7f;
         StartCoroutine(TickBoredom());
@@ -72,6 +72,8 @@ public class PlayerController : MonoBehaviour {
         startColor = interactKeyIcon.color;
         interactKeyIcon.gameObject.SetActive(false);
         interactKeyIcon.color = Color.clear; // set to clear for fade in
+
+        taskManager = FindObjectOfType<GameManager>().GetComponent<TaskManager>();
 
     }
 
@@ -109,7 +111,7 @@ public class PlayerController : MonoBehaviour {
         else
             moveSpeed = baseMoveSpeed;
 
-        TaskInteractable interactable = Physics2D.OverlapCircle(transform.position, interactRadius, interactMask)?.GetComponent<TaskInteractable>(); // get interactable
+        Interactable interactable = Physics2D.OverlapCircle(transform.position, interactRadius, interactMask)?.GetComponent<Interactable>(); // get interactable
 
         if (interactable != null) { // if interactable is not null
 
@@ -119,7 +121,8 @@ public class PlayerController : MonoBehaviour {
             if (Input.GetKeyDown(interactKey)) // check for interact key press
                 interactable.Interact();
 
-        } else {
+        }
+        else {
 
             HideInteractKeyIcon(); // if no interactables in range, hide interact key icon
 
@@ -128,7 +131,7 @@ public class PlayerController : MonoBehaviour {
 
     private void FixedUpdate() {
 
-        if (mechanicStatuses[(int) MechanicType.Movement])
+        if (mechanicStatuses[(int)MechanicType.Movement])
             rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * moveSpeed;
 
     }
@@ -147,14 +150,6 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    public bool AssignTask(Task task) {
-
-        if (currTask != null && !currTask.IsComplete()) return false;
-
-        currTask = task;
-        return true;
-
-    }
 
     public void ShowInteractKeyIcon() {
 

@@ -1,22 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class TaskInteractable : MonoBehaviour {
+public abstract class TaskInteractable : Interactable {
 
-    [Header("References")]
-    protected PlayerController playerController;
 
     [Header("Tasks")]
     [SerializeField] protected List<Task> tasks;
 
-    protected void Awake() {
 
-        playerController = FindObjectOfType<PlayerController>();
-
+    public override void Interact() {
+        taskManager.AssignTask(tasks[Random.Range(0, tasks.Count)]);
     }
 
-    public abstract void Interact();
-
-    public void SetPlayerController(PlayerController playerController) { this.playerController = playerController; }
 
 }
