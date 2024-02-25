@@ -1,35 +1,33 @@
+using System;
+using UnityEngine;
+
+[Serializable]
 public class QuizQuestion {
-    // Start is called before the first frame update
-    private static int maxResponses = 4;
-    private string question;
-    private string[] responses;
-    int correctResponseIndex;
-    public QuizQuestion(string question, string[] possibleAnswers, int correctResponse) {
-        if (possibleAnswers.Length <= maxResponses) {
-            this.question = question;
-            this.responses = new string[possibleAnswers.Length];
-            for (int i = 0; i < responses.Length; i++)
-                this.responses[i] = possibleAnswers[i];
-            this.correctResponseIndex = correctResponse;
-        }
-        else
-            this.question = "Error: too many responses, max is " + maxResponses + "!\n on: \"" + question + "\"";
+
+    [Header("Answers")]
+    [SerializeField] private string questionText;
+    [SerializeField] private QuizAnswer[] answers;
+
+    public void Initialize() {
+
+        // make sure all conditions are met
+        if (answers.Length != 4)
+            Debug.LogError("QuizQuestion:Initialize - Answers array length must be 4.");
+
+        int correctAnswers = 0;
+
+        foreach (QuizAnswer answer in answers)
+            if (answer.IsCorrect())
+                correctAnswers++;
+
+        if (correctAnswers == 0)
+            Debug.LogError("QuizQuestion:Initialize - There must be a correct answer.");
+
+        if (correctAnswers > 1)
+            Debug.LogError("QuizQuestion:Initialize - There must be one correct answer.");
+
     }
 
-
-    public int getCorrectResponse() {
-        return this.correctResponseIndex;
-    }
-
-    public string getQuestion() {
-        return question;
-    }
-    public string[] getResponses() {
-        return responses;
-    }
-
-    public string getResponse(int index) {
-        return responses[index];
-    }
+    public string GetQuestionText() { return questionText; }
 
 }
