@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b42a092c3ae30e42a83f063245f6061, type: 3}
   m_Name: Cleanup
   m_EditorClassIdentifier: 
-  taskName: 
+  taskName: Cleanup
   taskDescription: 

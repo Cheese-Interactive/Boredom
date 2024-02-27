@@ -30,4 +30,17 @@ public class QuizQuestion {
 
     public string GetQuestionText() { return questionText; }
 
+    public string[] GetOptions() {
+
+        string[] options = new string[4];
+
+        for (int i = 0; i < answers.Length; i++)
+            options[i] = answers[i].GetAnswerText();
+
+        return options;
+
+    }
+
+    public bool IsCorrect(int answerIndex) { return answers[answerIndex].IsCorrect(); }
+
 }

@@ -1,12 +1,12 @@
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Tasks/Cleanup")]
-public class Cleanup : Task {
+[CreateAssetMenu(menuName = "Tasks/Quiz")]
+public class QuizTask : Task {
 
     public override void OnTaskComplete() {
 
-        Debug.Log("Cleanup Finished");
+        Debug.Log("Quiz Finished");
 
     }
 }

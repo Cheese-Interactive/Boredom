@@ -6,9 +6,11 @@ public abstract class Interactable : MonoBehaviour {
     protected TaskManager taskManager;
 
     protected void Awake() {
+
         taskManager = FindObjectOfType<TaskManager>();
+
     }
 
-    abstract public void Interact();
+    public abstract void Interact();
 
 }

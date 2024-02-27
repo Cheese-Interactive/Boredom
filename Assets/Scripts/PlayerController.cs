@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour {
         mechanicStatuses = new bool[Enum.GetValues(typeof(MechanicType)).Length];
 
         foreach (MechanicType mechanicType in Enum.GetValues(typeof(MechanicType)))
-            mechanicStatuses[(int)mechanicType] = true;
+            mechanicStatuses[(int) mechanicType] = true;
 
         boredom = boredomMax * 0.7f;
         StartCoroutine(TickBoredom());
@@ -83,14 +83,14 @@ public class PlayerController : MonoBehaviour {
         verticalInput = Input.GetAxisRaw("Vertical");
         animator.SetBool("isWalking", !(horizontalInput == 0f && verticalInput == 0f));
 
-        if (verticalInput > 0f)
-            spriteRenderer.sprite = directionSprites[0];
-        else if (verticalInput < 0f)
-            spriteRenderer.sprite = directionSprites[1];
-        else if (horizontalInput < 0f)
+        if (horizontalInput < 0f)
             spriteRenderer.sprite = directionSprites[2];
         else if (horizontalInput > 0f)
             spriteRenderer.sprite = directionSprites[3];
+        else if (verticalInput > 0f)
+            spriteRenderer.sprite = directionSprites[0];
+        else if (verticalInput < 0f)
+            spriteRenderer.sprite = directionSprites[1];
 
         if (verticalInput > 0f)
 
@@ -121,8 +121,7 @@ public class PlayerController : MonoBehaviour {
             if (Input.GetKeyDown(interactKey)) // check for interact key press
                 interactable.Interact();
 
-        }
-        else {
+        } else {
 
             HideInteractKeyIcon(); // if no interactables in range, hide interact key icon
 
@@ -131,7 +130,7 @@ public class PlayerController : MonoBehaviour {
 
     private void FixedUpdate() {
 
-        if (mechanicStatuses[(int)MechanicType.Movement])
+        if (mechanicStatuses[(int) MechanicType.Movement])
             rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * moveSpeed;
 
     }
@@ -171,6 +170,12 @@ public class PlayerController : MonoBehaviour {
 
         keyIconVisible = false;
         keyIconTweenOut = interactKeyIcon.DOColor(Color.clear, iconFadeDuration).OnComplete(() => interactKeyIcon.gameObject.SetActive(false));
+
+    }
+
+    public void SetMechanicStatus(MechanicType mechanicType, bool status) {
+
+        mechanicStatuses[(int) mechanicType] = status;
 
     }
 }
