@@ -2,17 +2,24 @@ using UnityEngine;
 
 public class TaskManager : MonoBehaviour {
 
-    [Header("Tasks")]
+    [Header("Tasks:")]
+    [Header("Cleanup")]
     [SerializeField] private GameObject trosh;
     [SerializeField] private int trashToSpawn;
     [SerializeField] private Vector2 topLeftTrashSpawnBound;
     [SerializeField] private Vector2 bottomRightTrashSpawnBound;
-    private Task currTask;
     private int trashRemaining;
+    [Header("Mopping")]
+    [SerializeField] private GameObject puddle;
+    private Task currTask;
 
     private void Update() {
 
-        // TODO: if trashRemaining >= 0 (during cleanup) then complete the task and assign a new one
+        if (currTask is CleanupTask && trashRemaining == 0)
+            currTask.SetComplete(true);
+
+        //idk if this works ngl
+
 
     }
 
@@ -22,9 +29,10 @@ public class TaskManager : MonoBehaviour {
 
         currTask = task;
 
-        if (task is Cleanup)
+        if (task is CleanupTask)
             SpawnTrash();
-
+        if (task is MoppingTask)
+            Instantiate(puddle, new Vector2(Random.Range(topLeftTrashSpawnBound.x, bottomRightTrashSpawnBound.x), Random.Range(topLeftTrashSpawnBound.y, bottomRightTrashSpawnBound.y)), Quaternion.Euler(0, 0, Random.Range(0, 360)));
         return true;
 
     }
@@ -42,5 +50,9 @@ public class TaskManager : MonoBehaviour {
     }
 
     public void ReduceTrashRemaining() { trashRemaining--; }
+
+    public void completeCurrentTask() {
+        currTask.SetComplete(true);
+    }
 
 }
