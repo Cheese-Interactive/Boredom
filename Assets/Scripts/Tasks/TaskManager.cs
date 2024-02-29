@@ -2,16 +2,25 @@ using UnityEngine;
 
 public class TaskManager : MonoBehaviour {
 
-    [Header("Tasks:")]
+    [Header("References")]
+    private UIController uiController;
+
     [Header("Cleanup")]
     [SerializeField] private GameObject trosh;
     [SerializeField] private int trashToSpawn;
     [SerializeField] private Vector2 topLeftTrashSpawnBound;
     [SerializeField] private Vector2 bottomRightTrashSpawnBound;
     private int trashRemaining;
+
     [Header("Mopping")]
     [SerializeField] private GameObject puddle;
     private Task currTask;
+
+    private void Start() {
+
+        uiController = FindObjectOfType<UIController>();
+
+    }
 
     private void Update() {
 
@@ -19,7 +28,6 @@ public class TaskManager : MonoBehaviour {
             currTask.SetComplete(true);
 
         //idk if this works ngl
-
 
     }
 
@@ -31,12 +39,16 @@ public class TaskManager : MonoBehaviour {
 
         if (task is CleanupTask)
             SpawnTrash();
+
         if (task is MoppingTask)
             Instantiate(puddle, new Vector2(Random.Range(topLeftTrashSpawnBound.x, bottomRightTrashSpawnBound.x), Random.Range(topLeftTrashSpawnBound.y, bottomRightTrashSpawnBound.y)), Quaternion.Euler(0, 0, Random.Range(0, 360)));
+
+        if (task is QuizTask)
+            uiController.OpenQuiz();
+
         return true;
 
     }
-
 
     public int SpawnTrash() {
 
@@ -51,8 +63,6 @@ public class TaskManager : MonoBehaviour {
 
     public void ReduceTrashRemaining() { trashRemaining--; }
 
-    public void completeCurrentTask() {
-        currTask.SetComplete(true);
-    }
+    public void CompleteCurrentTask() { currTask.SetComplete(true); }
 
 }

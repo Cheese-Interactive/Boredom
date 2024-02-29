@@ -123,6 +123,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &51005866
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 51005868}
+  - component: {fileID: 51005867}
+  m_Layer: 0
+  m_Name: Scene Fusion Guids
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &51005867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 51005866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77183e1cb3398b54d9f77b7d6dcd40d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectGuids: []
+--- !u!4 &51005868
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 51005866}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &318723359
 GameObject:
   m_ObjectHideFlags: 0
@@ -1158,6 +1203,7 @@ MonoBehaviour:
   quizContentParent: {fileID: 1418127639}
   questionPrefab: {fileID: 8232844732933495554, guid: 0c0493bae35640d47aadc36b127b0249, type: 3}
   submitButtonPrefab: {fileID: 7751158402492519360, guid: 455d7210337efd44cb630acedead4612, type: 3}
+  quizCompleteWaitDuration: 3
 --- !u!1 &1213082784
 GameObject:
   m_ObjectHideFlags: 0
@@ -1325,7 +1371,7 @@ GameObject:
   - component: {fileID: 1543162015}
   - component: {fileID: 1543162014}
   - component: {fileID: 1543162013}
-  - component: {fileID: 1543162011}
+  - component: {fileID: 1543162016}
   m_Layer: 6
   m_Name: Loptop
   m_TagString: Untagged
@@ -1333,143 +1379,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1543162011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1543162010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c505d6e71a67a3743b66037d5795a201, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tasks:
-  - {fileID: 11400000, guid: 5107b63a427993348acc20f519ebe2f6, type: 2}
-  quizzes:
-  - questions:
-    - questionText: 3x + 4 = 13. x = ?
-      answers:
-      - answerText: 1
-        isCorrect: 0
-      - answerText: 2
-        isCorrect: 0
-      - answerText: 3
-        isCorrect: 1
-      - answerText: 5
-        isCorrect: 0
-    - questionText: When did World War 1 begin?
-      answers:
-      - answerText: 1914
-        isCorrect: 1
-      - answerText: 1921
-        isCorrect: 0
-      - answerText: 1899
-        isCorrect: 0
-      - answerText: 1872
-        isCorrect: 0
-    - questionText: What is the largest continent on Earth?
-      answers:
-      - answerText: Russia
-        isCorrect: 0
-      - answerText: Asia
-        isCorrect: 1
-      - answerText: North America
-        isCorrect: 0
-      - answerText: Australia
-        isCorrect: 0
-    - questionText: Which of the following is not a variety of cheese?
-      answers:
-      - answerText: Gouda
-        isCorrect: 0
-      - answerText: Cheddar
-        isCorrect: 0
-      - answerText: Biscotti
-        isCorrect: 1
-      - answerText: Blue
-        isCorrect: 0
-    - questionText: Who famously said "I have a dream"?
-      answers:
-      - answerText: Abraham Lincoln
-        isCorrect: 0
-      - answerText: Martin Luther King Jr.
-        isCorrect: 1
-      - answerText: Joe Biden
-        isCorrect: 0
-      - answerText: Eminem
-        isCorrect: 0
-    - questionText: Who famously said "Let them eat cake"?
-      answers:
-      - answerText: King Henry XVIII
-        isCorrect: 0
-      - answerText: Marie Antionette
-        isCorrect: 1
-      - answerText: Benito Mussolini
-        isCorrect: 0
-      - answerText: Thomas Jefferson
-        isCorrect: 0
-    - questionText: Which president opened the Panama Canal?
-      answers:
-      - answerText: Woodrow Wilson
-        isCorrect: 0
-      - answerText: Franklin D. Roosevelt
-        isCorrect: 1
-      - answerText: Theodore Roosevelt
-        isCorrect: 0
-      - answerText: Eleanor Roosevelt
-        isCorrect: 0
-    - questionText: Which of the following is imaginary?
-      answers:
-      - answerText: The square root of -1
-        isCorrect: 1
-      - answerText: 1 divided by 0
-        isCorrect: 1
-      - answerText: x = x + 2
-        isCorrect: 0
-      - answerText: Round Earth
-        isCorrect: 0
-    - questionText: 'True or false: By kilograms, Bison are the largest land animal'
-      answers:
-      - answerText: False
-        isCorrect: 1
-      - answerText: True
-        isCorrect: 0
-    - questionText: What is the most abundant element in the universe?
-      answers:
-      - answerText: Oxygen
-        isCorrect: 0
-      - answerText: Carbon
-        isCorrect: 0
-      - answerText: Hydrogen
-        isCorrect: 1
-      - answerText: Nitrogen
-        isCorrect: 1
-    - questionText: Proteins, fats (lipids), and carbohydrates are types of what?
-      answers:
-      - answerText: Elements
-        isCorrect: 0
-      - answerText: Macromolecules
-        isCorrect: 1
-      - answerText: Nutrients
-        isCorrect: 0
-      - answerText: Foods
-        isCorrect: 0
-    - questionText: What is the periodic table symbol for gold?
-      answers:
-      - answerText: Gl
-        isCorrect: 0
-      - answerText: Au
-        isCorrect: 1
-      - answerText: I
-        isCorrect: 0
-      - answerText: G
-        isCorrect: 0
-    correctColor: {r: 0, g: 1, b: 0, a: 1}
-    correctMarker: "\u2713"
-    incorrectColor: {r: 1, g: 0, b: 0, a: 1}
-    incorrectMarker: X
-    markerFadeDuration: 0.5
 --- !u!61 &1543162013
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1582,51 +1491,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1560011434
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1560011436}
-  - component: {fileID: 1560011435}
-  m_Layer: 0
-  m_Name: Scene Fusion Guids
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1560011435
+--- !u!114 &1543162016
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1560011434}
+  m_GameObject: {fileID: 1543162010}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77183e1cb3398b54d9f77b7d6dcd40d4, type: 3}
+  m_Script: {fileID: 11500000, guid: bb762f068815b21479379363ade5e087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectGuids: []
---- !u!4 &1560011436
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1560011434}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  tasks:
+  - {fileID: 11400000, guid: 5107b63a427993348acc20f519ebe2f6, type: 2}
 --- !u!1 &1736384530
 GameObject:
   m_ObjectHideFlags: 0
@@ -1668,6 +1546,174 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1736384530}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1780102430
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1780102432}
+  - component: {fileID: 1780102431}
+  m_Layer: 0
+  m_Name: GameData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1780102431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780102430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18a67ffacb8ecd243b287e4268bec011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quiz:
+    questionsPerQuiz: 3
+    questions:
+    - questionText: 3x + 4 = 13. x = ?
+      answers:
+      - answerText: 1
+        isCorrect: 0
+      - answerText: 2
+        isCorrect: 0
+      - answerText: 3
+        isCorrect: 1
+      - answerText: 5
+        isCorrect: 0
+    - questionText: When did World War 1 begin?
+      answers:
+      - answerText: 1914
+        isCorrect: 1
+      - answerText: 1921
+        isCorrect: 0
+      - answerText: 1899
+        isCorrect: 0
+      - answerText: 1872
+        isCorrect: 0
+    - questionText: What is the largest continent on Earth?
+      answers:
+      - answerText: Russia
+        isCorrect: 0
+      - answerText: Asia
+        isCorrect: 1
+      - answerText: North America
+        isCorrect: 0
+      - answerText: Australia
+        isCorrect: 0
+    - questionText: Which of the following is not a variety of cheese?
+      answers:
+      - answerText: Gouda
+        isCorrect: 0
+      - answerText: Cheddar
+        isCorrect: 0
+      - answerText: Biscotti
+        isCorrect: 1
+      - answerText: Blue
+        isCorrect: 0
+    - questionText: Who famously said "I have a dream"?
+      answers:
+      - answerText: Abraham Lincoln
+        isCorrect: 0
+      - answerText: Martin Luther King Jr.
+        isCorrect: 1
+      - answerText: Joe Biden
+        isCorrect: 0
+      - answerText: Eminem
+        isCorrect: 0
+    - questionText: Who famously said "Let them eat cake"?
+      answers:
+      - answerText: King Henry XVIII
+        isCorrect: 0
+      - answerText: Marie Antionette
+        isCorrect: 1
+      - answerText: Benito Mussolini
+        isCorrect: 0
+      - answerText: Thomas Jefferson
+        isCorrect: 0
+    - questionText: Which president opened the Panama Canal?
+      answers:
+      - answerText: Woodrow Wilson
+        isCorrect: 0
+      - answerText: Franklin D. Roosevelt
+        isCorrect: 1
+      - answerText: Theodore Roosevelt
+        isCorrect: 0
+      - answerText: Eleanor Roosevelt
+        isCorrect: 0
+    - questionText: Which of the following is imaginary?
+      answers:
+      - answerText: The square root of -1
+        isCorrect: 1
+      - answerText: 1 divided by 1
+        isCorrect: 0
+      - answerText: x = x + 2
+        isCorrect: 0
+      - answerText: Round Earth
+        isCorrect: 0
+    - questionText: 'True or false: By kilograms, Bison are the largest land animal'
+      answers:
+      - answerText: True
+        isCorrect: 0
+      - answerText: False
+        isCorrect: 1
+    - questionText: What is the most abundant element in the universe?
+      answers:
+      - answerText: Oxygen
+        isCorrect: 0
+      - answerText: Carbon
+        isCorrect: 0
+      - answerText: Hydrogen
+        isCorrect: 1
+      - answerText: Nitrogen
+        isCorrect: 0
+    - questionText: Proteins, fats (lipids), and carbohydrates are types of what?
+      answers:
+      - answerText: Elements
+        isCorrect: 0
+      - answerText: Macromolecules
+        isCorrect: 1
+      - answerText: Nutrients
+        isCorrect: 0
+      - answerText: Foods
+        isCorrect: 0
+    - questionText: What is the periodic table symbol for gold?
+      answers:
+      - answerText: Gl
+        isCorrect: 0
+      - answerText: Au
+        isCorrect: 1
+      - answerText: I
+        isCorrect: 0
+      - answerText: G
+        isCorrect: 0
+    correctColor: {r: 0, g: 1, b: 0, a: 1}
+    correctMarker: "\u2713"
+    incorrectColor: {r: 1, g: 0, b: 0, a: 1}
+    incorrectMarker: X
+    markerFadeDuration: 0.5
+--- !u!4 &1780102432
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780102430}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -2069,4 +2115,5 @@ SceneRoots:
   - {fileID: 978853449}
   - {fileID: 1190445938}
   - {fileID: 1736384532}
-  - {fileID: 1560011436}
+  - {fileID: 1780102432}
+  - {fileID: 51005868}

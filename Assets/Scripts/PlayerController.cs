@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour {
         mechanicStatuses = new bool[Enum.GetValues(typeof(MechanicType)).Length];
 
         foreach (MechanicType mechanicType in Enum.GetValues(typeof(MechanicType)))
-            mechanicStatuses[(int)mechanicType] = true;
+            mechanicStatuses[(int) mechanicType] = true;
 
         boredom = boredomMax * 0.7f;
         StartCoroutine(TickBoredom());
@@ -121,8 +121,7 @@ public class PlayerController : MonoBehaviour {
             if (Input.GetKeyDown(interactKey)) // check for interact key press
                 interactable.Interact();
 
-        }
-        else {
+        } else {
 
             HideInteractKeyIcon(); // if no interactables in range, hide interact key icon
 
@@ -131,7 +130,7 @@ public class PlayerController : MonoBehaviour {
 
     private void FixedUpdate() {
 
-        if (mechanicStatuses[(int)MechanicType.Movement])
+        if (mechanicStatuses[(int) MechanicType.Movement])
             rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * moveSpeed;
 
     }
@@ -176,7 +175,10 @@ public class PlayerController : MonoBehaviour {
 
     public void SetMechanicStatus(MechanicType mechanicType, bool status) {
 
-        mechanicStatuses[(int)mechanicType] = status;
+        mechanicStatuses[(int) mechanicType] = status;
 
     }
+
+    public Task GetCurrentTask() { return currTask; }
+
 }
