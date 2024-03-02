@@ -6,29 +6,21 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     [Header("References")]
-    [SerializeField] private GameObject playerSprite;
+    private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
-    private Rigidbody rb;
     private Animator animator;
-    private bool canIdle = true;
 
     [Header("Sprites")]
     [SerializeField][Tooltip("Forward: 0 | Backward: 1 | Left: 2 | Right: 3")] private Sprite[] directionSprites;
-    [SerializeField][Tooltip("Forward: 0 | Backward: 1 | Left: 2 | Right: 3 (CORRELATES WITH directionSprites")] private string[] animationStates;
-    [SerializeField] private float timeToIdle;
 
     [Header("Mechanics")]
     private bool[] mechanicStatuses;
 
     [Header("Movement")]
     [SerializeField] private float baseMoveSpeed;
-    [SerializeField] private float flipTime;
     private float horizontalInput;
     private float verticalInput;
     private float moveSpeed;
-    private Coroutine flipCoroutine;
-    private Coroutine idleCoroutine;
-
 
     [Header("Boredom")]
     [SerializeField] private float boredomMax;
@@ -62,9 +54,9 @@ public class PlayerController : MonoBehaviour {
 
     private void Start() {
 
-        rb = GetComponent<Rigidbody>();
-        spriteRenderer = playerSprite.GetComponent<SpriteRenderer>();
-        animator = playerSprite.GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
 
         moveSpeed = baseMoveSpeed;
 
@@ -72,7 +64,7 @@ public class PlayerController : MonoBehaviour {
         mechanicStatuses = new bool[Enum.GetValues(typeof(MechanicType)).Length];
 
         foreach (MechanicType mechanicType in Enum.GetValues(typeof(MechanicType)))
-            mechanicStatuses[(int)mechanicType] = true;
+            mechanicStatuses[(int) mechanicType] = true;
 
         boredom = boredomMax * 0.7f;
         StartCoroutine(TickBoredom());
@@ -82,8 +74,7 @@ public class PlayerController : MonoBehaviour {
         interactKeyIcon.color = Color.clear; // set to clear for fade in
 
         taskManager = FindObjectOfType<GameManager>().GetComponent<TaskManager>();
-        StopCoroutine(flipCoroutine = StartCoroutine(DoAFlip(1)));
-        canIdle = true;
+
     }
 
     private void Update() {
@@ -92,40 +83,14 @@ public class PlayerController : MonoBehaviour {
         verticalInput = Input.GetAxisRaw("Vertical");
         animator.SetBool("isWalking", !(horizontalInput == 0f && verticalInput == 0f));
 
-        if (Input.GetKeyDown(KeyCode.A)) {
-            canIdle = true;
-            StopCoroutine(flipCoroutine);
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("IdleRight"))
-                animator.Play(animationStates[3]);
-            else
-                flipCoroutine = StartCoroutine(DoAFlip(1, 3));
-        }
-        if (Input.GetKeyDown(KeyCode.D)) {
-            canIdle = true;
-            StopCoroutine(flipCoroutine);
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("IdleLeft"))
-                animator.Play(animationStates[2]);
-            else
-                flipCoroutine = StartCoroutine(DoAFlip(-1, 2));
-        }
-        if (Input.GetKeyDown(KeyCode.W)) {
-            canIdle = true;
-            StopCoroutine(flipCoroutine);
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("IdleBack"))
-                animator.Play(animationStates[0]);
-            else
-                flipCoroutine = StartCoroutine(DoAFlip(1, 0));
-        }
-        if (Input.GetKeyDown(KeyCode.S)) {
-            canIdle = true;
-            StopCoroutine(flipCoroutine);
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("IdleForward"))
-                animator.Play(animationStates[1]);
-            else
-                flipCoroutine = StartCoroutine(DoAFlip(1, 1));
-        }
-        if (isIdle() && canIdle)
-            idleCoroutine = StartCoroutine(GoIdle());
+        if (horizontalInput < 0f)
+            spriteRenderer.sprite = directionSprites[2];
+        else if (horizontalInput > 0f)
+            spriteRenderer.sprite = directionSprites[3];
+        else if (verticalInput > 0f)
+            spriteRenderer.sprite = directionSprites[0];
+        else if (verticalInput < 0f)
+            spriteRenderer.sprite = directionSprites[1];
 
         if (verticalInput > 0f)
 
@@ -146,12 +111,7 @@ public class PlayerController : MonoBehaviour {
         else
             moveSpeed = baseMoveSpeed;
 
-        Interactable interactable = null;
-        foreach (Collider obj in Physics.OverlapSphere(transform.position, interactRadius, interactMask)) {
-            interactable = obj?.GetComponent<Interactable>();
-            break;
-        }
-        //Physics2D.OverlapCircle(transform.position, interactRadius, interactMask)?.GetComponent<Interactable>(); // get interactable
+        Interactable interactable = Physics2D.OverlapCircle(transform.position, interactRadius, interactMask)?.GetComponent<Interactable>(); // get interactable
 
         if (interactable != null) { // if interactable is not null
 
@@ -161,78 +121,17 @@ public class PlayerController : MonoBehaviour {
             if (Input.GetKeyDown(interactKey)) // check for interact key press
                 interactable.Interact();
 
-        }
-        else {
+        } else {
 
             HideInteractKeyIcon(); // if no interactables in range, hide interact key icon
 
         }
     }
 
-    private IEnumerator GoIdle() {
-        print("Idling");
-        canIdle = false;
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("WalkRight"))
-            animator.Play("IdleRight");
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("WalkLeft"))
-            animator.Play("IdleLeft");
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("WalkBack"))
-            animator.Play("IdleBack");
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("WalkForward"))
-            animator.Play("IdleForward");
-        float t = 0;
-        while (t < timeToIdle) {
-            if (!isIdle())
-                StopCoroutine(idleCoroutine);
-            t += Time.deltaTime;
-            yield return null;
-        }
-        if (isIdle() && !animator.GetCurrentAnimatorStateInfo(0).IsName("IdleForward")) {
-            StartCoroutine(DoAFlip(1));
-            animator.Play("IdleForward");
-        }
-    }
-
-
-    private IEnumerator DoAFlip(float dir) {
-        //StopCoroutine(flipCoroutine);
-        //dir = dir.normalized;
-        dir /= dir; //normalize
-        Quaternion startRot = transform.rotation;
-        float t = 0;
-        while (t < flipTime) {
-            playerSprite.transform.rotation = Quaternion.Lerp(startRot, Quaternion.Euler(0f, dir * 180f, 0f), t / flipTime);
-            t += Time.deltaTime;
-            yield return null;
-        }
-        playerSprite.transform.rotation = Quaternion.Euler(0f, dir * 180f, 0f);
-    }
-
-    private IEnumerator DoAFlip(float dir, int state) {
-        //StopCoroutine(flipCoroutine);
-        //dir = dir.normalized;
-        dir /= dir; //normalize
-        Quaternion startRot = transform.rotation;
-        float t = 0;
-        bool hasChangedState = false;
-        while (t < flipTime) {
-            playerSprite.transform.rotation = Quaternion.Lerp(startRot, Quaternion.Euler(0f, dir * 180f, 0f), t / flipTime);
-            if (t >= flipTime / 2f && !hasChangedState) {
-                spriteRenderer.sprite = directionSprites[state];
-                animator.Play(animationStates[state]);
-                hasChangedState = true;
-            }
-            t += Time.deltaTime;
-
-            yield return null;
-        }
-        playerSprite.transform.rotation = Quaternion.Euler(0f, dir * 180f, 0f);
-    }
-
     private void FixedUpdate() {
 
-        if (mechanicStatuses[(int)MechanicType.Movement])
-            rb.velocity = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized * moveSpeed;
+        if (mechanicStatuses[(int) MechanicType.Movement])
+            rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * moveSpeed;
 
     }
 
@@ -245,7 +144,7 @@ public class PlayerController : MonoBehaviour {
             else
                 boredom -= boredomDecayRate / 1f;
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(1f);
 
         }
     }
@@ -276,11 +175,10 @@ public class PlayerController : MonoBehaviour {
 
     public void SetMechanicStatus(MechanicType mechanicType, bool status) {
 
-        mechanicStatuses[(int)mechanicType] = status;
+        mechanicStatuses[(int) mechanicType] = status;
 
     }
 
-    private bool isIdle() {
-        return horizontalInput == 0f && verticalInput == 0f;
-    }
+    public Task GetCurrentTask() { return currTask; }
+
 }

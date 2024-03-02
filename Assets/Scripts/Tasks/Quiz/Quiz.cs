@@ -6,9 +6,9 @@ using UnityEngine;
 public class Quiz {
 
     [Header("Questions")]
+    [SerializeField] private int questionsPerQuiz;
     [SerializeField] private QuizQuestion[] questions;
-    private QuestionUI[] questionUIs;
-    private int lastIndex; // for tracking the last question index in order to add new one
+    private QuizQuestion[] currQuestions;
 
     [Header("Checking")]
     [SerializeField] private Color correctColor;
@@ -19,26 +19,42 @@ public class Quiz {
 
     public void Initialize() {
 
-        questionUIs = new QuestionUI[questions.Length];
-        lastIndex = 0;
-
         foreach (QuizQuestion question in questions)
             question.Initialize();
 
     }
 
-    public QuizQuestion[] GetQuestions() { return questions; }
+    public QuizQuestion[] GetRandomQuestions() {
 
-    public void ValidateAnswers() {
+        List<QuizQuestion> availableQuestions = new List<QuizQuestion>(questions);
+        currQuestions = new QuizQuestion[questionsPerQuiz];
 
-        for (int i = 0; i < questions.Length; i++)
-            if (questions[i].IsCorrect(questionUIs[i].GetSelectedIndex()))
+        for (int i = 0; i < questionsPerQuiz; i++) {
+
+            int randIndex = UnityEngine.Random.Range(0, availableQuestions.Count);
+            currQuestions[i] = availableQuestions[randIndex];
+            availableQuestions.RemoveAt(randIndex);
+
+        }
+
+        return currQuestions;
+
+    }
+
+    public bool ValidateAnswers(List<QuestionUI> questionUIs) {
+
+        for (int i = 0; i < questionUIs.Count; i++)
+            if (questionUIs[i].GetSelectedIndex() == -1) // a question is unanswered
+                return false;
+
+        // validate answers
+        for (int i = 0; i < currQuestions.Length; i++)
+            if (currQuestions[i].IsCorrect(questionUIs[i].GetSelectedIndex()))
                 questionUIs[i].SetScoreMarker(correctMarker, correctColor, markerFadeDuration);
             else
                 questionUIs[i].SetScoreMarker(incorrectMarker, incorrectColor, markerFadeDuration);
 
+        return true;
+
     }
-
-    public void AddQuestionUI(QuestionUI questionUI) { questionUIs[lastIndex++] = questionUI; }
-
 }
