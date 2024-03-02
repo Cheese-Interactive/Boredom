@@ -1,7 +1,7 @@
 using DG.Tweening;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestionUI : MonoBehaviour {
 
@@ -26,13 +26,11 @@ public class QuestionUI : MonoBehaviour {
 
         scoreMarker.gameObject.SetActive(false); // hide score marker by default
 
-        selectedIndex = -1; // default value
-
     }
 
     public void OnOptionSelect(QuizOption option) {
 
-        selectedIndex = option.GetIndex();
+        this.selectedIndex = option.GetOptionIndex();
 
         foreach (QuizOption btn in optionButtons)
             if (btn == option)
@@ -47,10 +45,7 @@ public class QuestionUI : MonoBehaviour {
     public void SetOptionTexts(string[] options) {
 
         for (int i = 0; i < optionButtons.Length; i++)
-            if (i >= options.Length)
-                optionButtons[i].gameObject.SetActive(false);
-            else
-                optionButtons[i].GetComponentInChildren<TMP_Text>().text = GetOptionCharacter(i) + ") " + options[i];
+            optionButtons[i].GetComponentInChildren<TMP_Text>().text = GetOptionCharacter(i) + ") " + options[i];
 
     }
 

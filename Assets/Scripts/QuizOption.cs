@@ -22,6 +22,6 @@ public class QuizOption : MonoBehaviour {
 
     public Button GetButton() { return button; }
 
-    public int GetIndex() { return optionIndex; }
+    public int GetOptionIndex() { return optionIndex; }
 
 }
