@@ -3,6 +3,7 @@ using UnityEngine;
 public class TaskManager : MonoBehaviour {
 
     [Header("References")]
+    private GameManager gameManager;
     private UIController uiController;
 
     [Header("Cleanup")]
@@ -18,24 +19,28 @@ public class TaskManager : MonoBehaviour {
 
     private void Start() {
 
+        gameManager = FindObjectOfType<GameManager>();
         uiController = FindObjectOfType<UIController>();
 
     }
 
     private void Update() {
 
-        if (currTask is CleanupTask && trashRemaining == 0)
-            currTask.SetComplete(true);
+        if (currTask is CleanupTask && trashRemaining == 0) // cleanup task finished
+            CompleteCurrentTask();
 
         //idk if this works ngl
+        // this could be done 10x more efficiently
 
     }
 
     public bool AssignTask(Task task) {
 
-        if (currTask != null && !currTask.IsComplete()) return false;
+        if (currTask != null) return false;
 
         currTask = task;
+
+        uiController.SetTaskInfo(currTask.GetTaskName(), currTask.GetTaskDescription());
 
         if (task is CleanupTask)
             SpawnTrash();
@@ -63,6 +68,18 @@ public class TaskManager : MonoBehaviour {
 
     public void ReduceTrashRemaining() { trashRemaining--; }
 
-    public void CompleteCurrentTask() { currTask.SetComplete(true); }
+    public void CompleteCurrentTask() {
 
+        currTask = null;
+        gameManager.OnTaskComplete();
+        uiController.ResetTaskInfo();
+
+    }
+
+    public void RemoveCurrentTask() {
+
+        currTask = null;
+        uiController.ResetTaskInfo();
+
+    }
 }

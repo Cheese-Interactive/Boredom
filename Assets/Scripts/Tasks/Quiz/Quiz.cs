@@ -9,8 +9,6 @@ public class Quiz {
     [SerializeField] private int questionsPerQuiz;
     [SerializeField] private QuizQuestion[] questions;
     private QuizQuestion[] currQuestions;
-    private QuestionUI[] questionUIs;
-    private int lastIndex; // for tracking the last question index in order to add new one
 
     [Header("Checking")]
     [SerializeField] private Color correctColor;
@@ -20,9 +18,6 @@ public class Quiz {
     [SerializeField] private float markerFadeDuration;
 
     public void Initialize() {
-
-        questionUIs = new QuestionUI[questionsPerQuiz];
-        lastIndex = 0;
 
         foreach (QuizQuestion question in questions)
             question.Initialize();
@@ -46,9 +41,9 @@ public class Quiz {
 
     }
 
-    public bool ValidateAnswers() {
+    public bool ValidateAnswers(List<QuestionUI> questionUIs) {
 
-        for (int i = 0; i < questionUIs.Length; i++)
+        for (int i = 0; i < questionUIs.Count; i++)
             if (questionUIs[i].GetSelectedIndex() == -1) // a question is unanswered
                 return false;
 
@@ -62,7 +57,4 @@ public class Quiz {
         return true;
 
     }
-
-    public void AddQuestionUI(QuestionUI questionUI) { questionUIs[lastIndex++] = questionUI; }
-
 }
