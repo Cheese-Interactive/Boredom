@@ -1405,8 +1405,8 @@ MonoBehaviour:
   baseMoveSpeed: 5
   flipTime: 0.32
   boredomMax: 100
-  boredomDecayRate: 1
-  boredomRecoveryRate: 1
+  boredomDecayRate: 5
+  boredomRecoveryRate: 9
   boredomFatigueThreshold: 0.3
   fatigueSpeedModifier: 0.5
   interactKeyIcon: {fileID: 2027216280}
@@ -2307,8 +2307,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trosh: {fileID: 5163038317141402837, guid: b3bab21284c4d944fa0635a5538502b8, type: 3}
   trashToSpawn: 3
-  topLeftTrashSpawnBound: {x: -4.88, y: 7}
-  bottomRightTrashSpawnBound: {x: 8.07, y: -1.8}
+  topLeftTrashSpawnBound: {x: -16, y: 12}
+  bottomRightTrashSpawnBound: {x: 14, y: -12}
   puddle: {fileID: 3944374961526782785, guid: 67873e3da4bcd8a4ca096bbf03633aaa, type: 3}
 --- !u!4 &1736384532
 Transform:
@@ -2319,7 +2319,7 @@ Transform:
   m_GameObject: {fileID: 1736384530}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 12.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3054,8 +3054,8 @@ Transform:
   m_GameObject: {fileID: 2027216278}
   serializedVersion: 2
   m_LocalRotation: {x: 0.18973741, y: -0, z: -0, w: 0.98183495}
-  m_LocalPosition: {x: 0.573, y: 2.51, z: -0.297}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.843, z: -1.501}
+  m_LocalScale: {x: 1.2126749, y: 1.2126749, z: 1.2126749}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1005940695}

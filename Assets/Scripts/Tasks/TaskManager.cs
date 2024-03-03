@@ -46,7 +46,7 @@ public class TaskManager : MonoBehaviour {
             SpawnTrash();
 
         if (task is MoppingTask)
-            Instantiate(puddle, new Vector2(Random.Range(topLeftTrashSpawnBound.x, bottomRightTrashSpawnBound.x), Random.Range(topLeftTrashSpawnBound.y, bottomRightTrashSpawnBound.y)), Quaternion.Euler(0, 0, Random.Range(0, 360)));
+            Instantiate(puddle, new Vector3(Random.Range(topLeftTrashSpawnBound.x, bottomRightTrashSpawnBound.x), 0.1f, Random.Range(topLeftTrashSpawnBound.y, bottomRightTrashSpawnBound.y)), Quaternion.Euler(90, 0, 0));
 
         if (task is QuizTask)
             uiController.OpenQuiz();
@@ -60,7 +60,7 @@ public class TaskManager : MonoBehaviour {
         trashRemaining = trashToSpawn;
 
         for (int i = 0; i < trashToSpawn; i++)
-            Instantiate(trosh, new Vector2(Random.Range(topLeftTrashSpawnBound.x, bottomRightTrashSpawnBound.x), Random.Range(topLeftTrashSpawnBound.y, bottomRightTrashSpawnBound.y)), Quaternion.Euler(0, 0, Random.Range(0, 360)));
+            Instantiate(trosh, new Vector3(Random.Range(topLeftTrashSpawnBound.x, bottomRightTrashSpawnBound.x), 0, Random.Range(topLeftTrashSpawnBound.y, bottomRightTrashSpawnBound.y)), Quaternion.Euler(0, 0, Random.Range(0, 360)));
 
         return trashRemaining;
 
