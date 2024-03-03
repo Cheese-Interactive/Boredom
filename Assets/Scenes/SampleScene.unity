@@ -123,6 +123,206 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &136026260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 136026261}
+  - component: {fileID: 136026266}
+  - component: {fileID: 136026265}
+  - component: {fileID: 136026264}
+  - component: {fileID: 136026263}
+  - component: {fileID: 136026262}
+  - component: {fileID: 136026267}
+  - component: {fileID: 136026268}
+  m_Layer: 5
+  m_Name: CloseButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &136026261
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136026260}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1997571451}
+  m_Father: {fileID: 407363011}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -85, y: -114.43}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.49999982}
+--- !u!114 &136026262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136026260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
+--- !u!114 &136026263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136026260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
+--- !u!114 &136026264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136026260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 136026265}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &136026265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136026260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &136026266
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136026260}
+  m_CullTransparentMesh: 1
+--- !u!114 &136026267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136026260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 1
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
+--- !u!114 &136026268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136026260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 604ff41f3186a9a48841230dceb7d71e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 1997571452}
+  hoverColor: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
+  hoverFadeDuration: 0.5
 --- !u!1 &318723359
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,7 +358,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 149.845, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &318723361
@@ -307,6 +507,7 @@ RectTransform:
   m_Children:
   - {fileID: 318723360}
   - {fileID: 1418127639}
+  - {fileID: 136026261}
   m_Father: {fileID: 1193463752}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1321,6 +1522,7 @@ GameObject:
   - component: {fileID: 1193463750}
   - component: {fileID: 1193463749}
   - component: {fileID: 1193463753}
+  - component: {fileID: 1193463754}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1424,11 +1626,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0bcb752eff8c40489b8540b627c1742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quizPaper: {fileID: 407363015}
+  taskHUD: {fileID: 1213082785}
+  taskNameText: {fileID: 1859948723}
+  taskDescriptionText: {fileID: 1985901477}
+  quizPaper: {fileID: 407363010}
+  quizCloseButton: {fileID: 136026264}
   quizFadeDuration: 0.5
   quizContentParent: {fileID: 1418127639}
   questionPrefab: {fileID: 8232844732933495554, guid: 0c0493bae35640d47aadc36b127b0249, type: 3}
   submitButtonPrefab: {fileID: 7751158402492519360, guid: 455d7210337efd44cb630acedead4612, type: 3}
+  quizCompleteWaitDuration: 2
+--- !u!95 &1193463754
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193463748}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6af546b4295c6bb4da97db3d55e42aae, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1213082784
 GameObject:
   m_ObjectHideFlags: 0
@@ -1446,7 +1674,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1213082785
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1461,12 +1689,13 @@ RectTransform:
   m_Children:
   - {fileID: 1797290533}
   - {fileID: 1859948721}
+  - {fileID: 1985901475}
   m_Father: {fileID: 1193463752}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 25, y: -15}
-  m_SizeDelta: {x: 181.46, y: 101.67}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: -0.00000015136129, y: 1.0000002}
 --- !u!114 &1213082786
 MonoBehaviour:
@@ -1499,7 +1728,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
+  m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -1508,6 +1737,174 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &1409456047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1409456049}
+  - component: {fileID: 1409456048}
+  m_Layer: 0
+  m_Name: GameData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1409456048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409456047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18a67ffacb8ecd243b287e4268bec011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quiz:
+    questionsPerQuiz: 3
+    questions:
+    - questionText: 3x + 4 = 13. x = ?
+      answers:
+      - answerText: 1
+        isCorrect: 0
+      - answerText: 2
+        isCorrect: 0
+      - answerText: 3
+        isCorrect: 1
+      - answerText: 5
+        isCorrect: 0
+    - questionText: When did World War 1 begin?
+      answers:
+      - answerText: 1914
+        isCorrect: 1
+      - answerText: 1921
+        isCorrect: 0
+      - answerText: 1899
+        isCorrect: 0
+      - answerText: 1872
+        isCorrect: 0
+    - questionText: What is the largest continent on Earth?
+      answers:
+      - answerText: Russia
+        isCorrect: 0
+      - answerText: Asia
+        isCorrect: 1
+      - answerText: North America
+        isCorrect: 0
+      - answerText: Australia
+        isCorrect: 0
+    - questionText: Which of the following is not a variety of cheese?
+      answers:
+      - answerText: Gouda
+        isCorrect: 0
+      - answerText: Cheddar
+        isCorrect: 0
+      - answerText: Biscotti
+        isCorrect: 1
+      - answerText: Blue
+        isCorrect: 0
+    - questionText: Who famously said "I have a dream"?
+      answers:
+      - answerText: Abraham Lincoln
+        isCorrect: 0
+      - answerText: Martin Luther King Jr.
+        isCorrect: 1
+      - answerText: Joe Biden
+        isCorrect: 0
+      - answerText: Eminem
+        isCorrect: 0
+    - questionText: Who famously said "Let them eat cake"?
+      answers:
+      - answerText: King Henry XVIII
+        isCorrect: 0
+      - answerText: Marie Antionette
+        isCorrect: 1
+      - answerText: Benito Mussolini
+        isCorrect: 0
+      - answerText: Thomas Jefferson
+        isCorrect: 0
+    - questionText: Which president opened the Panama Canal?
+      answers:
+      - answerText: Woodrow Wilson
+        isCorrect: 0
+      - answerText: Franklin D. Roosevelt
+        isCorrect: 1
+      - answerText: Theodore Roosevelt
+        isCorrect: 0
+      - answerText: Eleanor Roosevelt
+        isCorrect: 0
+    - questionText: Which of the following is imaginary?
+      answers:
+      - answerText: The square root of -1
+        isCorrect: 1
+      - answerText: 1 divided by 1
+        isCorrect: 0
+      - answerText: x = x + 2
+        isCorrect: 0
+      - answerText: Round Earth
+        isCorrect: 0
+    - questionText: 'True or false: By kilograms, Bison are the largest land animal'
+      answers:
+      - answerText: True
+        isCorrect: 0
+      - answerText: False
+        isCorrect: 1
+    - questionText: What is the most abundant element in the universe?
+      answers:
+      - answerText: Oxygen
+        isCorrect: 0
+      - answerText: Carbon
+        isCorrect: 0
+      - answerText: Hydrogen
+        isCorrect: 1
+      - answerText: Nitrogen
+        isCorrect: 0
+    - questionText: Proteins, fats (lipids), and carbohydrates are types of what?
+      answers:
+      - answerText: Elements
+        isCorrect: 0
+      - answerText: Macromolecules
+        isCorrect: 1
+      - answerText: Nutrients
+        isCorrect: 0
+      - answerText: Foods
+        isCorrect: 0
+    - questionText: What is the periodic table symbol for gold?
+      answers:
+      - answerText: Gl
+        isCorrect: 0
+      - answerText: Au
+        isCorrect: 1
+      - answerText: I
+        isCorrect: 0
+      - answerText: G
+        isCorrect: 0
+    correctColor: {r: 0, g: 1, b: 0, a: 1}
+    correctMarker: "\u2713"
+    incorrectColor: {r: 1, g: 0, b: 0, a: 1}
+    incorrectMarker: X
+    markerFadeDuration: 0.5
+--- !u!4 &1409456049
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409456047}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1418127638
 GameObject:
   m_ObjectHideFlags: 0
@@ -1540,9 +1937,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 407363011}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75, y: -143.86}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 75, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1418127640
@@ -1707,93 +2104,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tasks:
   - {fileID: 11400000, guid: 5107b63a427993348acc20f519ebe2f6, type: 2}
-  quizzes:
-  - questions:
-    - questionText: 3x + 4 = 13. x = ?
-      answers:
-      - answerText: 1
-        isCorrect: 0
-      - answerText: 2
-        isCorrect: 0
-      - answerText: 3
-        isCorrect: 1
-      - answerText: 5
-        isCorrect: 0
-    - questionText: When did World War 1 begin?
-      answers:
-      - answerText: 1914
-        isCorrect: 1
-      - answerText: 1921
-        isCorrect: 0
-      - answerText: 1899
-        isCorrect: 0
-      - answerText: 1872
-        isCorrect: 0
-    - questionText: What is the largest continent on Earth?
-      answers:
-      - answerText: Russia
-        isCorrect: 0
-      - answerText: Asia
-        isCorrect: 1
-      - answerText: North America
-        isCorrect: 0
-      - answerText: Australia
-        isCorrect: 0
-    - questionText: Which of the following is not a variety of cheese?
-      answers:
-      - answerText: Gouda
-        isCorrect: 0
-      - answerText: Cheddar
-        isCorrect: 0
-      - answerText: Biscotti
-        isCorrect: 1
-      - answerText: Blue
-        isCorrect: 0
-    - questionText: Who famously said "I have a dream"?
-      answers:
-      - answerText: Abraham Lincoln
-        isCorrect: 0
-      - answerText: Martin Luther King Jr.
-        isCorrect: 1
-      - answerText: Joe Biden
-        isCorrect: 0
-      - answerText: Eminem
-        isCorrect: 0
-    - questionText: Who famously said "Let them eat cake"?
-      answers:
-      - answerText: King Henry XVIII
-        isCorrect: 0
-      - answerText: Marie Antionette
-        isCorrect: 1
-      - answerText: Benito Mussolini
-        isCorrect: 0
-      - answerText: Thomas Jefferson
-        isCorrect: 0
-    - questionText: Which president opened the Panama Canal?
-      answers:
-      - answerText: Woodrow Wilson
-        isCorrect: 0
-      - answerText: Franklin D. Roosevelt
-        isCorrect: 1
-      - answerText: Theodore Roosevelt
-        isCorrect: 0
-      - answerText: Eleanor Roosevelt
-        isCorrect: 0
-    - questionText: Which of the following is imaginary?
-      answers:
-      - answerText: The square root of -1
-        isCorrect: 1
-      - answerText: 1 divided by 0
-        isCorrect: 0
-      - answerText: x = x + 2
-        isCorrect: 0
-      - answerText: Round Earth
-        isCorrect: 0
-    correctColor: {r: 0, g: 1, b: 0, a: 1}
-    correctMarker: "\u2713"
-    incorrectColor: {r: 1, g: 0, b: 0, a: 1}
-    incorrectMarker: X
-    markerFadeDuration: 0.5
 --- !u!54 &1485036456
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1854,93 +2164,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tasks:
   - {fileID: 11400000, guid: 5107b63a427993348acc20f519ebe2f6, type: 2}
-  quizzes:
-  - questions:
-    - questionText: 3x + 4 = 13. x = ?
-      answers:
-      - answerText: 1
-        isCorrect: 0
-      - answerText: 2
-        isCorrect: 0
-      - answerText: 3
-        isCorrect: 1
-      - answerText: 5
-        isCorrect: 0
-    - questionText: When did World War 1 begin?
-      answers:
-      - answerText: 1914
-        isCorrect: 1
-      - answerText: 1921
-        isCorrect: 0
-      - answerText: 1899
-        isCorrect: 0
-      - answerText: 1872
-        isCorrect: 0
-    - questionText: What is the largest continent on Earth?
-      answers:
-      - answerText: Russia
-        isCorrect: 0
-      - answerText: Asia
-        isCorrect: 1
-      - answerText: North America
-        isCorrect: 0
-      - answerText: Australia
-        isCorrect: 0
-    - questionText: Which of the following is not a variety of cheese?
-      answers:
-      - answerText: Gouda
-        isCorrect: 0
-      - answerText: Cheddar
-        isCorrect: 0
-      - answerText: Biscotti
-        isCorrect: 1
-      - answerText: Blue
-        isCorrect: 0
-    - questionText: Who famously said "I have a dream"?
-      answers:
-      - answerText: Abraham Lincoln
-        isCorrect: 0
-      - answerText: Martin Luther King Jr.
-        isCorrect: 1
-      - answerText: Joe Biden
-        isCorrect: 0
-      - answerText: Eminem
-        isCorrect: 0
-    - questionText: Who famously said "Let them eat cake"?
-      answers:
-      - answerText: King Henry XVIII
-        isCorrect: 0
-      - answerText: Marie Antionette
-        isCorrect: 1
-      - answerText: Benito Mussolini
-        isCorrect: 0
-      - answerText: Thomas Jefferson
-        isCorrect: 0
-    - questionText: Which president opened the Panama Canal?
-      answers:
-      - answerText: Woodrow Wilson
-        isCorrect: 0
-      - answerText: Franklin D. Roosevelt
-        isCorrect: 1
-      - answerText: Theodore Roosevelt
-        isCorrect: 0
-      - answerText: Eleanor Roosevelt
-        isCorrect: 0
-    - questionText: Which of the following is imaginary?
-      answers:
-      - answerText: The square root of -1
-        isCorrect: 1
-      - answerText: 1 divided by 0
-        isCorrect: 0
-      - answerText: x = x + 2
-        isCorrect: 0
-      - answerText: Round Earth
-        isCorrect: 0
-    correctColor: {r: 0, g: 1, b: 0, a: 1}
-    correctMarker: "\u2713"
-    incorrectColor: {r: 1, g: 0, b: 0, a: 1}
-    incorrectMarker: X
-    markerFadeDuration: 0.5
 --- !u!61 &1543162013
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2053,51 +2276,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1485036451}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1560011434
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1560011436}
-  - component: {fileID: 1560011435}
-  m_Layer: 0
-  m_Name: Scene Fusion Guids
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1560011435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1560011434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77183e1cb3398b54d9f77b7d6dcd40d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectGuids: []
---- !u!4 &1560011436
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1560011434}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1736384530
 GameObject:
   m_ObjectHideFlags: 0
@@ -2180,10 +2358,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1213082785}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 90.73, y: -30.725}
-  m_SizeDelta: {x: 141, y: 61.45}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 107.025, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1797290534
 MonoBehaviour:
@@ -2221,8 +2399,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Tasks
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 31b98108cecf70d4fb2ac40ff4d6abfd, type: 2}
+  m_sharedMaterial: {fileID: 2930832640939860263, guid: 31b98108cecf70d4fb2ac40ff4d6abfd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2246,13 +2424,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55
-  m_fontSizeBase: 55
+  m_fontSize: 75
+  m_fontSizeBase: 75
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -2416,7 +2594,7 @@ GameObject:
   - component: {fileID: 1859948723}
   - component: {fileID: 1859948722}
   m_Layer: 5
-  m_Name: TaskNameText
+  m_Name: TaskName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2436,10 +2614,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1213082785}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 90.73, y: -81.56}
-  m_SizeDelta: {x: 181.46, y: 40.22}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 102.96, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1859948722
 MonoBehaviour:
@@ -2477,8 +2655,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Task Name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 31b98108cecf70d4fb2ac40ff4d6abfd, type: 2}
+  m_sharedMaterial: {fileID: 2930832640939860263, guid: 31b98108cecf70d4fb2ac40ff4d6abfd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2502,14 +2680,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2552,6 +2730,304 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1859948720}
   m_CullTransparentMesh: 1
+--- !u!1 &1985901474
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1985901475}
+  - component: {fileID: 1985901478}
+  - component: {fileID: 1985901477}
+  - component: {fileID: 1985901476}
+  m_Layer: 5
+  m_Name: TaskDescription
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1985901475
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1985901474}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1213082785}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 92.6, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1985901476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1985901474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
+--- !u!114 &1985901477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1985901474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Task Description
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 31b98108cecf70d4fb2ac40ff4d6abfd, type: 2}
+  m_sharedMaterial: {fileID: 2930832640939860263, guid: 31b98108cecf70d4fb2ac40ff4d6abfd, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 25
+  m_fontSizeBase: 25
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1985901478
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1985901474}
+  m_CullTransparentMesh: 1
+--- !u!1 &1997571450
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1997571451}
+  - component: {fileID: 1997571453}
+  - component: {fileID: 1997571452}
+  - component: {fileID: 1997571454}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1997571451
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997571450}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 136026261}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 23.55, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.50000024}
+--- !u!114 &1997571452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997571450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: X
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: d008b35ea3a6b814194845a95fa90c0d, type: 2}
+  m_sharedMaterial: {fileID: 4773630173507252173, guid: d008b35ea3a6b814194845a95fa90c0d, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4281479730
+  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 75
+  m_fontSizeBase: 75
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1997571453
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997571450}
+  m_CullTransparentMesh: 1
+--- !u!114 &1997571454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997571450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!1 &2027216278
 GameObject:
   m_ObjectHideFlags: 0
@@ -2766,6 +3242,6 @@ SceneRoots:
   - {fileID: 978853449}
   - {fileID: 1190445938}
   - {fileID: 1736384532}
-  - {fileID: 1560011436}
   - {fileID: 860988231}
   - {fileID: 2136738921}
+  - {fileID: 1409456049}
