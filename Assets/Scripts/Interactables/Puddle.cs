@@ -5,18 +5,26 @@ using UnityEngine;
 
 public class Puddle : Interactable {
 
-    [SerializeField] private Color color;
-    [SerializeField] private float alphaIterator;
+    [Header("References")]
+    private SpriteRenderer spriteRenderer;
+
+    [Header("Color")]
+    [SerializeField][Range(0, 1)] private float alphaRemoval;
     [SerializeField] private float fadeDuration;
-    [SerializeField] private float alphaToDestroy;
+    private float targetAlpha;
+    private Tweener fadeTweener;
+
+    [Header("Interacting")]
     [SerializeField] private float interactDelay;
-    private bool canInteract = true;
-    private SpriteRenderer sprite;
+    private bool canInteract;
 
     private void Start() {
 
-        sprite = GetComponent<SpriteRenderer>();
-        sprite.color = color;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        canInteract = true;
+
+        targetAlpha = spriteRenderer.color.a;
 
     }
 
@@ -24,15 +32,26 @@ public class Puddle : Interactable {
 
         if (canInteract) {
 
+            if (targetAlpha <= 0f) // target alpha is already 0, don't reduce it anymore, let current tween finish
+                return;
+
+            targetAlpha -= alphaRemoval;
+
+            if (fadeTweener != null)
+                fadeTweener.Kill();
+
+            fadeTweener = spriteRenderer.DOFade(targetAlpha - alphaRemoval, fadeDuration).OnComplete(() => {
+
+                if (targetAlpha <= 0f) {
+
+                    taskManager.CompleteCurrentTask();
+                    Destroy(gameObject);
+                    return;
+
+                }
+            });
+
             StartCoroutine(InteractCooldown());
-            sprite.DOColor(new Color(color.r, color.g, color.b, color.a - alphaIterator), fadeDuration);
-
-        }
-
-        if (color.a <= alphaToDestroy) {
-
-            FindObjectOfType<TaskManager>().CompleteCurrentTask();
-            Destroy(gameObject);
 
         }
     }

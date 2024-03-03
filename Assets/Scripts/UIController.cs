@@ -45,6 +45,14 @@ public class UIController : MonoBehaviour {
 
     }
 
+    private void Update() {
+
+        /* QUIZ */
+        if (Input.GetKeyDown(KeyCode.Escape))
+            StartCoroutine(CloseQuiz(false)); // close quiz
+
+    }
+
     public void SetTaskInfo(string taskName, string taskDescription) {
 
         taskNameText.text = taskName;
@@ -107,7 +115,7 @@ public class UIController : MonoBehaviour {
 
     }
 
-    public IEnumerator CloseQuiz(bool completed) {
+    private IEnumerator CloseQuiz(bool completed) {
 
         if (!quizOpen) yield break; // quiz already closed
 

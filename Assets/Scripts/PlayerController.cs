@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour {
     [Header("References")]
     private Rigidbody rb;
     private Animator animator;
-    private UIController uiController;
 
     [Header("Mechanics")]
     private bool[] mechanicStatuses;
@@ -30,7 +29,6 @@ public class PlayerController : MonoBehaviour {
 
     [Header("Phone")]
     private bool hasPhoneOut;
-    private bool phoneAnimRight; // if player is going forward or right, animation faces right | if player is going back or left, animation faces left
 
     [Header("Interactables")]
     [SerializeField] private SpriteRenderer interactKeyIcon;
@@ -50,7 +48,6 @@ public class PlayerController : MonoBehaviour {
 
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        uiController = FindObjectOfType<UIController>();
 
         moveSpeed = baseMoveSpeed;
 
@@ -77,7 +74,7 @@ public class PlayerController : MonoBehaviour {
             hasPhoneOut = true;
 
             ResetAnimations();
-            animator.SetBool(phoneAnimRight ? "isPhoneOutRight" : "isPhoneOutLeft", true);
+            animator.SetBool(horizontalInput >= 0f ? "isPhoneOutRight" : "isPhoneOutLeft", true); // moving right or standing still, animation faces right, else left
 
         } else if (Input.GetKeyUp(phoneKey)) {
 
@@ -99,25 +96,21 @@ public class PlayerController : MonoBehaviour {
 
                 ResetAnimations();
                 animator.SetBool("isWalkingForward", true);
-                phoneAnimRight = true;
-
-            } else if (verticalInput < 0f) {
-
-                ResetAnimations();
-                animator.SetBool("isWalkingBack", true);
-                phoneAnimRight = false;
-
-            } else if (horizontalInput > 0f) {
-
-                ResetAnimations();
-                animator.SetBool("isWalkingRight", true);
-                phoneAnimRight = true;
 
             } else if (horizontalInput < 0f) {
 
                 ResetAnimations();
                 animator.SetBool("isWalkingLeft", true);
-                phoneAnimRight = false;
+
+            } else if (verticalInput < 0f) {
+
+                ResetAnimations();
+                animator.SetBool("isWalkingBack", true);
+
+            } else if (horizontalInput > 0f) {
+
+                ResetAnimations();
+                animator.SetBool("isWalkingRight", true);
 
             } else {
 
@@ -128,15 +121,19 @@ public class PlayerController : MonoBehaviour {
 
         /* INTERACTABLES */
         Interactable interactable = null;
+
         foreach (Collider obj in Physics.OverlapSphere(transform.position, interactRadius, interactMask)) {
+
             interactable = obj?.GetComponent<Interactable>();
             break;
+
         }
+
         //Physics2D.OverlapCircle(transform.position, interactRadius, interactMask)?.GetComponent<Interactable>(); // get interactable
 
         if (interactable != null) { // if interactable is not null
 
-            // show interact key icon and add to detected interactables list
+            // show interact key icon
             ShowInteractKeyIcon();
 
             if (Input.GetKeyDown(interactKey)) // check for interact key press
@@ -147,11 +144,6 @@ public class PlayerController : MonoBehaviour {
             HideInteractKeyIcon(); // if no interactables in range, hide interact key icon
 
         }
-
-        /* QUIZ */
-        if (Input.GetKeyDown(KeyCode.Escape))
-            StartCoroutine(uiController.CloseQuiz(false)); // close quiz
-
     }
 
     private void FixedUpdate() {
@@ -180,11 +172,9 @@ public class PlayerController : MonoBehaviour {
 
             //BUG: spamming space (taking phone out) while moving ticks boredom up (op)
 
-            if (hasPhoneOut) { // recover boredom
-
-                print("recover");
+            if (hasPhoneOut) // recover boredom
                 boredom += boredomRecoveryRate;
-            } else // decay boredom
+            else // decay boredom
                 boredom -= boredomDecayRate;
 
             if (boredom > boredomMax) // clamp boredom
@@ -199,6 +189,7 @@ public class PlayerController : MonoBehaviour {
                 moveSpeed = baseMoveSpeed;
 
             yield return new WaitForSeconds(1f);
+
             print(boredom);
 
         }

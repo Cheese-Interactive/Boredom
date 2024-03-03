@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 883471487681375053}
-  - component: {fileID: 9181792173265165898}
+  - component: {fileID: 5790261327336131959}
   - component: {fileID: 3508447568782472378}
   - component: {fileID: -105849144830151639}
   m_Layer: 6
-  m_Name: GoatedPuddle
+  m_Name: Puddle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,14 +27,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3944374961526782785}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7074617, y: -0, z: -0, w: 0.7067516}
-  m_LocalPosition: {x: 2.27, y: -1.78, z: 0}
-  m_LocalScale: {x: 1.5515, y: 1.2868, z: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.2, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 89.937, y: 0, z: 0}
---- !u!212 &9181792173265165898
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!212 &5790261327336131959
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.3443396, g: 0.4993139, b: 1, a: 0.1764706}
+  m_Color: {r: 0.43040225, g: 0.7927888, b: 0.9811321, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -98,9 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dae557bef6a41f4b83fc8d4ff0ced6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0.23113209, g: 0.47095877, b: 1, a: 1}
-  alphaIterator: 0.05
-  alphaToDestroy: 0.01
+  alphaRemoval: 0.1
+  fadeDuration: 0.25
   interactDelay: 0.02
 --- !u!65 &-105849144830151639
 BoxCollider:
@@ -121,5 +120,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.9999999, z: 0.19999997}
+  m_Size: {x: 1, y: 1.0000002, z: 0.1}
   m_Center: {x: 0, y: 0, z: 0}

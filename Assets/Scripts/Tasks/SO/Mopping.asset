@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93f2b8397da74f64bbb237d30e62959f, type: 3}
   m_Name: Mopping
   m_EditorClassIdentifier: 
-  taskName: 
+  taskName: Mopping
   taskDescription: 
