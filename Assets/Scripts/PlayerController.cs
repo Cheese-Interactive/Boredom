@@ -6,16 +6,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     [Header("References")]
-    [SerializeField] private GameObject playerSprite; //may be useless because playing animations using spritesheets just changes the sprite rapidly
-    private SpriteRenderer spriteRenderer;
     private Rigidbody rb;
     private Animator animator;
-    private bool canIdle = true;
-
-    [Header("Sprites")]
-    [SerializeField][Tooltip("Forward: 0 | Backward: 1 | Left: 2 | Right: 3")] private Sprite[] directionSprites;
-    [SerializeField][Tooltip("Forward: 0 | Backward: 1 | Left: 2 | Right: 3 (CORRELATES WITH directionSprites")] private string[] animationStates;
-    [SerializeField] private float timeToIdle;
+    private UIController uiController;
 
     [Header("Mechanics")]
     private bool[] mechanicStatuses;
@@ -26,9 +19,6 @@ public class PlayerController : MonoBehaviour {
     private float horizontalInput;
     private float verticalInput;
     private float moveSpeed;
-    private Coroutine flipCoroutine;
-    private Coroutine idleCoroutine;
-
 
     [Header("Boredom")]
     [SerializeField] private float boredomMax;
@@ -38,11 +28,9 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float fatigueSpeedModifier;
     private float boredom;
 
-    [Header("Tasks")]
-    private Task currTask;
-
     [Header("Phone")]
     private bool hasPhoneOut;
+    private bool phoneAnimRight; // if player is going forward or right, animation faces right | if player is going back or left, animation faces left
 
     [Header("Interactables")]
     [SerializeField] private SpriteRenderer interactKeyIcon;
@@ -56,15 +44,13 @@ public class PlayerController : MonoBehaviour {
 
     [Header("Keybinds")]
     [SerializeField] private KeyCode interactKey;
-
-    private TaskManager taskManager;
-
+    [SerializeField] private KeyCode phoneKey;
 
     private void Start() {
 
         rb = GetComponent<Rigidbody>();
-        spriteRenderer = playerSprite.GetComponent<SpriteRenderer>();
-        animator = playerSprite.GetComponent<Animator>();
+        animator = GetComponent<Animator>();
+        uiController = FindObjectOfType<UIController>();
 
         moveSpeed = baseMoveSpeed;
 
@@ -72,7 +58,7 @@ public class PlayerController : MonoBehaviour {
         mechanicStatuses = new bool[Enum.GetValues(typeof(MechanicType)).Length];
 
         foreach (MechanicType mechanicType in Enum.GetValues(typeof(MechanicType)))
-            mechanicStatuses[(int)mechanicType] = true;
+            mechanicStatuses[(int) mechanicType] = true;
 
         boredom = boredomMax * 0.7f;
         StartCoroutine(TickBoredom());
@@ -81,66 +67,66 @@ public class PlayerController : MonoBehaviour {
         interactKeyIcon.gameObject.SetActive(false);
         interactKeyIcon.color = Color.clear; // set to clear for fade in
 
-        taskManager = FindObjectOfType<GameManager>().GetComponent<TaskManager>();
-        StopCoroutine(flipCoroutine = StartCoroutine(DoAFlip(1)));
-        canIdle = true;
     }
 
     private void Update() {
 
+        /* PHONE */
+        if (Input.GetKeyDown(phoneKey)) {
+
+            hasPhoneOut = true;
+
+            ResetAnimations();
+            animator.SetBool(phoneAnimRight ? "isPhoneOutRight" : "isPhoneOutLeft", true);
+
+        } else if (Input.GetKeyUp(phoneKey)) {
+
+            hasPhoneOut = false;
+            ResetAnimations();
+
+        }
+
+        if (hasPhoneOut) return;
+
+        /* MOVEMENT */
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
-        animator.SetBool("isWalking", !(horizontalInput == 0f && verticalInput == 0f));
 
-        if (Input.GetKey(KeyCode.Space)) {
-            rb.velocity = Vector3.zero;
-            hasPhoneOut = true;
-            animator.Play("Phone");
-        }
-        if (Input.GetKeyUp(KeyCode.Space)) {
-            hasPhoneOut = false;
-            StartCoroutine(GoIdle());
-            animator.Play("IdleForward");
-        }
         if (!hasPhoneOut) {
-            if (Input.GetKeyDown(KeyCode.A)) {
-                canIdle = true;
-                StopCoroutine(flipCoroutine);
-                if (animator.GetCurrentAnimatorStateInfo(0).IsName("IdleRight"))
-                    animator.Play(animationStates[3]);
-                else
-                    flipCoroutine = StartCoroutine(DoAFlip(1, 3));
-            }
-            if (Input.GetKeyDown(KeyCode.D)) {
-                canIdle = true;
-                StopCoroutine(flipCoroutine);
-                if (animator.GetCurrentAnimatorStateInfo(0).IsName("IdleLeft"))
-                    animator.Play(animationStates[2]);
-                else
-                    flipCoroutine = StartCoroutine(DoAFlip(-1, 2));
-            }
-            if (Input.GetKeyDown(KeyCode.W)) {
-                canIdle = true;
-                StopCoroutine(flipCoroutine);
-                if (animator.GetCurrentAnimatorStateInfo(0).IsName("IdleBack"))
-                    animator.Play(animationStates[0]);
-                else
-                    flipCoroutine = StartCoroutine(DoAFlip(1, 0));
-            }
-            if (Input.GetKeyDown(KeyCode.S)) {
-                canIdle = true;
-                StopCoroutine(flipCoroutine);
-                if (animator.GetCurrentAnimatorStateInfo(0).IsName("IdleForward"))
-                    animator.Play(animationStates[1]);
-                else
-                    flipCoroutine = StartCoroutine(DoAFlip(1, 1));
-            }
-            if (isIdle() && canIdle)
-                idleCoroutine = StartCoroutine(GoIdle());
 
-            if (Input.GetKeyUp(KeyCode.Space))
-                hasPhoneOut = false;
+            // vertical movement gets priority
+            if (verticalInput > 0f) {
+
+                ResetAnimations();
+                animator.SetBool("isWalkingForward", true);
+                phoneAnimRight = true;
+
+            } else if (verticalInput < 0f) {
+
+                ResetAnimations();
+                animator.SetBool("isWalkingBack", true);
+                phoneAnimRight = false;
+
+            } else if (horizontalInput > 0f) {
+
+                ResetAnimations();
+                animator.SetBool("isWalkingRight", true);
+                phoneAnimRight = true;
+
+            } else if (horizontalInput < 0f) {
+
+                ResetAnimations();
+                animator.SetBool("isWalkingLeft", true);
+                phoneAnimRight = false;
+
+            } else {
+
+                ResetAnimations();
+
+            }
         }
+
+        /* INTERACTABLES */
         Interactable interactable = null;
         foreach (Collider obj in Physics.OverlapSphere(transform.position, interactRadius, interactMask)) {
             interactable = obj?.GetComponent<Interactable>();
@@ -156,100 +142,65 @@ public class PlayerController : MonoBehaviour {
             if (Input.GetKeyDown(interactKey)) // check for interact key press
                 interactable.Interact();
 
-        }
-        else {
+        } else {
 
             HideInteractKeyIcon(); // if no interactables in range, hide interact key icon
 
         }
-    }
 
-    private IEnumerator GoIdle() {
-        canIdle = false;
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("WalkRight"))
-            animator.Play("IdleRight");
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("WalkLeft"))
-            animator.Play("IdleLeft");
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("WalkBack"))
-            animator.Play("IdleBack");
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("WalkForward"))
-            animator.Play("IdleForward");
-        float t = 0;
-        while (t < timeToIdle) {
-            if (!isIdle())
-                StopCoroutine(idleCoroutine);
-            t += Time.deltaTime;
-            yield return null;
-        }
-        if (isIdle() && !animator.GetCurrentAnimatorStateInfo(0).IsName("IdleForward")) {
-            StartCoroutine(DoAFlip(1));
-            animator.Play("IdleForward");
-        }
-    }
+        /* QUIZ */
+        if (Input.GetKeyDown(KeyCode.Escape))
+            StartCoroutine(uiController.CloseQuiz(false)); // close quiz
 
-
-    private IEnumerator DoAFlip(float dir) {
-        //StopCoroutine(flipCoroutine);
-        //dir = dir.normalized;
-        dir /= dir; //normalize
-        Quaternion startRot = transform.rotation;
-        float t = 0;
-        while (t < flipTime) {
-            playerSprite.transform.rotation = Quaternion.Lerp(startRot, Quaternion.Euler(0f, dir * 180f, 0f), t / flipTime);
-            t += Time.deltaTime;
-            yield return null;
-        }
-        playerSprite.transform.rotation = Quaternion.Euler(0f, dir * 180f, 0f);
-    }
-
-    private IEnumerator DoAFlip(float dir, int state) {
-        //StopCoroutine(flipCoroutine);
-        //dir = dir.normalized;
-        dir /= dir; //normalize
-        Quaternion startRot = transform.rotation;
-        float t = 0;
-        bool hasChangedState = false;
-        while (t < flipTime) {
-            playerSprite.transform.rotation = Quaternion.Lerp(startRot, Quaternion.Euler(0f, dir * 180f, 0f), t / flipTime);
-            if (t >= flipTime / 2f && !hasChangedState) {
-                spriteRenderer.sprite = directionSprites[state];
-                animator.Play(animationStates[state]);
-                hasChangedState = true;
-            }
-            t += Time.deltaTime;
-
-            yield return null;
-        }
-        playerSprite.transform.rotation = Quaternion.Euler(0f, dir * 180f, 0f);
     }
 
     private void FixedUpdate() {
 
-        if (mechanicStatuses[(int)MechanicType.Movement] && !hasPhoneOut)
-            rb.velocity = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized * moveSpeed;
+        if (mechanicStatuses[(int) MechanicType.Movement] && !hasPhoneOut)
+            rb.velocity = new Vector3(horizontalInput, 0, verticalInput).normalized * moveSpeed;
+        else
+            rb.velocity = Vector3.zero;
+
+    }
+
+    private void ResetAnimations() {
+
+        animator.SetBool("isWalkingForward", false);
+        animator.SetBool("isWalkingBack", false);
+        animator.SetBool("isWalkingRight", false);
+        animator.SetBool("isWalkingLeft", false);
+        animator.SetBool("isPhoneOutLeft", false);
+        animator.SetBool("isPhoneOutRight", false);
 
     }
 
     private IEnumerator TickBoredom() {
 
         while (true) {
-            //BUG: spamming space (taking phone out) while moving ticks boredom up (op)
-            if (hasPhoneOut)
-                boredom += boredomRecoveryRate / 1f;
-            else
-                boredom -= boredomDecayRate / 1f;
 
-            if (boredom > boredomMax)
+            //BUG: spamming space (taking phone out) while moving ticks boredom up (op)
+
+            if (hasPhoneOut) { // recover boredom
+
+                print("recover");
+                boredom += boredomRecoveryRate;
+            } else // decay boredom
+                boredom -= boredomDecayRate;
+
+            if (boredom > boredomMax) // clamp boredom
                 boredom = boredomMax;
+
             if (boredom < 0f) //should end game
                 boredom = 1f;
-            if (boredom < boredomMax * boredomFatigueThreshold)
+
+            if (boredom < boredomMax * boredomFatigueThreshold) // modify move speed based on boredom
                 moveSpeed = baseMoveSpeed * fatigueSpeedModifier;
             else
                 moveSpeed = baseMoveSpeed;
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(1f);
             print(boredom);
+
         }
     }
 
@@ -277,13 +228,6 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    public void SetMechanicStatus(MechanicType mechanicType, bool status) {
+    public void SetMechanicStatus(MechanicType mechanicType, bool status) { mechanicStatuses[(int) mechanicType] = status; }
 
-        mechanicStatuses[(int)mechanicType] = status;
-
-    }
-
-    private bool isIdle() {
-        return horizontalInput == 0f && verticalInput == 0f;
-    }
 }

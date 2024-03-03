@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1e14d936b3e550a4bbc318379229d365
+guid: 7c036939de172b548861f78b276eeb75
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -39,7 +39,7 @@ TextureImporter:
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 1
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -136,7 +136,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: player_walk_0
+      name: player_phone_right_0
       rect:
         serializedVersion: 2
         x: 0
@@ -150,14 +150,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6f9a8034559729547bdff6a11bb538c8
-      internalID: -124036471
+      spriteID: f225a7a0b72d08649ae0baf56c0f2aff
+      internalID: -1713230949
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_walk_1
+      name: player_phone_right_1
       rect:
         serializedVersion: 2
         x: 18
@@ -171,8 +171,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb786632ed4675e408bc67f2722ed19d
-      internalID: -789816929
+      spriteID: d16ad36c52c29004287ddbfc4d65c2c5
+      internalID: 551671554
       vertices: []
       indices: 
       edges: []
@@ -188,8 +188,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      player_walk_0: -124036471
-      player_walk_1: -789816929
+      player_phone_right_0: -1713230949
+      player_phone_right_1: 551671554
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

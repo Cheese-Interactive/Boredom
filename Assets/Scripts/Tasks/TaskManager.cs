@@ -24,16 +24,6 @@ public class TaskManager : MonoBehaviour {
 
     }
 
-    private void Update() {
-
-        if (currTask is CleanupTask && trashRemaining == 0) // cleanup task finished
-            CompleteCurrentTask();
-
-        //idk if this works ngl
-        // this could be done 10x more efficiently
-
-    }
-
     public bool AssignTask(Task task) {
 
         if (currTask != null) return false;
@@ -66,7 +56,14 @@ public class TaskManager : MonoBehaviour {
 
     }
 
-    public void ReduceTrashRemaining() { trashRemaining--; }
+    public void OnTrashPickup() {
+
+        trashRemaining--;
+
+        if (currTask is CleanupTask && trashRemaining == 0) // cleanup task finished
+            CompleteCurrentTask();
+
+    }
 
     public void CompleteCurrentTask() {
 

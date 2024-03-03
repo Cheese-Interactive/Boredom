@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c4c6c9be5b4bd034c85eeaa9103d57f5
+guid: 8e846ec509ad4ce48b21f58991b566bf
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -136,7 +136,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: player_walk_0
+      name: player_walk_right_0
       rect:
         serializedVersion: 2
         x: 0
@@ -150,14 +150,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6f9a8034559729547bdff6a11bb538c8
-      internalID: -124036471
+      spriteID: 55a9205228256584fa5021daa16c756c
+      internalID: -180736734
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_walk_1
+      name: player_walk_right_1
       rect:
         serializedVersion: 2
         x: 18
@@ -171,8 +171,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb786632ed4675e408bc67f2722ed19d
-      internalID: -789816929
+      spriteID: 0180593e4e6eb444bbc9fd1bed31a72b
+      internalID: 1742715341
       vertices: []
       indices: 
       edges: []
@@ -188,8 +188,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      player_walk_0: -124036471
-      player_walk_1: -789816929
+      player_walk_right_0: -180736734
+      player_walk_right_1: 1742715341
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

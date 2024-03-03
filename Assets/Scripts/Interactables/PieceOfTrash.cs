@@ -1,7 +1,7 @@
 public class Trash : Interactable {
 
     public override void Interact() {
-        taskManager.ReduceTrashRemaining();
+        taskManager.OnTrashPickup();
         Destroy(gameObject);
     }
 }
