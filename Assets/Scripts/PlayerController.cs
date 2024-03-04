@@ -83,7 +83,12 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (hasPhoneOut) return;
+        if (hasPhoneOut) {
+
+            HideInteractKeyIcon();
+            return;
+
+        }
 
         /* MOVEMENT */
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -97,15 +102,15 @@ public class PlayerController : MonoBehaviour {
                 ResetAnimations();
                 animator.SetBool("isWalkingForward", true);
 
-            } else if (horizontalInput < 0f) {
-
-                ResetAnimations();
-                animator.SetBool("isWalkingLeft", true);
-
             } else if (verticalInput < 0f) {
 
                 ResetAnimations();
                 animator.SetBool("isWalkingBack", true);
+
+            } else if (horizontalInput < 0f) {
+
+                ResetAnimations();
+                animator.SetBool("isWalkingLeft", true);
 
             } else if (horizontalInput > 0f) {
 
