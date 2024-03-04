@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     [Header("References")]
+    private TaskManager taskManager;
     private Rigidbody rb;
     private Animator animator;
 
@@ -25,20 +26,26 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float boredomRecoveryRate;
     [SerializeField] private float boredomFatigueThreshold; //ex: if this is 0.3, then when under 30% of boredom, you get fatigued
     [SerializeField] private float fatigueSpeedModifier;
+    private Coroutine boredomCoroutine;
     private float boredom;
 
     [Header("Phone")]
     private bool hasPhoneOut;
 
     [Header("Interactables")]
-    [SerializeField] private SpriteRenderer interactKeyIcon;
-    [SerializeField] private float iconFadeDuration;
     [SerializeField] private float interactRadius;
     [SerializeField] private LayerMask interactMask;
+    private Color startColor;
+
+    [Header("Interact Icon")]
+    [SerializeField] private SpriteRenderer interactKeyIcon;
+    [SerializeField] private float iconFadeDuration;
+    [SerializeField] private float iconAnimScaleMultiplier;
+    [SerializeField] private float iconAnimScaleDuration;
+    private Vector2 iconStartScale;
     private Tweener keyIconTweenIn;
     private Tweener keyIconTweenOut;
     private bool keyIconVisible;
-    private Color startColor;
 
     [Header("Keybinds")]
     [SerializeField] private KeyCode interactKey;
@@ -46,6 +53,7 @@ public class PlayerController : MonoBehaviour {
 
     private void Start() {
 
+        taskManager = FindObjectOfType<TaskManager>();
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
 
@@ -58,11 +66,13 @@ public class PlayerController : MonoBehaviour {
             mechanicStatuses[(int) mechanicType] = true;
 
         boredom = boredomMax * 0.7f;
-        StartCoroutine(TickBoredom());
+        StartBoredomTick();
 
         startColor = interactKeyIcon.color;
         interactKeyIcon.gameObject.SetActive(false);
         interactKeyIcon.color = Color.clear; // set to clear for fade in
+
+        iconStartScale = interactKeyIcon.transform.localScale;
 
     }
 
@@ -138,12 +148,26 @@ public class PlayerController : MonoBehaviour {
 
         if (interactable != null) { // if interactable is not null
 
-            // show interact key icon
-            ShowInteractKeyIcon();
+            if (interactable is TaskInteractable) {
 
-            if (Input.GetKeyDown(interactKey)) // check for interact key press
+                if (!taskManager.HasCurrentTask())
+                    ShowInteractKeyIcon(); // show interact key icon if no current task and interactable is task interactable
+                else
+                    HideInteractKeyIcon();
+
+            } else {
+
+                ShowInteractKeyIcon();
+
+            }
+
+            if (Input.GetKeyDown(interactKey)) { // interact key pressed
+
                 interactable.Interact();
 
+                interactKeyIcon.transform.DOScale(iconStartScale * iconAnimScaleMultiplier, iconAnimScaleDuration / 2f).OnComplete(() => interactKeyIcon.transform.DOScale(iconStartScale, iconAnimScaleDuration / 2f));
+
+            }
         } else {
 
             HideInteractKeyIcon(); // if no interactables in range, hide interact key icon
@@ -225,5 +249,9 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void SetMechanicStatus(MechanicType mechanicType, bool status) { mechanicStatuses[(int) mechanicType] = status; }
+
+    public void StartBoredomTick() { boredomCoroutine = StartCoroutine(TickBoredom()); }
+
+    public void PauseBoredomTick() { if (boredomCoroutine != null) StopCoroutine(boredomCoroutine); }
 
 }

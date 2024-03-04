@@ -71,6 +71,7 @@ public class UIController : MonoBehaviour {
 
         if (quizOpen) return; // quiz already open
 
+        playerController.PauseBoredomTick(); // stop ticking boredom
         playerController.SetMechanicStatus(MechanicType.Movement, false);
 
         foreach (Transform child in quizContentParent)
@@ -136,6 +137,8 @@ public class UIController : MonoBehaviour {
 
         quizPaper.gameObject.SetActive(false);
         quizOpen = false;
+
+        playerController.StartBoredomTick(); // start ticking boredom again
 
     }
 

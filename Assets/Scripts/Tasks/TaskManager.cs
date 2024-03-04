@@ -71,6 +71,8 @@ public class TaskManager : MonoBehaviour {
 
     }
 
+    public bool HasCurrentTask() { return currTask != null; }
+
     public void CompleteCurrentTask() {
 
         currTask = null;
