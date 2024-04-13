@@ -21,11 +21,19 @@ public class MenuManager : MonoBehaviour {
     [SerializeField] private Button playButton;
     [SerializeField] private Button tutButton;
     [SerializeField] private Button quitButton;
+    [SerializeField] private Button creditsButton;
+
 
     [Header("Tutorial")]
     [SerializeField] private GameObject tutorialObj;
     [SerializeField] private List<Object> tutorial = new List<Object>();
     [SerializeField] private Button t_close;
+
+    [Header("Credits")]
+    [SerializeField] private GameObject creditsObj;
+    [SerializeField] private List<Object> credits = new List<Object>();
+    [SerializeField] private Button c_close;
+
 
     void Start() {
         //initialize the fade thingy
@@ -38,22 +46,30 @@ public class MenuManager : MonoBehaviour {
         main.Add(playButton);
         main.Add(tutButton);
         main.Add(quitButton);
+        main.Add(creditsButton);
 
         tutorial.Add(t_close);
+
+        credits.Add(c_close);
 
         //initialize the menu
         ChangeState(main, true);
         ChangeState(tutorial, false);
+        ChangeState(credits, false);
 
         //make the buttons be buttons
         playButton.onClick.AddListener(LoadMain);
         quitButton.onClick.AddListener(Quit);
         tutButton.onClick.AddListener(OpenTut);
+        creditsButton.onClick.AddListener(OpenCredits);
 
         t_close.onClick.AddListener(CloseTut);
 
+        c_close.onClick.AddListener(CloseCredits);
+
         mainObj.SetActive(true);
         tutorialObj.SetActive(false);
+        creditsObj.SetActive(false);
 
     }
 
@@ -65,7 +81,8 @@ public class MenuManager : MonoBehaviour {
             if (obj is Button) {
                 Button temp = obj as Button;
                 temp.gameObject.SetActive(b);
-            } else if (obj is GameObject) {
+            }
+            else if (obj is GameObject) {
                 GameObject temp = obj as GameObject;
                 temp.SetActive(b);
             }
@@ -131,6 +148,24 @@ public class MenuManager : MonoBehaviour {
 
     }
 
+    #endregion
+
+    #region credits
+    private void OpenCredits() {
+
+        creditsObj.SetActive(true);
+        ChangeState(main, false);
+        ChangeState(credits, true);
+
+    }
+
+    private void CloseCredits() {
+
+        ChangeState(main, true);
+        ChangeState(credits, false);
+        creditsObj.SetActive(false);
+
+    }
     #endregion
 }
 
