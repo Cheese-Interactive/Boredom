@@ -1144,7 +1144,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &712770097
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1847,7 +1847,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainSceneIndex: 0
   dark: {fileID: 1994566690}
-  fadeToDarkTime: 3
+  fadeToDarkTime: 1
   main:
   - {fileID: 495290256}
   - {fileID: 65676471}
