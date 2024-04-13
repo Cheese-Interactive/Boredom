@@ -6,18 +6,24 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour {
+
     [Header("Scenes")]
     [SerializeField] private int mainSceneIndex;
-    [Header("Fade Out Stuff")]
+
+    [Header("Animations")]
     [SerializeField] private GameObject dark;
     [SerializeField] private float fadeToDarkTime;
     private Image darkSprite;
+
     [Header("Main")]
-    [SerializeField] private List<Object> main = new List<Object>();
+    [SerializeField] private GameObject mainObj;
+    [SerializeField] private List<Object> main;
     [SerializeField] private Button playButton;
     [SerializeField] private Button tutButton;
     [SerializeField] private Button quitButton;
+
     [Header("Tutorial")]
+    [SerializeField] private GameObject tutorialObj;
     [SerializeField] private List<Object> tutorial = new List<Object>();
     [SerializeField] private Button t_close;
 
@@ -28,6 +34,7 @@ public class MenuManager : MonoBehaviour {
         darkSprite.color = new Color(Color.black.r, Color.black.g, Color.black.b, 0);
 
         //add all buttons to their respective lists (dont want them to be serialized twice)
+        main = new List<Object>();
         main.Add(playButton);
         main.Add(tutButton);
         main.Add(quitButton);
@@ -38,13 +45,16 @@ public class MenuManager : MonoBehaviour {
         ChangeState(main, true);
         ChangeState(tutorial, false);
 
-
         //make the buttons be buttons
         playButton.onClick.AddListener(LoadMain);
         quitButton.onClick.AddListener(Quit);
         tutButton.onClick.AddListener(OpenTut);
 
         t_close.onClick.AddListener(CloseTut);
+
+        mainObj.SetActive(true);
+        tutorialObj.SetActive(false);
+
     }
 
 
@@ -55,8 +65,7 @@ public class MenuManager : MonoBehaviour {
             if (obj is Button) {
                 Button temp = obj as Button;
                 temp.gameObject.SetActive(b);
-            }
-            else if (obj is GameObject) {
+            } else if (obj is GameObject) {
                 GameObject temp = obj as GameObject;
                 temp.SetActive(b);
             }
@@ -102,21 +111,24 @@ public class MenuManager : MonoBehaviour {
         //todo: quit
     }
 
-
-    private void OpenTut() {
-        ChangeState(main, false);
-        ChangeState(tutorial, true);
-    }
-
-
-
     #endregion
 
     #region Tutorial
 
+    private void OpenTut() {
+
+        tutorialObj.SetActive(true);
+        ChangeState(main, false);
+        ChangeState(tutorial, true);
+
+    }
+
     private void CloseTut() {
+
         ChangeState(main, true);
         ChangeState(tutorial, false);
+        tutorialObj.SetActive(false);
+
     }
 
     #endregion
