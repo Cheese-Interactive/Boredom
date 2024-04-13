@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour {
     private Coroutine boredomCoroutine;
     private float boredom;
     private bool isAnimatingBoredom;
+    private Tweener fillTweener;
 
     [Header("Phone")]
     private bool hasPhoneOut;
@@ -237,24 +238,17 @@ public class PlayerController : MonoBehaviour {
 
             isAnimatingBoredom = true; // flag to prevent spamming space (taking phone out) while moving from ticking boredom up (op)
 
+            if (fillTweener != null && fillTweener.IsActive()) fillTweener.Kill(); // kill previous tween if still active
+
             float boredomP = boredom / 100f;
             float duration = Math.Abs(prevBoredom - boredom) * boredomMultiplier; // uses difference in boredom to make animation smooth rather than incremental
             boredomText.text = boredom + "";
-            meter.DOFillAmount(boredomP, duration);
+            meter.fillAmount = boredomP;
+            //fillTweener = meter.DOFillAmount(boredomP, duration).OnStepComplete(() => print(meter.fillAmount)); // for smoothing, doesn't work when it hits 100
 
-            if (hasPhoneOut)
-                meter.DOColor(meterGradient.Evaluate(boredomP - boredomFatigueThreshold), duration).OnComplete(() => {
-
-                    if (!isAnimatingBoredom) // to prevent spamming space (taking phone out) while moving from ticking boredom up (op)
-                        boredom -= 2f; // undo recovery rate addition and apply decay rate
-
-                });
-            else
-                meter.DOColor(meterGradient.Evaluate(boredomP - boredomFatigueThreshold), duration);
+            meter.DOColor(meterGradient.Evaluate(boredomP - boredomFatigueThreshold), duration);
 
             //BUG: spamming space (taking phone out) while moving ticks boredom up (op)
-
-            print(boredom);
 
             if (hasPhoneOut)
                 yield return new WaitForSeconds(1f / boredomRecoveryRate);

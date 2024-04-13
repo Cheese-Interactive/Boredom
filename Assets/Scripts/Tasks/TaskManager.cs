@@ -32,7 +32,7 @@ public class TaskManager : MonoBehaviour {
 
         if (currTask.GetTaskName().Length == 0) Debug.LogWarning("Current task doesn't have a name! Please set one in the inspector.");
 
-        uiController.SetTaskInfo(currTask.GetTaskName(), currTask.GetTaskDescription());
+        uiController.SetTaskInfo(gameManager.GetCompletedTasks() + 1, currTask.GetTaskName(), currTask.GetTaskDescription());
 
         if (task is CleanupTask)
             SpawnTrash();

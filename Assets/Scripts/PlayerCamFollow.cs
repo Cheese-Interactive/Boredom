@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class PlayerCamFollow : MonoBehaviour {
 
-    [Header("References")]
-    private new Camera camera;
-
     [Header("Follow")]
     [SerializeField] private float followSmoothing;
     private Transform target;
@@ -15,7 +12,6 @@ public class PlayerCamFollow : MonoBehaviour {
     private void Start() {
 
         target = FindObjectOfType<PlayerController>().transform;
-        camera = GetComponent<Camera>();
 
         offset = transform.position - target.position;
 

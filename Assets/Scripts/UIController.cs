@@ -9,12 +9,14 @@ public class UIController : MonoBehaviour {
 
     [Header("References")]
     private PlayerController playerController;
+    private GameManager gameManager;
     private TaskManager taskManager;
     private GameData gameData;
     private Animator animator;
 
     [Header("Tasks")]
     [SerializeField] private Transform taskHUD;
+    [SerializeField] private TMP_Text taskHeaderText;
     [SerializeField] private TMP_Text taskNameText;
     [SerializeField] private TMP_Text taskDescriptionText;
 
@@ -32,6 +34,7 @@ public class UIController : MonoBehaviour {
     private void Start() {
 
         playerController = FindObjectOfType<PlayerController>();
+        gameManager = FindObjectOfType<GameManager>();
         taskManager = FindObjectOfType<TaskManager>();
         gameData = FindObjectOfType<GameData>();
         animator = GetComponent<Animator>();
@@ -53,7 +56,12 @@ public class UIController : MonoBehaviour {
 
     }
 
-    public void SetTaskInfo(string taskName, string taskDescription) {
+    public void SetTaskInfo(int taskNum, string taskName, string taskDescription) {
+
+        if (taskNum == 0)
+            taskHeaderText.text = "No Task";
+        else
+            taskHeaderText.text = "Task " + taskNum + "/" + gameManager.GetTotalTasks() + ":";
 
         taskNameText.text = taskName;
         taskDescriptionText.text = taskDescription;
@@ -63,7 +71,7 @@ public class UIController : MonoBehaviour {
 
     public void ResetTaskInfo() {
 
-        SetTaskInfo("None", "");
+        SetTaskInfo(0, "", "");
 
     }
 
