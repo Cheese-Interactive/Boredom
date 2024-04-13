@@ -239,7 +239,7 @@ public class PlayerController : MonoBehaviour {
 
             float boredomP = boredom / 100f;
             float duration = Math.Abs(prevBoredom - boredom) * boredomMultiplier; // uses difference in boredom to make animation smooth rather than incremental
-            DOVirtual.Int((int) Math.Ceiling(float.Parse(boredomText.text)), (int) Math.Ceiling(boredom), duration, (a) => boredomText.text = $"{a}");
+            boredomText.text = boredom + "";
             meter.DOFillAmount(boredomP, duration);
 
             if (hasPhoneOut)
