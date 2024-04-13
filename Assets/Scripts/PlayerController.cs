@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,16 +23,20 @@ public class PlayerController : MonoBehaviour {
     private float moveSpeed;
 
     [Header("Boredom")]
+    [SerializeField] private float initialBoredom;
     [SerializeField] private float boredomMax;
     [SerializeField] private float boredomDecayRate;
     [SerializeField] private float boredomRecoveryRate;
     [SerializeField] private float boredomFatigueThreshold; //ex: if this is 0.3, then when under 30% of boredom, you get fatigued
     [SerializeField] private float fatigueSpeedModifier;
+    [SerializeField] private float boredomMultiplier;
     [SerializeField] private GameObject meterReference;
-    private Image meter;
     [SerializeField] private Gradient meterGradient;
+    [SerializeField] private TMP_Text boredomText;
+    private Image meter;
     private Coroutine boredomCoroutine;
     private float boredom;
+    private bool isAnimatingBoredom;
 
     [Header("Phone")]
     private bool hasPhoneOut;
@@ -68,10 +73,12 @@ public class PlayerController : MonoBehaviour {
         mechanicStatuses = new bool[Enum.GetValues(typeof(MechanicType)).Length];
 
         foreach (MechanicType mechanicType in Enum.GetValues(typeof(MechanicType)))
-            mechanicStatuses[(int)mechanicType] = true;
+            mechanicStatuses[(int) mechanicType] = true;
 
-        boredom = boredomMax * 0.7f;
-        meter.fillAmount = boredom;
+        boredom = initialBoredom;
+        boredomText.text = $"{boredom}";
+        meter.fillAmount = boredom / 100f;
+        meter.color = meterGradient.Evaluate(boredom - boredomFatigueThreshold);
         StartBoredomTick();
 
         startColor = interactKeyIcon.color;
@@ -92,8 +99,7 @@ public class PlayerController : MonoBehaviour {
             ResetAnimations();
             animator.SetBool(horizontalInput >= 0f ? "isPhoneOutRight" : "isPhoneOutLeft", true); // moving right or standing still, animation faces right, else left
 
-        }
-        else if (Input.GetKeyUp(phoneKey)) {
+        } else if (Input.GetKeyUp(phoneKey)) {
 
             hasPhoneOut = false;
             ResetAnimations();
@@ -119,26 +125,22 @@ public class PlayerController : MonoBehaviour {
                 ResetAnimations();
                 animator.SetBool("isWalkingForward", true);
 
-            }
-            else if (verticalInput < 0f) {
+            } else if (verticalInput < 0f) {
 
                 ResetAnimations();
                 animator.SetBool("isWalkingBack", true);
 
-            }
-            else if (horizontalInput < 0f) {
+            } else if (horizontalInput < 0f) {
 
                 ResetAnimations();
                 animator.SetBool("isWalkingLeft", true);
 
-            }
-            else if (horizontalInput > 0f) {
+            } else if (horizontalInput > 0f) {
 
                 ResetAnimations();
                 animator.SetBool("isWalkingRight", true);
 
-            }
-            else {
+            } else {
 
                 ResetAnimations();
 
@@ -166,8 +168,7 @@ public class PlayerController : MonoBehaviour {
                 else
                     HideInteractKeyIcon();
 
-            }
-            else {
+            } else {
 
                 ShowInteractKeyIcon();
 
@@ -180,17 +181,21 @@ public class PlayerController : MonoBehaviour {
                 interactKeyIcon.transform.DOScale(iconStartScale * iconAnimScaleMultiplier, iconAnimScaleDuration / 2f).OnComplete(() => interactKeyIcon.transform.DOScale(iconStartScale, iconAnimScaleDuration / 2f));
 
             }
-        }
-        else {
+        } else {
 
             HideInteractKeyIcon(); // if no interactables in range, hide interact key icon
 
         }
+
+        /* ANIMATIONS */
+        if (isAnimatingBoredom && !hasPhoneOut)
+            isAnimatingBoredom = false;
+
     }
 
     private void FixedUpdate() {
 
-        if (mechanicStatuses[(int)MechanicType.Movement] && !hasPhoneOut)
+        if (mechanicStatuses[(int) MechanicType.Movement] && !hasPhoneOut)
             rb.velocity = new Vector3(horizontalInput, 0, verticalInput).normalized * moveSpeed;
         else
             rb.velocity = Vector3.zero;
@@ -211,34 +216,53 @@ public class PlayerController : MonoBehaviour {
     private IEnumerator TickBoredom() {
 
         while (true) {
-            float boredomP = boredom / 100;
-            meter.fillAmount = boredomP;
-            meter.color = meterGradient.Evaluate(boredomP - boredomFatigueThreshold);
-            //BUG: spamming space (taking phone out) while moving ticks boredom up (op)
+
+            float prevBoredom = boredom;
 
             if (hasPhoneOut) // recover boredom
-                boredom += boredomRecoveryRate;
+                boredom++;
             else // decay boredom
-                boredom -= boredomDecayRate;
+                boredom--;
 
             if (boredom > boredomMax) // clamp boredom
                 boredom = boredomMax;
 
             if (boredom < 0f) //should end game
-                boredom = 1f;
+                boredom = 0f;
 
             if (boredom < boredomMax * boredomFatigueThreshold) // modify move speed based on boredom
                 moveSpeed = baseMoveSpeed * fatigueSpeedModifier;
             else
                 moveSpeed = baseMoveSpeed;
 
-            yield return new WaitForSeconds(1f);
+            isAnimatingBoredom = true; // flag to prevent spamming space (taking phone out) while moving from ticking boredom up (op)
+
+            float boredomP = boredom / 100f;
+            float duration = Math.Abs(prevBoredom - boredom) * boredomMultiplier; // uses difference in boredom to make animation smooth rather than incremental
+            DOVirtual.Int((int) Math.Ceiling(float.Parse(boredomText.text)), (int) Math.Ceiling(boredom), duration, (a) => boredomText.text = $"{a}");
+            meter.DOFillAmount(boredomP, duration);
+
+            if (hasPhoneOut)
+                meter.DOColor(meterGradient.Evaluate(boredomP - boredomFatigueThreshold), duration).OnComplete(() => {
+
+                    if (!isAnimatingBoredom) // to prevent spamming space (taking phone out) while moving from ticking boredom up (op)
+                        boredom -= 2f; // undo recovery rate addition and apply decay rate
+
+                });
+            else
+                meter.DOColor(meterGradient.Evaluate(boredomP - boredomFatigueThreshold), duration);
+
+            //BUG: spamming space (taking phone out) while moving ticks boredom up (op)
 
             print(boredom);
 
+            if (hasPhoneOut)
+                yield return new WaitForSeconds(1f / boredomRecoveryRate);
+            else
+                yield return new WaitForSeconds(1f / boredomDecayRate);
+
         }
     }
-
 
     public void ShowInteractKeyIcon() {
 
@@ -263,7 +287,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    public void SetMechanicStatus(MechanicType mechanicType, bool status) { mechanicStatuses[(int)mechanicType] = status; }
+    public void SetMechanicStatus(MechanicType mechanicType, bool status) { mechanicStatuses[(int) mechanicType] = status; }
 
     public void StartBoredomTick() { boredomCoroutine = StartCoroutine(TickBoredom()); }
 
