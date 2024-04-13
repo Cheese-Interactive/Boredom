@@ -2437,6 +2437,16 @@ MonoBehaviour:
         isCorrect: 0
       - answerText: G
         isCorrect: 0
+    - questionText: What is the periodic table symbol for gold?
+      answers:
+      - answerText: Gl
+        isCorrect: 0
+      - answerText: Au
+        isCorrect: 1
+      - answerText: I
+        isCorrect: 0
+      - answerText: G
+        isCorrect: 0
     correctColor: {r: 0, g: 1, b: 0, a: 1}
     correctMarker: "\u2713"
     incorrectColor: {r: 1, g: 0, b: 0, a: 1}
