@@ -1054,8 +1054,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: boredom.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 31b98108cecf70d4fb2ac40ff4d6abfd, type: 2}
-  m_sharedMaterial: {fileID: 2930832640939860263, guid: 31b98108cecf70d4fb2ac40ff4d6abfd, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 30ed662a6a936a34d928a24ebe1338fc, type: 2}
+  m_sharedMaterial: {fileID: 5239089773564319063, guid: 30ed662a6a936a34d928a24ebe1338fc, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1363,8 +1363,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: X
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 31b98108cecf70d4fb2ac40ff4d6abfd, type: 2}
-  m_sharedMaterial: {fileID: 2930832640939860263, guid: 31b98108cecf70d4fb2ac40ff4d6abfd, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1845,7 +1845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d9939c40745d0a42b6b50495ea6a24b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainSceneIndex: 0
+  mainSceneIndex: 1
   dark: {fileID: 1994566690}
   fadeToDarkTime: 1
   main:
@@ -2157,8 +2157,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: how to play
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 31b98108cecf70d4fb2ac40ff4d6abfd, type: 2}
-  m_sharedMaterial: {fileID: 2930832640939860263, guid: 31b98108cecf70d4fb2ac40ff4d6abfd, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
