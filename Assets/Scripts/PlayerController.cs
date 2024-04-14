@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour {
 
     [Header("References")]
+    [SerializeField] private GameObject arrow;
+    private Vector3 arrowTarget;
     private AudioManager audioManager;
     private TaskManager taskManager;
     private Rigidbody rb;
@@ -63,6 +65,8 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private KeyCode phoneKey;
 
     private void Start() {
+        arrowTarget = Vector3.zero;
+        SetArrowVisible(true);
         audioManager = FindObjectOfType<AudioManager>();
         taskManager = FindObjectOfType<TaskManager>();
         rb = GetComponent<Rigidbody>();
@@ -169,12 +173,12 @@ public class PlayerController : MonoBehaviour {
 
         //Physics2D.OverlapCircle(transform.position, interactRadius, interactMask)?.GetComponent<Interactable>(); // get interactable
 
-        if (interactable != null) { // if interactable is not null
+        if (interactable != null) {
 
-            if (interactable is TaskInteractable) {
+            if (interactable is TaskInteractable && ((TaskInteractable)interactable).IsInteractable()) {
 
                 if (!taskManager.HasCurrentTask())
-                    ShowInteractKeyIcon(); // show interact key icon if no current task and interactable is task interactable
+                    ShowInteractKeyIcon(); // show interact key icon if no current task and interactable is a taskinteractable that is able to be interacted with
                 else
                     HideInteractKeyIcon();
 
@@ -202,6 +206,12 @@ public class PlayerController : MonoBehaviour {
         /* ANIMATIONS */
         if (isAnimatingBoredom && !hasPhoneOut)
             isAnimatingBoredom = false;
+
+        /* ARROW */
+        /* Vector3 dir = arrowTarget - arrow.transform.position;
+         Quaternion rot = Quaternion.LookRotation(dir, Vector3.up);
+         arrow.transform.rotation = Quaternion.Euler(0, rot.eulerAngles.y, 0);*/
+        arrow.transform.LookAt(arrowTarget);
 
     }
 
@@ -298,4 +308,10 @@ public class PlayerController : MonoBehaviour {
 
     public void PauseBoredomTick() { if (boredomCoroutine != null) StopCoroutine(boredomCoroutine); }
 
+    public void SetArrowVisible(bool t) { arrow.SetActive(t); }
+
+    public void PointArrow(Vector3 position) {
+        arrowTarget = position;
+        print(position);
+    }
 }

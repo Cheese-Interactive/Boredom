@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TaskManager : MonoBehaviour {
 
     [Header("References")]
+    [SerializeField] private List<TaskInteractable> destinations = new List<TaskInteractable>();
+    private PlayerController player;
     private GameManager gameManager;
     private UIController uiController;
 
@@ -18,14 +21,14 @@ public class TaskManager : MonoBehaviour {
     private Task currTask;
 
     private void Start() {
-
+        player = FindObjectOfType<PlayerController>();
         gameManager = FindObjectOfType<GameManager>();
         uiController = FindObjectOfType<UIController>();
-
+        AssignDestination();
     }
 
     public bool AssignTask(Task task) {
-
+        player.SetArrowVisible(false);
         if (currTask != null) return false;
 
         currTask = task;
@@ -45,6 +48,16 @@ public class TaskManager : MonoBehaviour {
 
         return true;
 
+    }
+
+    public void AssignDestination() {
+        player.SetArrowVisible(true);
+        for (int i = 0; i < destinations.Count; i++)
+            destinations[i].IsInteractable(false);
+        TaskInteractable dest = destinations[Random.Range(0, destinations.Count)];
+        dest.IsInteractable(true);
+        uiController.SetTaskInfo(gameManager.GetCompletedTasks() + 1, dest.GetName(), dest.GetDescription());
+        player.PointArrow(dest.gameObject.transform.position);
     }
 
     private void SpawnTrash() {
@@ -78,6 +91,7 @@ public class TaskManager : MonoBehaviour {
         currTask = null;
         gameManager.OnTaskComplete();
         uiController.ResetTaskInfo();
+        AssignDestination();
 
     }
 
