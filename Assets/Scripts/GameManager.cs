@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
@@ -17,6 +16,7 @@ public class GameManager : MonoBehaviour {
     public void OnTaskComplete() {
 
         completedTasks++;
+        FindObjectOfType<AudioManager>().PlaySound(AudioManager.GameSoundEffectType.TaskComplete);
 
         if (completedTasks >= totalTasks)
             print("Blud finished his tasks");

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour {
 
     [Header("References")]
+    private AudioManager audioManager;
     private TaskManager taskManager;
     private Rigidbody rb;
     private Animator animator;
@@ -62,7 +63,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private KeyCode phoneKey;
 
     private void Start() {
-
+        audioManager = FindObjectOfType<AudioManager>();
         taskManager = FindObjectOfType<TaskManager>();
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
@@ -74,7 +75,7 @@ public class PlayerController : MonoBehaviour {
         mechanicStatuses = new bool[Enum.GetValues(typeof(MechanicType)).Length];
 
         foreach (MechanicType mechanicType in Enum.GetValues(typeof(MechanicType)))
-            mechanicStatuses[(int) mechanicType] = true;
+            mechanicStatuses[(int)mechanicType] = true;
 
         boredom = initialBoredom;
         boredomText.text = $"{boredom}";
@@ -100,7 +101,8 @@ public class PlayerController : MonoBehaviour {
             ResetAnimations();
             animator.SetBool(horizontalInput >= 0f ? "isPhoneOutRight" : "isPhoneOutLeft", true); // moving right or standing still, animation faces right, else left
 
-        } else if (Input.GetKeyUp(phoneKey)) {
+        }
+        else if (Input.GetKeyUp(phoneKey)) {
 
             hasPhoneOut = false;
             ResetAnimations();
@@ -108,7 +110,7 @@ public class PlayerController : MonoBehaviour {
         }
 
         if (hasPhoneOut) {
-
+            audioManager.PlaySound(AudioManager.GameSoundEffectType.PhoneLoop);
             HideInteractKeyIcon();
             return;
 
@@ -117,6 +119,9 @@ public class PlayerController : MonoBehaviour {
         /* MOVEMENT */
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+        if (verticalInput != 0 || horizontalInput != 0)
+            audioManager.PlaySound(AudioManager.GameSoundEffectType.WalkLoop);
+
 
         if (!hasPhoneOut) {
 
@@ -126,22 +131,26 @@ public class PlayerController : MonoBehaviour {
                 ResetAnimations();
                 animator.SetBool("isWalkingForward", true);
 
-            } else if (verticalInput < 0f) {
+            }
+            else if (verticalInput < 0f) {
 
                 ResetAnimations();
                 animator.SetBool("isWalkingBack", true);
 
-            } else if (horizontalInput < 0f) {
+            }
+            else if (horizontalInput < 0f) {
 
                 ResetAnimations();
                 animator.SetBool("isWalkingLeft", true);
 
-            } else if (horizontalInput > 0f) {
+            }
+            else if (horizontalInput > 0f) {
 
                 ResetAnimations();
                 animator.SetBool("isWalkingRight", true);
 
-            } else {
+            }
+            else {
 
                 ResetAnimations();
 
@@ -169,7 +178,8 @@ public class PlayerController : MonoBehaviour {
                 else
                     HideInteractKeyIcon();
 
-            } else {
+            }
+            else {
 
                 ShowInteractKeyIcon();
 
@@ -182,7 +192,8 @@ public class PlayerController : MonoBehaviour {
                 interactKeyIcon.transform.DOScale(iconStartScale * iconAnimScaleMultiplier, iconAnimScaleDuration / 2f).OnComplete(() => interactKeyIcon.transform.DOScale(iconStartScale, iconAnimScaleDuration / 2f));
 
             }
-        } else {
+        }
+        else {
 
             HideInteractKeyIcon(); // if no interactables in range, hide interact key icon
 
@@ -196,7 +207,7 @@ public class PlayerController : MonoBehaviour {
 
     private void FixedUpdate() {
 
-        if (mechanicStatuses[(int) MechanicType.Movement] && !hasPhoneOut)
+        if (mechanicStatuses[(int)MechanicType.Movement] && !hasPhoneOut)
             rb.velocity = new Vector3(horizontalInput, 0, verticalInput).normalized * moveSpeed;
         else
             rb.velocity = Vector3.zero;
@@ -281,7 +292,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    public void SetMechanicStatus(MechanicType mechanicType, bool status) { mechanicStatuses[(int) mechanicType] = status; }
+    public void SetMechanicStatus(MechanicType mechanicType, bool status) { mechanicStatuses[(int)mechanicType] = status; }
 
     public void StartBoredomTick() { boredomCoroutine = StartCoroutine(TickBoredom()); }
 
