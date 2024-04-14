@@ -7,8 +7,9 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour {
 
-    [Header("Scenes")]
-    [SerializeField] private int mainSceneIndex;
+    [Header("Level Data")]
+    [SerializeField] private bool[] levelUnlockStatuses;
+    [SerializeField] private int[] levelSceneIndices;
 
     [Header("Animations")]
     [SerializeField] private GameObject dark;
@@ -34,6 +35,17 @@ public class MenuManager : MonoBehaviour {
     [SerializeField] private List<Object> credits = new List<Object>();
     [SerializeField] private Button c_close;
 
+    [Header("Level Select")]
+    [SerializeField] private GameObject levelsObj;
+    [SerializeField] private List<Object> levels = new List<Object>();
+    [SerializeField] private Button l_1;
+    [SerializeField] private Button l_2;
+    [SerializeField] private Button l_3;
+    [SerializeField] private Button l_4;
+    private List<Button> levelSelectionButtons = new List<Button>();
+    [SerializeField] private Button l_back;
+
+
 
     void Start() {
         //initialize the fade thingy
@@ -56,20 +68,40 @@ public class MenuManager : MonoBehaviour {
         ChangeState(main, true);
         ChangeState(tutorial, false);
         ChangeState(credits, false);
+        ChangeState(levels, false);
+
+        mainObj.SetActive(true);
+        tutorialObj.SetActive(false);
+        creditsObj.SetActive(false);
+        levelsObj.SetActive(false);
 
         //make the buttons be buttons
-        playButton.onClick.AddListener(LoadMain);
+        playButton.onClick.AddListener(OpenLevelSelector);
         quitButton.onClick.AddListener(Quit);
         tutButton.onClick.AddListener(OpenTut);
         creditsButton.onClick.AddListener(OpenCredits);
 
         t_close.onClick.AddListener(CloseTut);
 
+        l_back.onClick.AddListener(CloseLevelSelector);
+        l_1.onClick.AddListener(openl1);
+        l_2.onClick.AddListener(openl2);
+        l_3.onClick.AddListener(openl3);
+        l_4.onClick.AddListener(openl4);
+
         c_close.onClick.AddListener(CloseCredits);
 
-        mainObj.SetActive(true);
-        tutorialObj.SetActive(false);
-        creditsObj.SetActive(false);
+        //load level data (need to read/write files)
+        levelSelectionButtons.Add(l_1); levelSelectionButtons.Add(l_2);
+        levelSelectionButtons.Add(l_3); levelSelectionButtons.Add(l_4);
+        for (int i = 0; i < levelUnlockStatuses.Length; i++)
+            if (levelUnlockStatuses[i])
+                levelSelectionButtons[i].interactable = true;
+
+
+
+
+
 
     }
 
@@ -109,14 +141,6 @@ public class MenuManager : MonoBehaviour {
     #endregion
 
     #region Main
-    private void LoadMain() {
-        StartCoroutine(LoadMainAnimHelper());
-    }
-    private IEnumerator LoadMainAnimHelper() {
-        StartCoroutine(FadeToDark());
-        yield return new WaitForSeconds(fadeToDarkTime + 0.5f);
-        SceneManager.LoadScene(mainSceneIndex);
-    }
 
     private void Quit() {
         StartCoroutine(QuitAnimHelper());
@@ -147,6 +171,29 @@ public class MenuManager : MonoBehaviour {
         tutorialObj.SetActive(false);
 
     }
+
+    #endregion
+
+    #region Level Selector
+    private void OpenLevelSelector() {
+        mainObj.SetActive(false);
+        ChangeState(main, false);
+        ChangeState(levels, true);
+        levelsObj.SetActive(true);
+    }
+
+    private void CloseLevelSelector() {
+        mainObj.SetActive(true);
+        ChangeState(main, true);
+        ChangeState(levels, false);
+        levelsObj.SetActive(false);
+
+    }
+
+    private void openl1() { SceneManager.LoadScene(levelSceneIndices[0]); }
+    private void openl2() { SceneManager.LoadScene(levelSceneIndices[1]); }
+    private void openl3() { SceneManager.LoadScene(levelSceneIndices[2]); }
+    private void openl4() { SceneManager.LoadScene(levelSceneIndices[3]); }
 
     #endregion
 
