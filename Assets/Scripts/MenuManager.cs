@@ -113,8 +113,7 @@ public class MenuManager : MonoBehaviour {
             if (obj is Button) {
                 Button temp = obj as Button;
                 temp.gameObject.SetActive(b);
-            }
-            else if (obj is GameObject) {
+            } else if (obj is GameObject) {
                 GameObject temp = obj as GameObject;
                 temp.SetActive(b);
             }
@@ -143,13 +142,7 @@ public class MenuManager : MonoBehaviour {
     #region Main
 
     private void Quit() {
-        StartCoroutine(QuitAnimHelper());
-    }
-    private IEnumerator QuitAnimHelper() {
-        StartCoroutine(FadeToDark());
-        yield return new WaitForSeconds(fadeToDarkTime + 0.5f);
-        ChangeState(main, false);
-        //todo: quit
+        Application.Quit();
     }
 
     #endregion

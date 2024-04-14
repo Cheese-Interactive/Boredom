@@ -6,7 +6,7 @@ public class QuizTask : Task {
 
     public override void OnTaskComplete() {
 
-        Debug.Log("Quiz Finished");
+        Debug.Log("Drag Quiz Finished");
 
     }
 }

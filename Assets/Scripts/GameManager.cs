@@ -3,9 +3,16 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+    private UIController uiController;
     [Header("Tasks")]
     [SerializeField] private int totalTasks;
     private int completedTasks;
+
+    private void Start() {
+
+        uiController = FindObjectOfType<UIController>();
+
+    }
 
     private void OnDestroy() {
 
@@ -19,7 +26,7 @@ public class GameManager : MonoBehaviour {
         FindObjectOfType<AudioManager>().PlaySound(AudioManager.GameSoundEffectType.TaskComplete);
 
         if (completedTasks >= totalTasks)
-            print("Blud finished his tasks");
+            uiController.ShowVictoryScreen();
 
     }
 

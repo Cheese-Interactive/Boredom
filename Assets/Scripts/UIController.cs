@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIController : MonoBehaviour {
@@ -31,6 +32,27 @@ public class UIController : MonoBehaviour {
     private List<QuestionUI> questionUIs;
     private bool quizOpen;
 
+    [Header("Drag Quiz")]
+    [SerializeField] private GameObject dragQuiz;
+    [SerializeField] private Button dragQuizCloseButton;
+    [SerializeField] private float dragQuizFadeDuration;
+    [SerializeField] private Transform dragQuizContentParent;
+    [SerializeField] private QuestionUI dragQuestionPrefab;
+    [SerializeField] private float dragQuizCompleteWaitDuration;
+    private List<TMP_Text> dragQuestionTexts;
+    private List<TMP_Text> dragAnswerTexts;
+    private bool dragQuizOpen;
+
+    [Header("Victory Screen")]
+    [SerializeField] private CanvasGroup victoryScreen;
+    [SerializeField] private Button menuButton1;
+    [SerializeField] private Button quitButton1;
+
+    [Header("Loss Screen")]
+    [SerializeField] private CanvasGroup lossScreen;
+    [SerializeField] private Button menuButton2;
+    [SerializeField] private Button quitButton2;
+
     private void Start() {
 
         playerController = FindObjectOfType<PlayerController>();
@@ -43,6 +65,18 @@ public class UIController : MonoBehaviour {
         quizCloseButton.onClick.AddListener(() => StartCoroutine(CloseQuiz(false)));
 
         questionUIs = new List<QuestionUI>();
+
+        victoryScreen.gameObject.SetActive(false);
+        victoryScreen.alpha = 0f;
+
+        lossScreen.gameObject.SetActive(false);
+        lossScreen.alpha = 0f;
+
+        menuButton1.onClick.AddListener(() => SceneManager.LoadScene(0));
+        menuButton2.onClick.AddListener(() => SceneManager.LoadScene(0));
+
+        quitButton1.onClick.AddListener(() => Application.Quit());
+        quitButton2.onClick.AddListener(() => Application.Quit());
 
         ResetTaskInfo();
 
@@ -150,6 +184,55 @@ public class UIController : MonoBehaviour {
 
     }
 
+    public void OpenDragQuiz() {
+
+        if (dragQuizOpen) return; // quiz already open
+
+        playerController.PauseBoredomTick(); // stop ticking boredom
+        playerController.SetMechanicStatus(MechanicType.Movement, false);
+
+        DragQuiz quiz = gameData.GetDragQuiz();
+        DragQuizQuestion[] quizQuestions = quiz.GetRandomQuestions();
+
+        for (int i = 0; i < quizQuestions.Length; i++) {
+
+            dragQuestionTexts[i].text = quizQuestions[i].GetQuestionText();
+            dragAnswerTexts[i].text = quizQuestions[i].GetAnswer();
+
+        }
+
+        StartCoroutine(RebuildLayouts());
+
+        dragQuiz.gameObject.SetActive(true);
+
+        animator.SetTrigger("openDragQuiz");
+        dragQuizOpen = true;
+
+    }
+
+    private IEnumerator CloseDragQuiz(bool completed) {
+
+        if (!dragQuizOpen) yield break; // quiz already closed
+
+        animator.SetTrigger("closeDragQuiz");
+        yield return new WaitForEndOfFrame(); // wait for animation to start playing
+
+        if (completed)
+            taskManager.CompleteCurrentTask();
+        else
+            taskManager.RemoveCurrentTask();
+
+        playerController.SetMechanicStatus(MechanicType.Movement, true); // allow movement before quiz closes fully
+
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length); // wait for animation to finish playing
+
+        dragQuiz.gameObject.SetActive(false);
+        dragQuizOpen = false;
+
+        playerController.StartBoredomTick(); // start ticking boredom again
+
+    }
+
     public void RefreshLayout(Transform layout) {
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(layout.GetComponent<RectTransform>());
@@ -161,6 +244,20 @@ public class UIController : MonoBehaviour {
         RefreshLayout(quizContentParent);
         yield return new WaitForEndOfFrame();
         RefreshLayout(quizPaper.transform);
+
+    }
+
+    public void ShowVictoryScreen() {
+
+        victoryScreen.gameObject.SetActive(true);
+        victoryScreen.DOFade(1f, 1f);
+
+    }
+
+    public void ShowLossScreen() {
+
+        lossScreen.gameObject.SetActive(true);
+        lossScreen.DOFade(1f, 1f);
 
     }
 }

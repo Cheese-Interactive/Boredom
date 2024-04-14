@@ -16,5 +16,7 @@ public abstract class TaskInteractable : Interactable {
     public bool IsInteractable() { return interactability; }
 
     public abstract string GetName();
+
     public abstract string GetDescription();
+
 }
