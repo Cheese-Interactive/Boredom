@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,9 +6,14 @@ public class TaskManager : MonoBehaviour {
 
     [Header("References")]
     [SerializeField] private List<TaskInteractable> destinations = new List<TaskInteractable>();
+    [SerializeField] private Level level;
     private PlayerController player;
-    private GameManager gameManager;
     private UIController uiController;
+
+    [Header("Tasks")]
+    [SerializeField] private int totalTasks;
+    private bool taskStarted;
+    private int completedTasks;
 
     [Header("Cleanup")]
     [SerializeField] private GameObject trosh;
@@ -21,29 +27,62 @@ public class TaskManager : MonoBehaviour {
     private Task currTask;
 
     private void Start() {
+
         player = FindObjectOfType<PlayerController>();
-        gameManager = FindObjectOfType<GameManager>();
         uiController = FindObjectOfType<UIController>();
         AssignDestination();
+
     }
 
-    public bool AssignTask(Task task) {
+    private void OnDestroy() {
+
+        DOTween.KillAll();
+
+    }
+
+    public void OnTaskComplete() {
+
+        completedTasks++;
+        FindObjectOfType<AudioManager>().PlaySound(AudioManager.GameSoundEffectType.TaskComplete);
+
+        if (completedTasks >= totalTasks)
+            uiController.ShowVictoryScreen();
+
+    }
+
+    public int GetTotalTasks() { return totalTasks; }
+
+    public int GetCompletedTasks() { return completedTasks; }
+
+    public void OnGameVictory() {
+
+        uiController.ShowVictoryScreen();
+        level.SetCompleted(true);
+
+    }
+
+    public void OnGameLoss() {
+
+        uiController.ShowLossScreen();
+
+    }
+
+    public bool StartTask() {
+
+        if (currTask == null || taskStarted) // no assigned task or already started a task
+            return false;
+
+        taskStarted = true;
+
         player.SetArrowVisible(false);
-        if (currTask != null) return false;
 
-        currTask = task;
-
-        if (currTask.GetTaskName().Length == 0) Debug.LogWarning("Current task doesn't have a name! Please set one in the inspector.");
-
-        uiController.SetTaskInfo(gameManager.GetCompletedTasks() + 1, currTask.GetTaskName(), currTask.GetTaskDescription());
-
-        if (task is CleanupTask)
+        if (currTask is CleanupTask)
             SpawnTrash();
 
-        if (task is MoppingTask)
+        if (currTask is MoppingTask)
             SpawnPuddle();
 
-        if (task is QuizTask)
+        if (currTask is QuizTask)
             uiController.OpenQuiz();
 
         return true;
@@ -51,13 +90,29 @@ public class TaskManager : MonoBehaviour {
     }
 
     public void AssignDestination() {
+
+        if (currTask != null) // already has a task
+            return;
+
         player.SetArrowVisible(true);
-        for (int i = 0; i < destinations.Count; i++)
-            destinations[i].IsInteractable(false);
+
+        UpdateTaskInteractables(destinations[Random.Range(0, destinations.Count)]);
         TaskInteractable dest = destinations[Random.Range(0, destinations.Count)];
-        dest.IsInteractable(true);
-        uiController.SetTaskInfo(gameManager.GetCompletedTasks() + 1, dest.GetName(), dest.GetDescription());
+
+        UpdateTaskInteractables(dest);
         player.PointArrow(dest.gameObject.transform.position);
+
+    }
+
+    private void UpdateTaskInteractables(TaskInteractable destination) {
+
+        for (int i = 0; i < destinations.Count; i++) // set all destinations to not interactable
+            destinations[i].SetInteractable(false);
+
+        destination.SetInteractable(true);
+        currTask = destination.GetRandomTask();
+        uiController.SetTaskInfo(completedTasks + 1, currTask.GetName(), currTask.GetDescription());
+
     }
 
     private void SpawnTrash() {
@@ -89,16 +144,22 @@ public class TaskManager : MonoBehaviour {
     public void CompleteCurrentTask() {
 
         currTask = null;
-        gameManager.OnTaskComplete();
+        OnTaskComplete();
         uiController.ResetTaskInfo();
         AssignDestination();
+        taskStarted = false;
 
     }
 
-    public void RemoveCurrentTask() {
+    public void FailCurrentTask() {
 
         currTask = null;
         uiController.ResetTaskInfo();
+        AssignDestination();
+        taskStarted = false;
 
     }
+
+    public bool IsTaskStarted() { return taskStarted; }
+
 }

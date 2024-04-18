@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10850f037e3ae874d95263eb5a8b27be, type: 3}
-  m_Name: Quiz
+  m_Script: {fileID: 11500000, guid: 9320cb5354ed39f4f990717cfd703268, type: 3}
+  m_Name: Level1
   m_EditorClassIdentifier: 
-  taskName: Quiz
-  taskDescription: 
+  levelNum: 1
+  isCompleted: 0
+  scene: {fileID: 102900000, guid: 6c598c4294d4ba24faff31f3ff919323, type: 3}

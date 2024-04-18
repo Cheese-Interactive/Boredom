@@ -9,7 +9,6 @@ public class AudioManager : MonoBehaviour {
     [Range(0f, 1f)][SerializeField] private float footstepSourceVol;
     [SerializeField] private AudioSource soundEffectSource;
     [Range(0f, 1f)][SerializeField] private float sfxSourceVol;
-    private GameManager gameManager;
 
     [Header("Audio Clips")]
     [SerializeField] private AudioClip levelMusic;

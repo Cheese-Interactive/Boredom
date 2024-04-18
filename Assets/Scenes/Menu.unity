@@ -3645,6 +3645,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelUnlockStatuses: 01000000
   levelSceneIndices: 01000000020000000300000004000000
+  levels1:
+  - {fileID: 11400000, guid: 79cd515bbe4bb9b4b8d05ceea022f988, type: 2}
   dark: {fileID: 1994566690}
   fadeToDarkTime: 1
   mainObj: {fileID: 1002342167}

@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class RandomAhhScript : MonoBehaviour {
+public class MenuPlayer : MonoBehaviour {
 
     [Header("Movement")]
     [SerializeField] private Transform targetPoint;

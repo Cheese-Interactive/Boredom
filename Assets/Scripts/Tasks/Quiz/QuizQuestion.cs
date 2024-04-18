@@ -21,9 +21,6 @@ public class QuizQuestion {
         if (correctAnswers == 0)
             Debug.LogError("QuizQuestion:Initialize - There must be a correct answer.\nQuestion: " + questionText);
 
-        if (correctAnswers != 1)
-            Debug.LogError("QuizQuestion:Initialize - There must be one correct answer.\nQuestion: " + questionText);
-
     }
 
     public string GetQuestionText() { return questionText; }

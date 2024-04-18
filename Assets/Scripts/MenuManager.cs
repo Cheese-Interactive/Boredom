@@ -10,6 +10,7 @@ public class MenuManager : MonoBehaviour {
     [Header("Level Data")]
     [SerializeField] private bool[] levelUnlockStatuses;
     [SerializeField] private int[] levelSceneIndices;
+    [SerializeField] private Level[] levels1;
 
     [Header("Animations")]
     [SerializeField] private GameObject dark;
@@ -23,7 +24,6 @@ public class MenuManager : MonoBehaviour {
     [SerializeField] private Button tutButton;
     [SerializeField] private Button quitButton;
     [SerializeField] private Button creditsButton;
-
 
     [Header("Tutorial")]
     [SerializeField] private GameObject tutorialObj;
@@ -45,9 +45,8 @@ public class MenuManager : MonoBehaviour {
     private List<Button> levelSelectionButtons = new List<Button>();
     [SerializeField] private Button l_back;
 
+    private void Start() {
 
-
-    void Start() {
         //initialize the fade thingy
         dark.transform.localScale = Vector3.zero;
         darkSprite = dark.GetComponent<Image>();
@@ -97,11 +96,6 @@ public class MenuManager : MonoBehaviour {
         for (int i = 0; i < levelUnlockStatuses.Length; i++)
             if (levelUnlockStatuses[i])
                 levelSelectionButtons[i].interactable = true;
-
-
-
-
-
 
     }
 

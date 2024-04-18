@@ -5,18 +5,21 @@ public abstract class TaskInteractable : Interactable {
 
     [Header("Tasks")]
     [SerializeField] protected List<Task> tasks;
-    protected bool interactability = false;
+
     public override void Interact() {
 
-        taskManager.AssignTask(tasks[Random.Range(0, tasks.Count)]);
+        taskManager.StartTask();
+
     }
 
-    public void IsInteractable(bool t) { interactability = t; }
+    public Task GetRandomTask() {
 
-    public bool IsInteractable() { return interactability; }
+        return tasks[Random.Range(0, tasks.Count)];
 
-    public abstract string GetName();
+    }
 
-    public abstract string GetDescription();
+    public abstract string GetTaskName();
+
+    public abstract string GetTaskDescription();
 
 }

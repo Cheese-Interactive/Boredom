@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour {
 
     [Header("References")]
     [SerializeField] private GameObject arrow;
-    private UIController uiController;
     private Vector3 arrowTarget;
     private AudioManager audioManager;
     private TaskManager taskManager;
@@ -34,6 +33,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float boredomFatigueThreshold; //ex: if this is 0.3, then when under 30% of boredom, you get fatigued
     [SerializeField] private float fatigueSpeedModifier;
     [SerializeField] private float boredomMultiplier;
+    [SerializeField] private float flashWaitDuration;
     [SerializeField] private GameObject meterReference;
     [SerializeField] private Gradient meterGradient;
     [SerializeField] private TMP_Text boredomText;
@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour {
     private float boredom;
     private bool isAnimatingBoredom;
     private Tweener fillTweener;
+    private Coroutine flashMeterCoroutine;
 
     [Header("Phone")]
     private bool hasPhoneOut;
@@ -66,9 +67,9 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private KeyCode phoneKey;
 
     private void Start() {
+
         arrowTarget = Vector3.zero;
         SetArrowVisible(true);
-        uiController = FindObjectOfType<UIController>();
         audioManager = FindObjectOfType<AudioManager>();
         taskManager = FindObjectOfType<TaskManager>();
         rb = GetComponent<Rigidbody>();
@@ -81,7 +82,7 @@ public class PlayerController : MonoBehaviour {
         mechanicStatuses = new bool[Enum.GetValues(typeof(MechanicType)).Length];
 
         foreach (MechanicType mechanicType in Enum.GetValues(typeof(MechanicType)))
-            mechanicStatuses[(int)mechanicType] = true;
+            mechanicStatuses[(int) mechanicType] = true;
 
         boredom = initialBoredom;
         boredomText.text = $"{boredom}";
@@ -107,8 +108,7 @@ public class PlayerController : MonoBehaviour {
             ResetAnimations();
             animator.SetBool(horizontalInput >= 0f ? "isPhoneOutRight" : "isPhoneOutLeft", true); // moving right or standing still, animation faces right, else left
 
-        }
-        else if (Input.GetKeyUp(phoneKey)) {
+        } else if (Input.GetKeyUp(phoneKey)) {
 
             hasPhoneOut = false;
             ResetAnimations();
@@ -125,9 +125,9 @@ public class PlayerController : MonoBehaviour {
         /* MOVEMENT */
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+
         if (verticalInput != 0 || horizontalInput != 0)
             audioManager.PlaySound(AudioManager.GameSoundEffectType.WalkLoop);
-
 
         if (!hasPhoneOut) {
 
@@ -137,26 +137,22 @@ public class PlayerController : MonoBehaviour {
                 ResetAnimations();
                 animator.SetBool("isWalkingForward", true);
 
-            }
-            else if (verticalInput < 0f) {
+            } else if (verticalInput < 0f) {
 
                 ResetAnimations();
                 animator.SetBool("isWalkingBack", true);
 
-            }
-            else if (horizontalInput < 0f) {
+            } else if (horizontalInput < 0f) {
 
                 ResetAnimations();
                 animator.SetBool("isWalkingLeft", true);
 
-            }
-            else if (horizontalInput > 0f) {
+            } else if (horizontalInput > 0f) {
 
                 ResetAnimations();
                 animator.SetBool("isWalkingRight", true);
 
-            }
-            else {
+            } else {
 
                 ResetAnimations();
 
@@ -175,31 +171,27 @@ public class PlayerController : MonoBehaviour {
 
         //Physics2D.OverlapCircle(transform.position, interactRadius, interactMask)?.GetComponent<Interactable>(); // get interactable
 
-        if (interactable != null) {
-
-            if (interactable is TaskInteractable && ((TaskInteractable)interactable).IsInteractable()) {
-
-                if (!taskManager.HasCurrentTask())
-                    ShowInteractKeyIcon(); // show interact key icon if no current task and interactable is a taskinteractable that is able to be interacted with
-                else
-                    HideInteractKeyIcon();
-
-            }
-            else if (interactable is not TaskInteractable) {
-
-                ShowInteractKeyIcon();
-
-            }
+        if (interactable != null && interactable.IsInteractable()) { // in range and is interactable
 
             if (Input.GetKeyDown(interactKey)) { // interact key pressed
+
+                if (interactable is TaskInteractable)
+                    interactable.SetInteractable(false);
 
                 interactable.Interact();
 
                 interactKeyIcon.transform.DOScale(iconStartScale * iconAnimScaleMultiplier, iconAnimScaleDuration / 2f).OnComplete(() => interactKeyIcon.transform.DOScale(iconStartScale, iconAnimScaleDuration / 2f));
 
+            } else if (interactable is TaskInteractable && interactable.IsInteractable() && !taskManager.IsTaskStarted()) { // task interactable, has current task
+
+                ShowInteractKeyIcon();
+
+            } else if (interactable is not TaskInteractable && interactable.IsInteractable()) { // anything other than task interactable, but key not pressed
+
+                ShowInteractKeyIcon();
+
             }
-        }
-        else {
+        } else {
 
             HideInteractKeyIcon(); // if no interactables in range, hide interact key icon
 
@@ -219,7 +211,7 @@ public class PlayerController : MonoBehaviour {
 
     private void FixedUpdate() {
 
-        if (mechanicStatuses[(int)MechanicType.Movement] && !hasPhoneOut)
+        if (mechanicStatuses[(int) MechanicType.Movement] && !hasPhoneOut)
             rb.velocity = new Vector3(horizontalInput, 0, verticalInput).normalized * moveSpeed;
         else
             rb.velocity = Vector3.zero;
@@ -251,13 +243,31 @@ public class PlayerController : MonoBehaviour {
             if (boredom > boredomMax) // clamp boredom
                 boredom = boredomMax;
 
-            if (boredom < 0f) //should end game
-                uiController.ShowLossScreen();
+            if (boredom <= 0f) { //should end game
 
-            if (boredom < boredomMax * boredomFatigueThreshold) // modify move speed based on boredom
+                PauseBoredomTick();
+                taskManager.OnGameLoss();
+
+            }
+
+            if (boredom < boredomMax * boredomFatigueThreshold) { // modify move speed based on boredom
+
                 moveSpeed = baseMoveSpeed * fatigueSpeedModifier;
-            else
+
+                if (flashMeterCoroutine == null)
+                    flashMeterCoroutine = StartCoroutine(FlashMeter()); // start flashing meter
+
+            } else {
+
                 moveSpeed = baseMoveSpeed;
+
+                if (flashMeterCoroutine != null) {
+
+                    StopCoroutine(flashMeterCoroutine); // stop flashing meter
+                    flashMeterCoroutine = null;
+
+                }
+            }
 
             isAnimatingBoredom = true; // flag to prevent spamming space (taking phone out) while moving from ticking boredom up (op)
 
@@ -269,7 +279,8 @@ public class PlayerController : MonoBehaviour {
             meter.fillAmount = boredomP;
             //fillTweener = meter.DOFillAmount(boredomP, duration).OnStepComplete(() => print(meter.fillAmount)); // for smoothing, doesn't work when it hits 100
 
-            meter.DOColor(meterGradient.Evaluate(boredomP - boredomFatigueThreshold), duration);
+            if (flashMeterCoroutine == null) // don't change color if flashing
+                meter.DOColor(meterGradient.Evaluate(boredomP - boredomFatigueThreshold), duration);
 
             //BUG: spamming space (taking phone out) while moving ticks boredom up (op)
 
@@ -304,7 +315,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    public void SetMechanicStatus(MechanicType mechanicType, bool status) { mechanicStatuses[(int)mechanicType] = status; }
+    public void SetMechanicStatus(MechanicType mechanicType, bool status) { mechanicStatuses[(int) mechanicType] = status; }
 
     public void StartBoredomTick() { boredomCoroutine = StartCoroutine(TickBoredom()); }
 
@@ -313,7 +324,20 @@ public class PlayerController : MonoBehaviour {
     public void SetArrowVisible(bool t) { arrow.SetActive(t); }
 
     public void PointArrow(Vector3 position) {
+
         arrowTarget = position;
-        print(position);
+
+    }
+
+    private IEnumerator FlashMeter() {
+
+        while (true) {
+
+            meter.color = Color.clear;
+            yield return new WaitForSeconds(flashWaitDuration);
+            meter.color = meterGradient.Evaluate(boredom / 100f - boredomFatigueThreshold);
+            yield return new WaitForSeconds(flashWaitDuration);
+
+        }
     }
 }

@@ -1,10 +1,14 @@
 public class Loptop : TaskInteractable {
 
-    public override string GetName() {
-        return "Homework";
+    public override string GetTaskName() {
+
+        return "";
+
     }
 
-    public override string GetDescription() {
-        return "Time to study.";
+    public override string GetTaskDescription() {
+
+        return "";
+
     }
 }

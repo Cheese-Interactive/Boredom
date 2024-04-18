@@ -16,13 +16,10 @@ public class Puddle : Interactable {
 
     [Header("Interacting")]
     [SerializeField] private float interactDelay;
-    private bool canInteract;
 
     private void Start() {
 
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        canInteract = true;
 
         targetAlpha = spriteRenderer.color.a;
 
@@ -30,37 +27,34 @@ public class Puddle : Interactable {
 
     public override void Interact() {
 
-        if (canInteract) {
+        if (targetAlpha <= 0f) // target alpha is already 0, don't reduce it anymore, let current tween finish
+            return;
 
-            if (targetAlpha <= 0f) // target alpha is already 0, don't reduce it anymore, let current tween finish
+        targetAlpha -= alphaRemoval;
+
+        if (fadeTweener != null)
+            fadeTweener.Kill();
+
+        fadeTweener = spriteRenderer.DOFade(targetAlpha - alphaRemoval, fadeDuration).OnComplete(() => {
+
+            if (targetAlpha <= 0f) {
+
+                taskManager.CompleteCurrentTask();
+                Destroy(gameObject);
                 return;
 
-            targetAlpha -= alphaRemoval;
+            }
+        });
 
-            if (fadeTweener != null)
-                fadeTweener.Kill();
+        StartCoroutine(InteractCooldown());
 
-            fadeTweener = spriteRenderer.DOFade(targetAlpha - alphaRemoval, fadeDuration).OnComplete(() => {
-
-                if (targetAlpha <= 0f) {
-
-                    taskManager.CompleteCurrentTask();
-                    Destroy(gameObject);
-                    return;
-
-                }
-            });
-
-            StartCoroutine(InteractCooldown());
-
-        }
     }
 
     private IEnumerator InteractCooldown() {
 
-        canInteract = false;
+        isInteractable = false;
         yield return new WaitForSeconds(interactDelay);
-        canInteract = true;
+        isInteractable = true;
 
     }
 }

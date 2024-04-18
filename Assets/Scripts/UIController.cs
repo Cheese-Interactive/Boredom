@@ -10,7 +10,6 @@ public class UIController : MonoBehaviour {
 
     [Header("References")]
     private PlayerController playerController;
-    private GameManager gameManager;
     private TaskManager taskManager;
     private GameData gameData;
     private Animator animator;
@@ -56,13 +55,12 @@ public class UIController : MonoBehaviour {
     private void Start() {
 
         playerController = FindObjectOfType<PlayerController>();
-        gameManager = FindObjectOfType<GameManager>();
         taskManager = FindObjectOfType<TaskManager>();
         gameData = FindObjectOfType<GameData>();
         animator = GetComponent<Animator>();
 
         quizPaper.gameObject.SetActive(false);
-        quizCloseButton.onClick.AddListener(() => StartCoroutine(CloseQuiz(false)));
+        //quizCloseButton.onClick.AddListener(() => StartCoroutine(CloseQuiz(false)));
 
         questionUIs = new List<QuestionUI>();
 
@@ -82,20 +80,20 @@ public class UIController : MonoBehaviour {
 
     }
 
-    private void Update() {
+    //private void Update() {
 
-        /* QUIZ */
-        if (Input.GetKeyDown(KeyCode.Escape))
-            StartCoroutine(CloseQuiz(false)); // close quiz
+    //    /* QUIZ */
+    //    if (Input.GetKeyDown(KeyCode.Escape))
+    //        StartCoroutine(CloseQuiz(false)); // close quiz
 
-    }
+    //}
 
     public void SetTaskInfo(int taskNum, string taskName, string taskDescription) {
 
         if (taskNum == 0)
             taskHeaderText.text = "No Task";
         else
-            taskHeaderText.text = "Task " + taskNum + "/" + gameManager.GetTotalTasks() + ":";
+            taskHeaderText.text = "Task " + taskNum + "/" + taskManager.GetTotalTasks() + ":";
 
         taskNameText.text = taskName;
         taskDescriptionText.text = taskDescription;
@@ -134,12 +132,9 @@ public class UIController : MonoBehaviour {
         Button submitButton = Instantiate(submitButtonPrefab, quizContentParent);
         submitButton.onClick.AddListener(() => {
 
-            if (quiz.ValidateAnswers(questionUIs)) { // quiz passed
+            submitButton.interactable = false; // prevent multiple submissions
+            StartCoroutine(OnQuizComplete(quiz.ValidateAnswers(questionUIs)));
 
-                submitButton.interactable = false; // prevent multiple submissions
-                StartCoroutine(OnQuizComplete());
-
-            }
         });
 
         StartCoroutine(RebuildLayouts());
@@ -151,24 +146,24 @@ public class UIController : MonoBehaviour {
 
     }
 
-    private IEnumerator OnQuizComplete() {
+    private IEnumerator OnQuizComplete(bool pass) {
 
         yield return new WaitForSeconds(quizCompleteWaitDuration);
-        yield return StartCoroutine(CloseQuiz(true)); // wait for quiz to close
+        yield return StartCoroutine(CloseQuiz(pass)); // wait for quiz to close
 
     }
 
-    private IEnumerator CloseQuiz(bool completed) {
+    private IEnumerator CloseQuiz(bool pass) {
 
         if (!quizOpen) yield break; // quiz already closed
 
         animator.SetTrigger("closeQuiz");
         yield return new WaitForEndOfFrame(); // wait for animation to start playing
 
-        if (completed)
-            taskManager.CompleteCurrentTask();
+        if (pass)
+            taskManager.CompleteCurrentTask(); // complete task
         else
-            taskManager.RemoveCurrentTask();
+            taskManager.FailCurrentTask(); // fail task
 
         // clear all quiz data
         questionUIs.Clear();
@@ -220,7 +215,7 @@ public class UIController : MonoBehaviour {
         if (completed)
             taskManager.CompleteCurrentTask();
         else
-            taskManager.RemoveCurrentTask();
+            taskManager.FailCurrentTask();
 
         playerController.SetMechanicStatus(MechanicType.Movement, true); // allow movement before quiz closes fully
 

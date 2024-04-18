@@ -8,7 +8,6 @@ public class Trash : Interactable {
 
     [Header("Color")]
     [SerializeField] private float fadeDuration;
-    private bool beingPickedUp;
 
     private void Start() {
 
@@ -18,9 +17,7 @@ public class Trash : Interactable {
 
     public override void Interact() {
 
-        if (beingPickedUp) return;
-
-        beingPickedUp = true;
+        isInteractable = false;
 
         meshRenderer.material.DOFade(0f, fadeDuration).OnComplete(() => {
 

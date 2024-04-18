@@ -47,14 +47,24 @@ public class Quiz {
             if (questionUIs[i].GetSelectedIndex() == -1) // a question is unanswered
                 return false;
 
-        // validate answers
-        for (int i = 0; i < currQuestions.Length; i++)
-            if (currQuestions[i].IsCorrect(questionUIs[i].GetSelectedIndex()))
-                questionUIs[i].SetScoreMarker(correctMarker, correctColor, markerFadeDuration);
-            else
-                questionUIs[i].SetScoreMarker(incorrectMarker, incorrectColor, markerFadeDuration);
+        bool allCorrect = true;
 
-        return true;
+        // validate answers
+        for (int i = 0; i < currQuestions.Length; i++) {
+
+            if (currQuestions[i].IsCorrect(questionUIs[i].GetSelectedIndex())) {
+
+                questionUIs[i].SetScoreMarker(correctMarker, correctColor, markerFadeDuration);
+
+            } else {
+
+                questionUIs[i].SetScoreMarker(incorrectMarker, incorrectColor, markerFadeDuration);
+                allCorrect = false;
+
+            }
+        }
+
+        return allCorrect;
 
     }
 }

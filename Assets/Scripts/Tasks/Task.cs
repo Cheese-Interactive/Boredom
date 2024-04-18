@@ -8,8 +8,8 @@ public abstract class Task : ScriptableObject {
 
     public abstract void OnTaskComplete();
 
-    public string GetTaskName() { return taskName; }
+    public string GetName() { return taskName; }
 
-    public string GetTaskDescription() { return taskDescription; }
+    public string GetDescription() { return taskDescription; }
 
 }
