@@ -17,9 +17,4 @@ public abstract class TaskInteractable : Interactable {
         return tasks[Random.Range(0, tasks.Count)];
 
     }
-
-    public abstract string GetTaskName();
-
-    public abstract string GetTaskDescription();
-
 }

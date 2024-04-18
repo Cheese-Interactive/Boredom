@@ -7,13 +7,14 @@ public class TaskManager : MonoBehaviour {
     [Header("References")]
     [SerializeField] private List<TaskInteractable> destinations = new List<TaskInteractable>();
     [SerializeField] private Level level;
-    private PlayerController player;
+    private PlayerController playerController;
     private UIController uiController;
 
     [Header("Tasks")]
     [SerializeField] private int totalTasks;
-    private bool taskStarted;
     private int completedTasks;
+    private bool taskStarted;
+    private bool gameComplete;
 
     [Header("Cleanup")]
     [SerializeField] private GameObject trosh;
@@ -28,7 +29,7 @@ public class TaskManager : MonoBehaviour {
 
     private void Start() {
 
-        player = FindObjectOfType<PlayerController>();
+        playerController = FindObjectOfType<PlayerController>();
         uiController = FindObjectOfType<UIController>();
         AssignDestination();
 
@@ -46,7 +47,7 @@ public class TaskManager : MonoBehaviour {
         FindObjectOfType<AudioManager>().PlaySound(AudioManager.GameSoundEffectType.TaskComplete);
 
         if (completedTasks >= totalTasks)
-            uiController.ShowVictoryScreen();
+            OnGameVictory();
 
     }
 
@@ -56,6 +57,8 @@ public class TaskManager : MonoBehaviour {
 
     public void OnGameVictory() {
 
+        gameComplete = true;
+        playerController.PauseBoredomTick();
         uiController.ShowVictoryScreen();
         level.SetCompleted(true);
 
@@ -63,6 +66,8 @@ public class TaskManager : MonoBehaviour {
 
     public void OnGameLoss() {
 
+        gameComplete = true;
+        playerController.PauseBoredomTick();
         uiController.ShowLossScreen();
 
     }
@@ -74,7 +79,7 @@ public class TaskManager : MonoBehaviour {
 
         taskStarted = true;
 
-        player.SetArrowVisible(false);
+        playerController.SetArrowVisible(false);
 
         if (currTask is CleanupTask)
             SpawnTrash();
@@ -91,16 +96,16 @@ public class TaskManager : MonoBehaviour {
 
     public void AssignDestination() {
 
-        if (currTask != null) // already has a task
+        if (currTask != null || gameComplete) // already has a task or game already ended
             return;
 
-        player.SetArrowVisible(true);
+        playerController.SetArrowVisible(true);
 
         UpdateTaskInteractables(destinations[Random.Range(0, destinations.Count)]);
         TaskInteractable dest = destinations[Random.Range(0, destinations.Count)];
 
         UpdateTaskInteractables(dest);
-        player.PointArrow(dest.gameObject.transform.position);
+        playerController.PointArrow(dest.gameObject.transform.position);
 
     }
 

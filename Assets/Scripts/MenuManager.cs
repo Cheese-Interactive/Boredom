@@ -1,205 +1,188 @@
 
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour {
 
-    [Header("Level Data")]
-    [SerializeField] private bool[] levelUnlockStatuses;
-    [SerializeField] private int[] levelSceneIndices;
-    [SerializeField] private Level[] levels1;
-
-    [Header("Animations")]
-    [SerializeField] private GameObject dark;
-    [SerializeField] private float fadeToDarkTime;
-    private Image darkSprite;
-
-    [Header("Main")]
-    [SerializeField] private GameObject mainObj;
-    [SerializeField] private List<Object> main;
+    [Header("Main Menu")]
+    [SerializeField] private CanvasGroup mainMenu;
+    [SerializeField] private Transform mainContent;
     [SerializeField] private Button playButton;
-    [SerializeField] private Button tutButton;
+    [SerializeField] private Button tutorialButton;
     [SerializeField] private Button quitButton;
     [SerializeField] private Button creditsButton;
 
+    [Header("Level Select")]
+    [SerializeField] private CanvasGroup levelMenu;
+    [SerializeField] private Level[] levels;
+    [SerializeField] private Transform levelButtonsParent;
+    [SerializeField] private LevelButton levelButtonPrefab;
+    [SerializeField] private Button levelsCloseButton;
+
     [Header("Tutorial")]
-    [SerializeField] private GameObject tutorialObj;
-    [SerializeField] private List<Object> tutorial = new List<Object>();
-    [SerializeField] private Button t_close;
+    [SerializeField] private CanvasGroup tutorialMenu;
+    [SerializeField] private Button tutorialCloseButton;
 
     [Header("Credits")]
-    [SerializeField] private GameObject creditsObj;
-    [SerializeField] private List<Object> credits = new List<Object>();
-    [SerializeField] private Button c_close;
+    [SerializeField] private CanvasGroup creditsMenu;
+    [SerializeField] private Button creditsCloseButton;
 
-    [Header("Level Select")]
-    [SerializeField] private GameObject levelsObj;
-    [SerializeField] private List<Object> levels = new List<Object>();
-    [SerializeField] private Button l_1;
-    [SerializeField] private Button l_2;
-    [SerializeField] private Button l_3;
-    [SerializeField] private Button l_4;
-    private List<Button> levelSelectionButtons = new List<Button>();
-    [SerializeField] private Button l_back;
+    [Header("Loading Screen")]
+    [SerializeField] private CanvasGroup loadingScreen;
+    [SerializeField] private float loadingFadeDuration;
+    private AsyncOperation sceneLoad;
 
     private void Start() {
 
-        //initialize the fade thingy
-        dark.transform.localScale = Vector3.zero;
-        darkSprite = dark.GetComponent<Image>();
-        darkSprite.color = new Color(Color.black.r, Color.black.g, Color.black.b, 0);
+        mainMenu.gameObject.SetActive(true);
+        tutorialMenu.gameObject.SetActive(false);
+        levelMenu.gameObject.SetActive(false);
+        creditsMenu.gameObject.SetActive(false);
 
-        //add all buttons to their respective lists (dont want them to be serialized twice)
-        main = new List<Object>();
-        main.Add(playButton);
-        main.Add(tutButton);
-        main.Add(quitButton);
-        main.Add(creditsButton);
+        HideLoadingScreen();
 
-        tutorial.Add(t_close);
-
-        credits.Add(c_close);
-
-        //initialize the menu
-        ChangeState(main, true);
-        ChangeState(tutorial, false);
-        ChangeState(credits, false);
-        ChangeState(levels, false);
-
-        mainObj.SetActive(true);
-        tutorialObj.SetActive(false);
-        creditsObj.SetActive(false);
-        levelsObj.SetActive(false);
-
-        //make the buttons be buttons
         playButton.onClick.AddListener(OpenLevelSelector);
-        quitButton.onClick.AddListener(Quit);
-        tutButton.onClick.AddListener(OpenTut);
+        quitButton.onClick.AddListener(() => Application.Quit());
+        tutorialButton.onClick.AddListener(OpenTutorial);
         creditsButton.onClick.AddListener(OpenCredits);
 
-        t_close.onClick.AddListener(CloseTut);
+        tutorialCloseButton.onClick.AddListener(CloseTut);
+        levelsCloseButton.onClick.AddListener(CloseLevelSelector);
+        creditsCloseButton.onClick.AddListener(CloseCredits);
 
-        l_back.onClick.AddListener(CloseLevelSelector);
-        l_1.onClick.AddListener(openl1);
-        l_2.onClick.AddListener(openl2);
-        l_3.onClick.AddListener(openl3);
-        l_4.onClick.AddListener(openl4);
+        LevelButton button = Instantiate(levelButtonPrefab, levelButtonsParent);
+        button.Initialize(1, levels[0]);
+        button.onClick.AddListener(() => LoadLevel(button.GetLevel().GetScene()));
+        button.interactable = true; // level 1 is always unlocked
 
-        c_close.onClick.AddListener(CloseCredits);
+        for (int i = 1; i < levels.Length; i++) {
 
-        //load level data (need to read/write files)
-        levelSelectionButtons.Add(l_1); levelSelectionButtons.Add(l_2);
-        levelSelectionButtons.Add(l_3); levelSelectionButtons.Add(l_4);
-        for (int i = 0; i < levelUnlockStatuses.Length; i++)
-            if (levelUnlockStatuses[i])
-                levelSelectionButtons[i].interactable = true;
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(levels[i]);
+#endif
 
-    }
+            button = Instantiate(levelButtonPrefab, levelButtonsParent);
+            button.Initialize(i + 1, levels[i]);
+            button.onClick.AddListener(() => LoadLevel(button.GetLevel().GetScene()));
+            button.interactable = levels[i - 1].IsCompleted();
 
-
-    #region Generic
-    private void ChangeState(List<Object> l, bool b) {
-        //show/hide (b = true/false) every object in List l
-        foreach (Object obj in l) {
-            if (obj is Button) {
-                Button temp = obj as Button;
-                temp.gameObject.SetActive(b);
-            } else if (obj is GameObject) {
-                GameObject temp = obj as GameObject;
-                temp.SetActive(b);
-            }
         }
     }
 
-    private IEnumerator FadeToDark() {
-        //lame ahh anim
-        float t = 0;
-        Color colorEnd = Color.black;
-        Color colorStart = darkSprite.color;
-        Vector3 scaleEnd = new Vector3(1.5f, 2.8f, 4.9f);
-        Vector3 scaleStart = scaleEnd / 10;
-        while (t < fadeToDarkTime) {
-            darkSprite.color = Color.Lerp(colorStart, colorEnd, t / fadeToDarkTime);
-            dark.transform.localScale = Vector3.Lerp(scaleStart, scaleEnd, t / fadeToDarkTime);
-            t += Time.deltaTime;
-            yield return new WaitForFixedUpdate();
-        }
-        darkSprite.color = colorEnd;
-        dark.transform.localScale = scaleEnd;
+    private void OnDestroy() {
+
+        DOTween.KillAll();
 
     }
-    #endregion
 
-    #region Main
+    #region Tutorial Menu
 
-    private void Quit() {
-        Application.Quit();
-    }
+    private void OpenTutorial() {
 
-    #endregion
-
-    #region Tutorial
-
-    private void OpenTut() {
-
-        tutorialObj.SetActive(true);
-        ChangeState(main, false);
-        ChangeState(tutorial, true);
+        mainMenu.gameObject.SetActive(false);
+        tutorialMenu.gameObject.SetActive(true);
 
     }
 
     private void CloseTut() {
 
-        ChangeState(main, true);
-        ChangeState(tutorial, false);
-        tutorialObj.SetActive(false);
+        mainMenu.gameObject.SetActive(true);
+        tutorialMenu.gameObject.SetActive(false);
 
     }
 
     #endregion
 
-    #region Level Selector
+    #region Level Menu
+
     private void OpenLevelSelector() {
-        mainObj.SetActive(false);
-        ChangeState(main, false);
-        ChangeState(levels, true);
-        levelsObj.SetActive(true);
+
+        mainMenu.gameObject.SetActive(false);
+        levelMenu.gameObject.SetActive(true);
+        StartCoroutine(RebuildLayout(mainContent, levelButtonsParent)); // rebuild layout EACH time the level menu is opened, rebuild AFTER making it visible
+
     }
 
     private void CloseLevelSelector() {
-        mainObj.SetActive(true);
-        ChangeState(main, true);
-        ChangeState(levels, false);
-        levelsObj.SetActive(false);
+
+        mainMenu.gameObject.SetActive(true);
+        levelMenu.gameObject.SetActive(false);
 
     }
 
-    private void openl1() { SceneManager.LoadScene(levelSceneIndices[0]); }
-    private void openl2() { SceneManager.LoadScene(levelSceneIndices[1]); }
-    private void openl3() { SceneManager.LoadScene(levelSceneIndices[2]); }
-    private void openl4() { SceneManager.LoadScene(levelSceneIndices[3]); }
+    private void LoadLevel(Object scene) {
+
+        sceneLoad = SceneManager.LoadSceneAsync(scene.name);
+        sceneLoad.allowSceneActivation = false;
+        ShowLoadingScreen();
+
+    }
 
     #endregion
 
-    #region credits
+    #region Credits Menu
+
     private void OpenCredits() {
 
-        creditsObj.SetActive(true);
-        ChangeState(main, false);
-        ChangeState(credits, true);
+        mainMenu.gameObject.SetActive(false);
+        creditsMenu.gameObject.SetActive(true);
 
     }
 
     private void CloseCredits() {
 
-        ChangeState(main, true);
-        ChangeState(credits, false);
-        creditsObj.SetActive(false);
+        mainMenu.gameObject.SetActive(true);
+        creditsMenu.gameObject.SetActive(false);
 
     }
+
+    #endregion
+
+    #region Loading Screen
+
+    private void ShowLoadingScreen() {
+
+        loadingScreen.alpha = 0f;
+        loadingScreen.gameObject.SetActive(true);
+        loadingScreen.DOFade(1f, loadingFadeDuration).OnComplete(() => {
+
+            if (sceneLoad != null) sceneLoad.allowSceneActivation = true;
+
+        });
+    }
+
+    private void HideLoadingScreen() {
+
+        loadingScreen.alpha = 1f;
+        loadingScreen.gameObject.SetActive(true);
+        loadingScreen.DOFade(0f, loadingFadeDuration).OnComplete(() => loadingScreen.gameObject.SetActive(false));
+
+    }
+
+    #endregion
+
+    #region Utility
+
+    private void RefreshLayout(Transform layout) {
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(layout.GetComponent<RectTransform>());
+
+    }
+
+    private IEnumerator RebuildLayout(Transform layout1, Transform layout2) { // make sure to maintain order
+
+        RefreshLayout(layout1);
+        yield return new WaitForEndOfFrame();
+        RefreshLayout(layout2);
+
+    }
+
     #endregion
 }
 

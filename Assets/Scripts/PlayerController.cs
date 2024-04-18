@@ -243,12 +243,8 @@ public class PlayerController : MonoBehaviour {
             if (boredom > boredomMax) // clamp boredom
                 boredom = boredomMax;
 
-            if (boredom <= 0f) { //should end game
-
-                PauseBoredomTick();
+            if (boredom <= 0f)
                 taskManager.OnGameLoss();
-
-            }
 
             if (boredom < boredomMax * boredomFatigueThreshold) { // modify move speed based on boredom
 

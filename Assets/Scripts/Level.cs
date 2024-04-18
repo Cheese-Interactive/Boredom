@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [CreateAssetMenu]
 public class Level : ScriptableObject {
@@ -14,4 +16,9 @@ public class Level : ScriptableObject {
 
     public void SetCompleted(bool completed) => isCompleted = completed;
 
+    public Object GetScene() {
+
+        return scene;
+
+    }
 }
