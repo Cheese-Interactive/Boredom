@@ -169,4 +169,6 @@ public class TaskManager : MonoBehaviour {
 
     public bool IsTaskStarted() { return taskStarted; }
 
+    public bool IsGameComplete() { return gameComplete; }
+
 }

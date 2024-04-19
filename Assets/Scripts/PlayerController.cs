@@ -58,8 +58,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float iconAnimScaleMultiplier;
     [SerializeField] private float iconAnimScaleDuration;
     private Vector2 iconStartScale;
-    private Tweener keyIconTweenIn;
-    private Tweener keyIconTweenOut;
+    private Tweener keyIconTween;
     private bool keyIconVisible;
 
     [Header("Keybinds")]
@@ -129,7 +128,7 @@ public class PlayerController : MonoBehaviour {
         if (verticalInput != 0 || horizontalInput != 0)
             audioManager.PlaySound(AudioManager.GameSoundEffectType.WalkLoop);
 
-        if (!hasPhoneOut) {
+        if (!hasPhoneOut && mechanicStatuses[(int) MechanicType.Movement]) {
 
             // vertical movement gets priority
             if (verticalInput > 0f) {
@@ -292,7 +291,7 @@ public class PlayerController : MonoBehaviour {
 
         if (keyIconVisible) return;
 
-        if (keyIconTweenOut != null && keyIconTweenOut.IsActive()) keyIconTweenOut.Kill();
+        if (keyIconTween != null && keyIconTween.IsActive()) keyIconTween.Kill();
 
         keyIconVisible = true;
         interactKeyIcon.gameObject.SetActive(true);
@@ -304,14 +303,18 @@ public class PlayerController : MonoBehaviour {
 
         if (!keyIconVisible) return;
 
-        if (keyIconTweenIn != null && keyIconTweenIn.IsActive()) keyIconTweenIn.Kill();
-
         keyIconVisible = false;
-        keyIconTweenOut = interactKeyIcon.DOColor(Color.clear, iconFadeDuration).OnComplete(() => interactKeyIcon.gameObject.SetActive(false));
+        keyIconTween = interactKeyIcon.DOColor(Color.clear, iconFadeDuration).OnComplete(() => interactKeyIcon.gameObject.SetActive(false));
 
     }
 
-    public void SetMechanicStatus(MechanicType mechanicType, bool status) { mechanicStatuses[(int) mechanicType] = status; }
+    public void SetMechanicStatus(MechanicType mechanicType, bool status) {
+
+        if (taskManager.IsGameComplete()) return; // don't change mechanic status if game is complete
+
+        mechanicStatuses[(int) mechanicType] = status;
+
+    }
 
     public void StartBoredomTick() { boredomCoroutine = StartCoroutine(TickBoredom()); }
 

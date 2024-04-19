@@ -15,7 +15,7 @@ public class UIController : MonoBehaviour {
     private Animator animator;
 
     [Header("Tasks")]
-    [SerializeField] private Transform taskHUD;
+    [SerializeField] private CanvasGroup taskHUD;
     [SerializeField] private TMP_Text taskHeaderText;
     [SerializeField] private TMP_Text taskNameText;
     [SerializeField] private TMP_Text taskDescriptionText;
@@ -92,7 +92,7 @@ public class UIController : MonoBehaviour {
 
         taskNameText.text = taskName;
         taskDescriptionText.text = taskDescription;
-        RefreshLayout(taskHUD);
+        RefreshLayout(taskHUD.transform);
 
     }
 
@@ -197,7 +197,8 @@ public class UIController : MonoBehaviour {
 
         victoryScreen.alpha = 0f;
         victoryScreen.gameObject.SetActive(true);
-        victoryScreen.DOFade(1f, 1f);
+        taskHUD.DOFade(0f, victoryFadeDuration).SetEase(Ease.InCubic).OnComplete(() => taskHUD.gameObject.SetActive(false));
+        victoryScreen.DOFade(1f, victoryFadeDuration).SetEase(Ease.InCubic);
 
     }
 
@@ -205,7 +206,8 @@ public class UIController : MonoBehaviour {
 
         lossScreen.alpha = 0f;
         lossScreen.gameObject.SetActive(true);
-        lossScreen.DOFade(1f, 1f);
+        taskHUD.DOFade(0f, lossFadeDuration).SetEase(Ease.InCubic).OnComplete(() => taskHUD.gameObject.SetActive(false));
+        lossScreen.DOFade(1f, lossFadeDuration).SetEase(Ease.InCubic);
 
     }
 
@@ -217,7 +219,7 @@ public class UIController : MonoBehaviour {
 
         loadingScreen.alpha = 0f;
         loadingScreen.gameObject.SetActive(true);
-        loadingScreen.DOFade(1f, loadingFadeDuration).OnComplete(() => {
+        loadingScreen.DOFade(1f, loadingFadeDuration).SetEase(Ease.InCubic).OnComplete(() => {
 
             if (sceneLoad != null) sceneLoad.allowSceneActivation = true;
 
@@ -228,7 +230,7 @@ public class UIController : MonoBehaviour {
 
         loadingScreen.alpha = 1f;
         loadingScreen.gameObject.SetActive(true);
-        loadingScreen.DOFade(0f, loadingFadeDuration).OnComplete(() => loadingScreen.gameObject.SetActive(false));
+        loadingScreen.DOFade(0f, loadingFadeDuration).SetEase(Ease.InCubic).OnComplete(() => loadingScreen.gameObject.SetActive(false));
 
     }
 
