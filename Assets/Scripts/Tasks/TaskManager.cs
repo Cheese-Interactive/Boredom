@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,18 +28,35 @@ public class TaskManager : MonoBehaviour {
     [SerializeField] private GameObject puddlePrefab;
     private Task currTask;
 
+    [Header("Sandwich")]
+    [SerializeField] private GameObject[] ingredients;
+    private bool[] ingredientStatuses;
+    private int currIngredientIdx;
+
     private void Start() {
 
         playerController = FindObjectOfType<PlayerController>();
         uiController = FindObjectOfType<UIController>();
         AssignDestination();
 
+        ingredientStatuses = new bool[ingredients.Length];
+        ResetIngredients();
     }
 
     private void OnDestroy() {
 
         DOTween.KillAll();
 
+    }
+    private void ResetIngredients() {
+        //i know this is sus but DO I CARE NAH
+        int i = 0;
+        currIngredientIdx = 0;
+        foreach (GameObject g in ingredients) {
+            g.SetActive(false);
+            ingredientStatuses[i] = false;
+            i++;
+        }
     }
 
     public void OnTaskComplete() {
@@ -92,9 +110,15 @@ public class TaskManager : MonoBehaviour {
         if (currTask is QuizTask)
             uiController.OpenQuiz();
 
+        if (currTask is Sandwich)
+            BeginSandwich();
+
+
         return true;
 
     }
+
+
 
     public void AssignDestination() {
 
@@ -137,6 +161,38 @@ public class TaskManager : MonoBehaviour {
 
     }
 
+    private void BeginSandwich() {
+        ResetIngredients();
+        StartCoroutine(SpawnIngredient(currIngredientIdx));
+        print(currIngredientIdx);
+    }
+
+    private IEnumerator SpawnIngredient(int idx) {
+        if (idx >= ingredients.Length) {
+            ResetIngredients();
+            if (currTask is Sandwich)
+                CompleteCurrentTask();
+            yield break;
+        }
+        else {
+            ingredients[idx].SetActive(true);
+            playerController.SetArrowVisible(true);
+            playerController.PointArrow(ingredients[idx].transform.position);
+            while (!ingredientStatuses[idx])
+                yield return null;
+            ingredients[idx].SetActive(false);
+            print("starting next ing");
+            currIngredientIdx++;
+            StartCoroutine(SpawnIngredient(currIngredientIdx));
+        }
+    }
+
+    public void OnIngredientPickup() {
+        ingredientStatuses[currIngredientIdx] = true;
+
+        //this means it has been selected
+    }
+
     public void OnTrashPickup() {
 
         trashRemaining--;
@@ -145,6 +201,7 @@ public class TaskManager : MonoBehaviour {
             CompleteCurrentTask();
 
     }
+
 
     public bool HasCurrentTask() { return currTask != null; }
 
