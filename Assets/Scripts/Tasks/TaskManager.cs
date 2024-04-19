@@ -59,6 +59,7 @@ public class TaskManager : MonoBehaviour {
 
         gameComplete = true;
         playerController.PauseBoredomTick();
+        playerController.SetMechanicStatus(MechanicType.Movement, false);
         uiController.ShowVictoryScreen();
         level.SetCompleted(true);
 
@@ -68,6 +69,7 @@ public class TaskManager : MonoBehaviour {
 
         gameComplete = true;
         playerController.PauseBoredomTick();
+        playerController.SetMechanicStatus(MechanicType.Movement, false);
         uiController.ShowLossScreen();
 
     }
