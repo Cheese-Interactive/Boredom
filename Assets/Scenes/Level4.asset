@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9320cb5354ed39f4f990717cfd703268, type: 3}
+  m_Name: Level4
+  m_EditorClassIdentifier: 
+  levelNum: 4
+  isCompleted: 0
+  scene: {fileID: 102900000, guid: a25f960949f18eb498012ab114ab4e47, type: 3}
+  timeLimit: 60

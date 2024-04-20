@@ -15,6 +15,8 @@ public class AudioManager : MonoBehaviour {
     [SerializeField] private AudioClip walkLoop;
     [SerializeField] private AudioClip phoneLoop;
     [SerializeField] private AudioClip taskComplete;
+    [SerializeField] private AudioClip win;
+    [SerializeField] private AudioClip lose;
 
     void Awake() {
         musicSource.volume = musicSourceVol;
@@ -24,7 +26,7 @@ public class AudioManager : MonoBehaviour {
 
 
     public enum GameSoundEffectType {
-        WalkLoop, PhoneLoop, TaskComplete
+        WalkLoop, PhoneLoop, TaskComplete, Win, Lose
 
     }
 
@@ -57,6 +59,16 @@ public class AudioManager : MonoBehaviour {
             case GameSoundEffectType.TaskComplete:
 
                 soundEffectSource.PlayOneShot(taskComplete);
+                break;
+
+            case GameSoundEffectType.Win:
+
+                soundEffectSource.PlayOneShot(win);
+                break;
+
+            case GameSoundEffectType.Lose:
+
+                soundEffectSource.PlayOneShot(lose);
                 break;
 
             default:

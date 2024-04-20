@@ -3476,7 +3476,10 @@ MonoBehaviour:
   creditsButton: {fileID: 1160238133}
   levelMenu: {fileID: 1514692839}
   levels:
-  - {fileID: 11400000, guid: 79cd515bbe4bb9b4b8d05ceea022f988, type: 2}
+  - {fileID: 11400000, guid: 18cc19c9c67bec64d90d3d9e292c2f33, type: 2}
+  - {fileID: 11400000, guid: 15ebb26af4a904047be919e239929b1c, type: 2}
+  - {fileID: 11400000, guid: 402731f1c61810447a2886e2bd554dee, type: 2}
+  - {fileID: 11400000, guid: 0be23d908d8d33d47838e01b6e705a9a, type: 2}
   levelButtonsParent: {fileID: 1718966374}
   levelButtonPrefab: {fileID: 4033927891839046996, guid: 16b47059f1bf1614ead785a3a1eadd41, type: 3}
   levelsCloseButton: {fileID: 459023908}
