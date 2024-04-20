@@ -10,6 +10,7 @@ public class TaskManager : MonoBehaviour {
     [SerializeField] private Level level;
     private PlayerController playerController;
     private UIController uiController;
+    private AudioManager audioMangager;
 
     [Header("Tasks")]
     [SerializeField] private int totalTasks;
@@ -34,7 +35,7 @@ public class TaskManager : MonoBehaviour {
     private int currIngredientIdx;
 
     private void Start() {
-
+        audioMangager = FindObjectOfType<AudioManager>();
         playerController = FindObjectOfType<PlayerController>();
         uiController = FindObjectOfType<UIController>();
         AssignDestination();
@@ -78,7 +79,7 @@ public class TaskManager : MonoBehaviour {
     public int GetCompletedTasks() { return completedTasks; }
 
     public void OnGameVictory() {
-
+        audioMangager.PlaySound(AudioManager.GameSoundEffectType.Win);
         gameComplete = true;
         playerController.PauseBoredomTick();
         playerController.SetMechanicStatus(MechanicType.Movement, false);
@@ -90,7 +91,7 @@ public class TaskManager : MonoBehaviour {
     }
 
     public void OnGameLoss() {
-
+        audioMangager.PlaySound(AudioManager.GameSoundEffectType.Lose);
         gameComplete = true;
         playerController.PauseBoredomTick();
         playerController.SetMechanicStatus(MechanicType.Movement, false);
@@ -179,7 +180,8 @@ public class TaskManager : MonoBehaviour {
             if (currTask is Sandwich)
                 CompleteCurrentTask();
             yield break;
-        } else {
+        }
+        else {
             ingredients[idx].SetActive(true);
             playerController.SetArrowVisible(true);
             playerController.PointArrow(ingredients[idx].transform.position);

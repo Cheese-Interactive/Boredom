@@ -532,7 +532,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &153952643
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1575,8 +1575,20 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Cheese Interactive\n-CladCobra-\n-EpicMozamba-\n\n\nMusic: \nElevator
-    Music - Kevin MacLeod"
+  m_text: 'Cheese Interactive
+
+    -CladCobra-
+
+    -EpicMozamba-
+
+
+    Music: Kevin
+    MacLeod
+
+
+    Version: 1.0 (Full Release)
+
+    Thanks for playing!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d008b35ea3a6b814194845a95fa90c0d, type: 2}
   m_sharedMaterial: {fileID: 4773630173507252173, guid: d008b35ea3a6b814194845a95fa90c0d, type: 2}
@@ -2476,10 +2488,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1259221444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 400, y: -80.405}
-  m_SizeDelta: {x: 410.05, y: 160.81}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 400, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &860460423
 MonoBehaviour:
@@ -2877,9 +2889,9 @@ RectTransform:
   - {fileID: 497804517}
   m_Father: {fileID: 1259221444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 400, y: -560.81}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 800, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1130197989
@@ -3078,7 +3090,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 250, y: 0}
-  m_SizeDelta: {x: 800, y: 960.81}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1259221445
 MonoBehaviour:
