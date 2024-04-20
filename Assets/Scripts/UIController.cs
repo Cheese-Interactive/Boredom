@@ -26,7 +26,8 @@ public class UIController : MonoBehaviour {
     [SerializeField] private TMP_Text taskDescriptionText;
 
     [Header("Timer")]
-    [SerializeField] private TMP_Text timerText; // timer is part of HUD
+    [SerializeField] private TMP_Text timerText; // timer text is part of HUD
+    [SerializeField] private TMP_Text taskTimerText; // task timer text is part of HUD (but it only shows up for certain tasks)
     [SerializeField] private float flashThreshold;
     [SerializeField] private float flashWaitDuration;
     [SerializeField] private Color flashColor;
@@ -107,6 +108,8 @@ public class UIController : MonoBehaviour {
 
         dragQuizAnswerObjs = ordered;
 
+        taskTimerText.gameObject.SetActive(false);
+
         StartCoroutine(RebuildLayout(taskInfo));
         ResetTaskInfo();
 
@@ -149,14 +152,14 @@ public class UIController : MonoBehaviour {
 
             }
 
-            timerText.text = string.Format("{0:0}:{1:00}", seconds / 60, seconds % 60);
+            taskTimerText.text = timerText.text = string.Format("{0:0}:{1:00}", seconds / 60, seconds % 60);
             yield return new WaitForSeconds(1f);
             seconds--;
 
         }
 
         StopCoroutine(flashTimerCoroutine); // stop flashing
-        timerText.text = "0:00";
+        taskTimerText.text = timerText.text = "0:00";
         taskManager.OnGameLoss();
 
     }
@@ -165,9 +168,9 @@ public class UIController : MonoBehaviour {
 
         while (true) {
 
-            timerText.color = Color.clear;
+            taskTimerText.color = timerText.color = Color.clear;
             yield return new WaitForSeconds(flashWaitDuration);
-            timerText.color = flashColor;
+            taskTimerText.color = timerText.color = flashColor;
             yield return new WaitForSeconds(flashWaitDuration);
 
         }
@@ -204,6 +207,7 @@ public class UIController : MonoBehaviour {
 
         if (homeworkOpen) return; // homework already open
 
+        taskTimerText.gameObject.SetActive(true);
         playerController.PauseBoredomTick(); // stop ticking boredom
         playerController.SetMechanicStatus(MechanicType.Movement, false);
 
@@ -249,6 +253,7 @@ public class UIController : MonoBehaviour {
 
         if (!homeworkOpen) yield break; // homework already closed
 
+        taskTimerText.gameObject.SetActive(false);
         animator.SetTrigger("closeHomework");
         yield return new WaitForEndOfFrame(); // wait for animation to start playing
 
@@ -280,6 +285,7 @@ public class UIController : MonoBehaviour {
 
         if (dragQuizOpen) yield break; // quiz already open
 
+        taskTimerText.gameObject.SetActive(true);
         this.dragQuiz.blocksRaycasts = true; // allow interactions
 
         playerController.PauseBoredomTick(); // stop ticking boredom
@@ -362,6 +368,7 @@ public class UIController : MonoBehaviour {
 
         if (!dragQuizOpen) yield break; // quiz already closed
 
+        taskTimerText.gameObject.SetActive(false);
         animator.SetTrigger("closeTVRepair");
         yield return new WaitForEndOfFrame(); // wait for animation to start playing
 
