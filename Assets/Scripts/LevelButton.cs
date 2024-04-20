@@ -12,8 +12,8 @@ public class LevelButton : Button {
 
     public void Initialize(int levelNum, Level level) {
 
-        levelNumText.text = levelNum + "";
         this.level = level;
+        levelNumText.text = levelNum + "";
 
     }
 

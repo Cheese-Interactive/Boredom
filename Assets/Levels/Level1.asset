@@ -15,3 +15,4 @@ MonoBehaviour:
   levelNum: 1
   isCompleted: 0
   scene: {fileID: 102900000, guid: 6c598c4294d4ba24faff31f3ff919323, type: 3}
+  timeLimit: 90

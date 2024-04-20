@@ -3477,7 +3477,6 @@ MonoBehaviour:
   levelMenu: {fileID: 1514692839}
   levels:
   - {fileID: 11400000, guid: 79cd515bbe4bb9b4b8d05ceea022f988, type: 2}
-  - {fileID: 11400000, guid: dd47255ecc8f52e4e848c28b56e2545e, type: 2}
   levelButtonsParent: {fileID: 1718966374}
   levelButtonPrefab: {fileID: 4033927891839046996, guid: 16b47059f1bf1614ead785a3a1eadd41, type: 3}
   levelsCloseButton: {fileID: 459023908}

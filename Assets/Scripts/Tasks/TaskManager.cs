@@ -41,6 +41,9 @@ public class TaskManager : MonoBehaviour {
 
         ingredientStatuses = new bool[ingredients.Length];
         ResetIngredients();
+
+        uiController.StartTimer(level.GetTimeLimit()); // begin timer
+
     }
 
     private void OnDestroy() {
@@ -79,6 +82,8 @@ public class TaskManager : MonoBehaviour {
         gameComplete = true;
         playerController.PauseBoredomTick();
         playerController.SetMechanicStatus(MechanicType.Movement, false);
+        playerController.StopMeterFlash();
+        uiController.StopTimer();
         uiController.ShowVictoryScreen();
         level.SetCompleted(true);
 
@@ -86,9 +91,12 @@ public class TaskManager : MonoBehaviour {
 
     public void OnGameLoss() {
 
+        print("loss");
         gameComplete = true;
         playerController.PauseBoredomTick();
         playerController.SetMechanicStatus(MechanicType.Movement, false);
+        playerController.StopMeterFlash();
+        uiController.StopTimer();
         uiController.ShowLossScreen();
 
     }
@@ -101,6 +109,8 @@ public class TaskManager : MonoBehaviour {
         taskStarted = true;
 
         playerController.SetArrowVisible(false);
+
+        print(currTask.GetType());
 
         if (currTask is CleanupTask)
             SpawnTrash();
@@ -116,7 +126,6 @@ public class TaskManager : MonoBehaviour {
 
         if (currTask is Sandwich)
             BeginSandwich();
-
 
         return true;
 

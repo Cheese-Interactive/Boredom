@@ -2,6 +2,8 @@ using DG.Tweening;
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,10 +19,19 @@ public class UIController : MonoBehaviour {
     private Animator animator;
 
     [Header("Tasks")]
-    [SerializeField] private CanvasGroup taskHUD;
+    [SerializeField] private CanvasGroup mainHUD;
+    [SerializeField] private Transform taskInfo;
     [SerializeField] private TMP_Text taskHeaderText;
     [SerializeField] private TMP_Text taskNameText;
     [SerializeField] private TMP_Text taskDescriptionText;
+
+    [Header("Timer")]
+    [SerializeField] private TMP_Text timerText; // timer is part of HUD
+    [SerializeField] private float flashThreshold;
+    [SerializeField] private float flashWaitDuration;
+    [SerializeField] private Color flashColor;
+    private Coroutine flashTimerCoroutine;
+    private Coroutine timerCoroutine;
 
     [Header("Quiz")]
     [SerializeField] private GameObject homework;
@@ -96,6 +107,7 @@ public class UIController : MonoBehaviour {
 
         dragQuizAnswerObjs = ordered;
 
+        StartCoroutine(RebuildLayout(taskInfo));
         ResetTaskInfo();
 
     }
@@ -108,6 +120,61 @@ public class UIController : MonoBehaviour {
 
     //}
 
+    #region Timer
+
+    public void StartTimer(int seconds) {
+
+        timerCoroutine = StartCoroutine(HandleTimer(seconds));
+
+    }
+
+    public void StopTimer() {
+
+        if (timerCoroutine != null) StopCoroutine(timerCoroutine);
+
+    }
+
+    private IEnumerator HandleTimer(int seconds) {
+
+        while (seconds > 0) {
+
+            if (seconds <= flashThreshold) {
+
+                if (flashTimerCoroutine == null) // make sure timer isn't already flashing
+                    flashTimerCoroutine = StartCoroutine(FlashTimer()); // start flashing
+
+            } else if (flashTimerCoroutine != null) { // timer is already flashing but time is above threshold
+
+                StopCoroutine(flashTimerCoroutine); // stop flashing
+
+            }
+
+            timerText.text = string.Format("{0:0}:{1:00}", seconds / 60, seconds % 60);
+            yield return new WaitForSeconds(1f);
+            seconds--;
+
+        }
+
+        StopCoroutine(flashTimerCoroutine); // stop flashing
+        timerText.text = "0:00";
+        taskManager.OnGameLoss();
+
+    }
+
+    private IEnumerator FlashTimer() {
+
+        while (true) {
+
+            timerText.color = Color.clear;
+            yield return new WaitForSeconds(flashWaitDuration);
+            timerText.color = flashColor;
+            yield return new WaitForSeconds(flashWaitDuration);
+
+        }
+    }
+
+    #endregion
+
     #region Tasks
 
     public void SetTaskInfo(int taskNum, string taskName, string taskDescription) {
@@ -119,7 +186,7 @@ public class UIController : MonoBehaviour {
 
         taskNameText.text = taskName;
         taskDescriptionText.text = taskDescription;
-        RefreshLayout(taskHUD.transform);
+        RefreshLayout(mainHUD.transform);
 
     }
 
@@ -200,7 +267,8 @@ public class UIController : MonoBehaviour {
         homework.gameObject.SetActive(false);
         homeworkOpen = false;
 
-        playerController.StartBoredomTick(); // start ticking boredom again
+        if (!taskManager.IsGameComplete())
+            playerController.StartBoredomTick(); // start ticking boredom again only if game is still going
 
     }
 
@@ -309,7 +377,8 @@ public class UIController : MonoBehaviour {
         dragQuiz.gameObject.SetActive(false);
         dragQuizOpen = false;
 
-        playerController.StartBoredomTick(); // start ticking boredom again
+        if (!taskManager.IsGameComplete())
+            playerController.StartBoredomTick(); // start ticking boredom again only if game is still going
 
     }
 
@@ -348,7 +417,7 @@ public class UIController : MonoBehaviour {
 
         victoryScreen.alpha = 0f;
         victoryScreen.gameObject.SetActive(true);
-        taskHUD.DOFade(0f, victoryFadeDuration).SetEase(Ease.InCubic).OnComplete(() => taskHUD.gameObject.SetActive(false));
+        mainHUD.DOFade(0f, victoryFadeDuration).SetEase(Ease.InCubic).OnComplete(() => mainHUD.gameObject.SetActive(false));
         victoryScreen.DOFade(1f, victoryFadeDuration).SetEase(Ease.InCubic);
 
     }
@@ -360,7 +429,7 @@ public class UIController : MonoBehaviour {
 
         lossScreen.alpha = 0f;
         lossScreen.gameObject.SetActive(true);
-        taskHUD.DOFade(0f, lossFadeDuration).SetEase(Ease.InCubic).OnComplete(() => taskHUD.gameObject.SetActive(false));
+        mainHUD.DOFade(0f, lossFadeDuration).SetEase(Ease.InCubic).OnComplete(() => mainHUD.gameObject.SetActive(false));
         lossScreen.DOFade(1f, lossFadeDuration).SetEase(Ease.InCubic);
 
     }
@@ -395,6 +464,15 @@ public class UIController : MonoBehaviour {
     private void RefreshLayout(Transform layout) {
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(layout.GetComponent<RectTransform>());
+
+    }
+
+    private IEnumerator RebuildLayout(Transform layout) { // make sure to maintain order
+
+        layout.gameObject.SetActive(false);
+        yield return new WaitForEndOfFrame();
+        layout.gameObject.SetActive(true);
+        RefreshLayout(layout);
 
     }
 

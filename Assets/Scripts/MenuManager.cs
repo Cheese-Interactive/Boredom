@@ -58,7 +58,7 @@ public class MenuManager : MonoBehaviour {
 
         LevelButton button = Instantiate(levelButtonPrefab, levelButtonsParent);
         button.Initialize(1, levels[0]);
-        button.onClick.AddListener(() => LoadLevel(button.GetLevel().GetScene()));
+        button.onClick.AddListener(() => LoadLevel(levels[0].GetScene()));
         button.interactable = true; // level 1 is always unlocked
 
         for (int i = 1; i < levels.Length; i++) {
@@ -69,7 +69,7 @@ public class MenuManager : MonoBehaviour {
 
             button = Instantiate(levelButtonPrefab, levelButtonsParent);
             button.Initialize(i + 1, levels[i]);
-            button.onClick.AddListener(() => LoadLevel(button.GetLevel().GetScene()));
+            button.onClick.AddListener(() => LoadLevel(levels[i].GetScene()));
             button.interactable = levels[i - 1].IsCompleted();
 
         }
@@ -118,6 +118,7 @@ public class MenuManager : MonoBehaviour {
 
     private void LoadLevel(Object scene) {
 
+        print(scene.name);
         sceneLoad = SceneManager.LoadSceneAsync(scene.name);
         sceneLoad.allowSceneActivation = false;
         ShowLoadingScreen();

@@ -11,14 +11,14 @@ public class Level : ScriptableObject {
     [SerializeField][Tooltip("Level 1 begins at index 1.")] private int levelNum;
     [SerializeField] private bool isCompleted;
     [SerializeField] private Object scene;
+    [SerializeField][Tooltip("In seconds")] private int timeLimit;
 
     public bool IsCompleted() => isCompleted;
 
     public void SetCompleted(bool completed) => isCompleted = completed;
 
-    public Object GetScene() {
+    public Object GetScene() => scene;
 
-        return scene;
+    public int GetTimeLimit() => timeLimit;
 
-    }
 }
