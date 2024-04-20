@@ -4003,7 +4003,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 959.7541, y: -578.005}
+  m_AnchoredPosition: {x: 1074.8219, y: -578.005}
   m_SizeDelta: {x: 500, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &382195509
@@ -11989,7 +11989,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 959.7541, y: -778.005}
+  m_AnchoredPosition: {x: 1074.8219, y: -778.005}
   m_SizeDelta: {x: 500, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &927510842
@@ -13268,7 +13268,7 @@ MonoBehaviour:
   flipTime: 0.32
   initialBoredom: 70
   boredomMax: 100
-  boredomDecayRate: 3
+  boredomDecayRate: 15
   boredomRecoveryRate: 13
   boredomFatigueThreshold: 0.3
   fatigueSpeedModifier: 0.5
@@ -14302,7 +14302,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 959.75415, y: -340}
+  m_AnchoredPosition: {x: 1074.8219, y: -340}
   m_SizeDelta: {x: 765.31, y: 201.01}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1032478098
@@ -18044,7 +18044,7 @@ GameObject:
   - component: {fileID: 1259639429}
   - component: {fileID: 1259639428}
   - component: {fileID: 1259639427}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18150,7 +18150,7 @@ GameObject:
   - component: {fileID: 1265261194}
   - component: {fileID: 1265261193}
   - component: {fileID: 1265261196}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bread
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24840,7 +24840,7 @@ MonoBehaviour:
   - {fileID: 1485036455}
   - {fileID: 1209638912}
   level: {fileID: 11400000, guid: 79cd515bbe4bb9b4b8d05ceea022f988, type: 2}
-  totalTasks: 3
+  totalTasks: 10
   trosh: {fileID: 5163038317141402837, guid: b3bab21284c4d944fa0635a5538502b8, type: 3}
   trashToSpawn: 3
   topLeftTrashSpawnBound: {x: -15, y: 18}
@@ -24848,8 +24848,8 @@ MonoBehaviour:
   puddlePrefab: {fileID: 3944374961526782785, guid: 67873e3da4bcd8a4ca096bbf03633aaa, type: 3}
   ingredients:
   - {fileID: 1265261191}
-  - {fileID: 465509513}
   - {fileID: 1740887319}
+  - {fileID: 465509513}
   - {fileID: 651980909}
 --- !u!4 &1736384532
 Transform:
@@ -24860,7 +24860,7 @@ Transform:
   m_GameObject: {fileID: 1736384530}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.76, y: 0, z: -13.45}
+  m_LocalPosition: {x: -15.34, y: 0, z: 18.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

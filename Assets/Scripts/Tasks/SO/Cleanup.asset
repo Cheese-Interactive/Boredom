@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Cleanup
   m_EditorClassIdentifier: 
   taskName: Cleanup
-  taskDescription: 
+  taskDescription: Do you not have a trash can?

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Mopping
   m_EditorClassIdentifier: 
   taskName: Mopping
-  taskDescription: 
+  taskDescription: Clean up your mess

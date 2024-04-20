@@ -4003,7 +4003,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 959.7541, y: -578.005}
+  m_AnchoredPosition: {x: 1074.8219, y: -745.505}
   m_SizeDelta: {x: 500, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &382195509
@@ -7082,8 +7082,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 959.7541, y: -340}
-  m_SizeDelta: {x: 632.83, y: 201.01}
+  m_AnchoredPosition: {x: 1074.8219, y: -340}
+  m_SizeDelta: {x: 2043.33, y: 603.01}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &615795567
 MonoBehaviour:
@@ -7119,7 +7119,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Victory!
+  m_text: "This level isn't\n supposed to be possible.\nCongratulations!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30ed662a6a936a34d928a24ebe1338fc, type: 2}
   m_sharedMaterial: {fileID: 5239089773564319063, guid: 30ed662a6a936a34d928a24ebe1338fc, type: 2}
@@ -11989,7 +11989,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 959.7541, y: -778.005}
+  m_AnchoredPosition: {x: 1074.8219, y: -945.505}
   m_SizeDelta: {x: 500, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &927510842
@@ -13268,8 +13268,8 @@ MonoBehaviour:
   flipTime: 0.32
   initialBoredom: 70
   boredomMax: 100
-  boredomDecayRate: 3
-  boredomRecoveryRate: 13
+  boredomDecayRate: 32
+  boredomRecoveryRate: 5
   boredomFatigueThreshold: 0.3
   fatigueSpeedModifier: 0.5
   boredomMultiplier: 0
@@ -14302,8 +14302,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 959.75415, y: -340}
-  m_SizeDelta: {x: 765.31, y: 201.01}
+  m_AnchoredPosition: {x: 1074.8219, y: -340}
+  m_SizeDelta: {x: 1046.07, y: 536.01}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1032478098
 MonoBehaviour:
@@ -14339,7 +14339,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You Lose!
+  m_text: "And so, you have\nunrecovrerably become\naddicted to your phone.\nYour
+    chores will never \nbe finished."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30ed662a6a936a34d928a24ebe1338fc, type: 2}
   m_sharedMaterial: {fileID: 5239089773564319063, guid: 30ed662a6a936a34d928a24ebe1338fc, type: 2}
@@ -14348,8 +14349,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4288059135
+  m_fontColor: {r: 1, g: 0.5896226, b: 0.5896226, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -14366,8 +14367,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 150
-  m_fontSizeBase: 150
+  m_fontSize: 80
+  m_fontSizeBase: 80
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -15841,7 +15842,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 959.7541, y: -578.005}
+  m_AnchoredPosition: {x: 1074.8219, y: -779.005}
   m_SizeDelta: {x: 500, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1159909673
@@ -18044,7 +18045,7 @@ GameObject:
   - component: {fileID: 1259639429}
   - component: {fileID: 1259639428}
   - component: {fileID: 1259639427}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18150,7 +18151,7 @@ GameObject:
   - component: {fileID: 1265261194}
   - component: {fileID: 1265261193}
   - component: {fileID: 1265261196}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bread
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19027,7 +19028,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.88235295}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -21279,7 +21280,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 959.7541, y: -778.005}
+  m_AnchoredPosition: {x: 1074.8219, y: -979.005}
   m_SizeDelta: {x: 500, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1492313784
@@ -24840,7 +24841,7 @@ MonoBehaviour:
   - {fileID: 1485036455}
   - {fileID: 1209638912}
   level: {fileID: 11400000, guid: 79cd515bbe4bb9b4b8d05ceea022f988, type: 2}
-  totalTasks: 3
+  totalTasks: 99999
   trosh: {fileID: 5163038317141402837, guid: b3bab21284c4d944fa0635a5538502b8, type: 3}
   trashToSpawn: 3
   topLeftTrashSpawnBound: {x: -15, y: 18}

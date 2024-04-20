@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Homework
   m_EditorClassIdentifier: 
   taskName: Homework
-  taskDescription: Time to study.
+  taskDescription: Time to study
