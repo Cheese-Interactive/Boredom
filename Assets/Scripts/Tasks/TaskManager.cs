@@ -48,6 +48,7 @@ public class TaskManager : MonoBehaviour {
         DOTween.KillAll();
 
     }
+
     private void ResetIngredients() {
         //i know this is sus but DO I CARE NAH
         int i = 0;
@@ -107,8 +108,11 @@ public class TaskManager : MonoBehaviour {
         if (currTask is MoppingTask)
             SpawnPuddle();
 
-        if (currTask is QuizTask)
-            uiController.OpenQuiz();
+        if (currTask is HomeworkTask)
+            uiController.OpenHomework();
+
+        if (currTask is DragQuizTask)
+            StartCoroutine(uiController.OpenDragQuiz());
 
         if (currTask is Sandwich)
             BeginSandwich();
@@ -117,8 +121,6 @@ public class TaskManager : MonoBehaviour {
         return true;
 
     }
-
-
 
     public void AssignDestination() {
 
@@ -173,8 +175,7 @@ public class TaskManager : MonoBehaviour {
             if (currTask is Sandwich)
                 CompleteCurrentTask();
             yield break;
-        }
-        else {
+        } else {
             ingredients[idx].SetActive(true);
             playerController.SetArrowVisible(true);
             playerController.PointArrow(ingredients[idx].transform.position);

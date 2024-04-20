@@ -1,12 +1,10 @@
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Tasks/Quiz")]
-public class QuizTask : Task {
+[CreateAssetMenu(menuName = "Tasks/Homework")]
+public class HomeworkTask : Task {
 
     public override void OnTaskComplete() {
-
-        Debug.Log("Drag Quiz Finished");
 
     }
 }

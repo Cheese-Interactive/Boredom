@@ -4,18 +4,19 @@ using UnityEngine;
 public class GameData : MonoBehaviour {
 
     [Header("Quiz")]
-    [SerializeField] private Quiz quiz;
+    [SerializeField] private Homework homework;
 
     [Header("Drag Quiz")]
     [SerializeField] private DragQuiz dragQuiz;
 
     private void Start() {
 
-        quiz.Initialize();
+        homework.Initialize();
+        dragQuiz.Initialize();
 
     }
 
-    public Quiz GetQuiz() { return quiz; }
+    public Homework GetQuiz() { return homework; }
 
     public DragQuiz GetDragQuiz() { return dragQuiz; }
 

@@ -1,8 +1,10 @@
 using DG.Tweening;
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -21,15 +23,25 @@ public class UIController : MonoBehaviour {
     [SerializeField] private TMP_Text taskDescriptionText;
 
     [Header("Quiz")]
-    [SerializeField] private GameObject quizPaper;
-    [SerializeField] private Button quizCloseButton;
-    [SerializeField] private float quizFadeDuration;
-    [SerializeField] private Transform quizContentParent;
-    [SerializeField] private QuestionUI questionPrefab;
+    [SerializeField] private GameObject homework;
+    [SerializeField] private float homeworkFadeDuration;
+    [SerializeField] private Transform homeworkContent;
+    [SerializeField] private HomeworkQuestionUI homeworkQuestionPrefab;
     [SerializeField] private Button submitButtonPrefab;
-    [SerializeField] private float quizCompleteWaitDuration;
-    private List<QuestionUI> questionUIs;
-    private bool quizOpen;
+    [SerializeField] private float homeworkCompleteWaitDuration;
+    private List<HomeworkQuestionUI> questionPrefabs;
+    private bool homeworkOpen;
+
+    [Header("Drag Quiz")]
+    [SerializeField] private CanvasGroup dragQuiz;
+    [SerializeField] private float dragQuizFadeDuration;
+    [SerializeField] private float dragQuizCompleteWaitDuration;
+    [SerializeField] private List<DragQuizQuestionUI> dragQuizQuestionObjs;
+    [SerializeField] private List<DragQuizAnswerUI> dragQuizAnswerObjs;
+    [SerializeField] private GameObject checkmark;
+    private DragQuizQuestion[] dragQuizQuestions;
+    private List<string> orderedAnswers;
+    private bool dragQuizOpen;
 
     [Header("Victory Screen")]
     [SerializeField] private CanvasGroup victoryScreen;
@@ -59,15 +71,30 @@ public class UIController : MonoBehaviour {
         lossScreen.gameObject.SetActive(false);
         HideLoadingScreen();
 
-        quizPaper.gameObject.SetActive(false);
-        questionUIs = new List<QuestionUI>();
+        homework.gameObject.SetActive(false);
+        questionPrefabs = new List<HomeworkQuestionUI>();
         //quizCloseButton.onClick.AddListener(() => StartCoroutine(CloseQuiz(false)));
+
+        dragQuiz.gameObject.SetActive(false);
+        checkmark.SetActive(false);
 
         menuButton1.onClick.AddListener(LoadMainMenu);
         menuButton2.onClick.AddListener(LoadMainMenu);
 
         quitButton1.onClick.AddListener(() => Application.Quit());
         quitButton2.onClick.AddListener(() => Application.Quit());
+
+        /* order drag quiz answers by index */
+        List<DragQuizAnswerUI> ordered = new List<DragQuizAnswerUI>(new DragQuizAnswerUI[dragQuizAnswerObjs.Count]);
+
+        for (int i = 0; i < dragQuizAnswerObjs.Count; i++) {
+
+            dragQuizAnswerObjs[i].Initialize();
+            ordered[dragQuizAnswerObjs[i].GetIndex()] = dragQuizAnswerObjs[i];
+
+        }
+
+        dragQuizAnswerObjs = ordered;
 
         ResetTaskInfo();
 
@@ -104,58 +131,58 @@ public class UIController : MonoBehaviour {
 
     #endregion
 
-    #region Quiz
+    #region Homework
 
-    public void OpenQuiz() {
+    public void OpenHomework() {
 
-        if (quizOpen) return; // quiz already open
+        if (homeworkOpen) return; // homework already open
 
         playerController.PauseBoredomTick(); // stop ticking boredom
         playerController.SetMechanicStatus(MechanicType.Movement, false);
 
-        foreach (Transform child in quizContentParent)
+        foreach (Transform child in homeworkContent)
             Destroy(child.gameObject);
 
-        Quiz quiz = gameData.GetQuiz();
-        QuizQuestion[] quizQuestions = quiz.GetRandomQuestions();
+        Homework homework = gameData.GetQuiz();
+        HomeworkQuestion[] homeworkQuestions = homework.GetRandomQuestions();
 
-        foreach (QuizQuestion question in quizQuestions) {
+        foreach (HomeworkQuestion question in homeworkQuestions) {
 
-            QuestionUI questionObject = Instantiate(questionPrefab, quizContentParent);
+            HomeworkQuestionUI questionObject = Instantiate(homeworkQuestionPrefab, homeworkContent);
             questionObject.SetQuestionText(question.GetQuestionText());
             questionObject.SetOptionTexts(question.GetOptions());
-            questionUIs.Add(questionObject); // track for validation purposes (added in same order as quiz questions)
+            questionPrefabs.Add(questionObject); // track for validation purposes (added in same order as homework questions)
 
         }
 
-        Button submitButton = Instantiate(submitButtonPrefab, quizContentParent);
+        Button submitButton = Instantiate(submitButtonPrefab, homeworkContent);
         submitButton.onClick.AddListener(() => {
 
             submitButton.interactable = false; // prevent multiple submissions
-            StartCoroutine(OnQuizComplete(quiz.ValidateAnswers(questionUIs)));
+            StartCoroutine(OnHomeworkComplete(homework.ValidateAnswers(questionPrefabs)));
 
         });
 
-        quizPaper.gameObject.SetActive(true);
-        StartCoroutine(RebuildLayout(quizContentParent, quizPaper.transform)); // rebuild layout AFTER making it visible
+        this.homework.gameObject.SetActive(true);
+        StartCoroutine(RebuildLayout(homeworkContent, this.homework.transform)); // rebuild layout AFTER making it visible
 
-        animator.SetTrigger("openQuiz");
-        quizOpen = true;
-
-    }
-
-    private IEnumerator OnQuizComplete(bool pass) {
-
-        yield return new WaitForSeconds(quizCompleteWaitDuration);
-        yield return StartCoroutine(CloseQuiz(pass)); // wait for quiz to close
+        animator.SetTrigger("openHomework");
+        homeworkOpen = true;
 
     }
 
-    private IEnumerator CloseQuiz(bool pass) {
+    private IEnumerator OnHomeworkComplete(bool pass) {
 
-        if (!quizOpen) yield break; // quiz already closed
+        yield return new WaitForSeconds(homeworkCompleteWaitDuration);
+        yield return StartCoroutine(CloseHomework(pass)); // wait for homework to close
 
-        animator.SetTrigger("closeQuiz");
+    }
+
+    private IEnumerator CloseHomework(bool pass) {
+
+        if (!homeworkOpen) yield break; // homework already closed
+
+        animator.SetTrigger("closeHomework");
         yield return new WaitForEndOfFrame(); // wait for animation to start playing
 
         if (pass)
@@ -163,17 +190,138 @@ public class UIController : MonoBehaviour {
         else
             taskManager.FailCurrentTask(); // fail task
 
-        // clear all quiz data
-        questionUIs.Clear();
+        // clear all homework data
+        questionPrefabs.Clear();
+
+        playerController.SetMechanicStatus(MechanicType.Movement, true); // allow movement before homework closes fully
+
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length); // wait for animation to finish playing
+
+        homework.gameObject.SetActive(false);
+        homeworkOpen = false;
+
+        playerController.StartBoredomTick(); // start ticking boredom again
+
+    }
+
+    #endregion
+
+    #region Drag Quiz
+
+    public IEnumerator OpenDragQuiz() {
+
+        if (dragQuizOpen) yield break; // quiz already open
+
+        this.dragQuiz.blocksRaycasts = true; // allow interactions
+
+        playerController.PauseBoredomTick(); // stop ticking boredom
+        playerController.SetMechanicStatus(MechanicType.Movement, false);
+        checkmark.SetActive(false);
+
+        DragQuiz dragQuiz = gameData.GetDragQuiz();
+        dragQuizQuestions = dragQuiz.GetRandomQuestions();
+        List<string> availableAnswers = new List<string>();
+        orderedAnswers = new List<string>(new string[dragQuizQuestions.Length]);
+
+        // set questions
+        for (int i = 0; i < dragQuizQuestions.Length; i++) {
+
+            dragQuizQuestionObjs[i].SetQuestionText(dragQuizQuestions[i]);
+            availableAnswers.Add(dragQuizQuestions[i].GetAnswerText());
+
+        }
+
+        // randomize answers
+        int guaranteedRandom = Random.Range(0, dragQuizQuestions.Length); // INDEX OF ANSWER THAT WILL BE INSERTED (FROM AVAILABLE ANSWERS)
+        int randIndex; // INDEX OF WHICH POSITION ANSWER IS INSERTED INTO
+
+        if (guaranteedRandom == 0) {
+
+            randIndex = Random.Range(1, dragQuizQuestions.Length); // random index from 1 to length - 1
+
+        } else if (guaranteedRandom == dragQuizQuestions.Length - 1) {
+
+            randIndex = Random.Range(0, dragQuizQuestions.Length - 1); // random index from 0 to length - 2
+
+        } else {
+
+            int[] ranges = { Random.Range(0, guaranteedRandom), Random.Range(guaranteedRandom, dragQuizQuestions.Length) }; // random ranges from 0 to guaranteedRandom - 1 and guaranteedRandom to length - 1
+            randIndex = ranges[Random.Range(0, ranges.Length)]; // random index from ranges
+
+        }
+
+        orderedAnswers[randIndex] = availableAnswers[guaranteedRandom]; // insert guaranteed random answer at random index
+        dragQuizAnswerObjs[randIndex].SetAnswerText(availableAnswers[guaranteedRandom]); // set answer text (same index as insert index of ordered answers)
+        availableAnswers.RemoveAt(guaranteedRandom); // remove guaranteed random answer
+
+        for (int i = 0; i < dragQuizQuestions.Length; i++) { // I IS THE INDEX OF THE ANSWER THAT WILL BE INSERTED (FROM AVAILABLE ANSWERS)
+
+            if (availableAnswers.Count == 0) break; // no more answers to randomize
+
+            do {
+
+                yield return null;
+                randIndex = Random.Range(0, dragQuizQuestions.Length); // random index from ranges
+
+            } while (orderedAnswers[randIndex] != null);
+
+            if (i == guaranteedRandom) continue; // skip guaranteed random answer
+
+            orderedAnswers[randIndex] = availableAnswers[availableAnswers.Count - 1]; // insert random answer at random index
+            dragQuizAnswerObjs[randIndex].SetAnswerText(availableAnswers[availableAnswers.Count - 1]); // set answer text (same index as insert index of ordered answers)
+            availableAnswers.RemoveAt(availableAnswers.Count - 1); // remove random answer
+
+        }
+
+        this.dragQuiz.gameObject.SetActive(true);
+
+        animator.SetTrigger("openDragQuiz");
+        dragQuizOpen = true;
+
+    }
+
+    private IEnumerator OnDragQuizComplete(bool pass) {
+
+        checkmark.SetActive(true);
+        animator.SetTrigger("completeDragQuiz");
+        dragQuiz.blocksRaycasts = false; // stop interactions
+        yield return new WaitForSeconds(dragQuizCompleteWaitDuration);
+        yield return StartCoroutine(CloseDragQuiz(pass)); // wait for drag quiz to close
+
+    }
+
+    private IEnumerator CloseDragQuiz(bool pass) {
+
+        if (!dragQuizOpen) yield break; // quiz already closed
+
+        animator.SetTrigger("closeDragQuiz");
+        yield return new WaitForEndOfFrame(); // wait for animation to start playing
+
+        if (pass)
+            taskManager.CompleteCurrentTask(); // complete task
+        else
+            taskManager.FailCurrentTask(); // fail task
 
         playerController.SetMechanicStatus(MechanicType.Movement, true); // allow movement before quiz closes fully
 
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length); // wait for animation to finish playing
 
-        quizPaper.gameObject.SetActive(false);
-        quizOpen = false;
+        dragQuiz.gameObject.SetActive(false);
+        dragQuizOpen = false;
 
         playerController.StartBoredomTick(); // start ticking boredom again
+
+    }
+
+    public void OnDragQuizDrop() {
+
+        /* order drag quiz questions by index */
+        List<DragQuizQuestionUI> ordered = new List<DragQuizQuestionUI>(new DragQuizQuestionUI[dragQuizQuestionObjs.Count]);
+
+        for (int i = 0; i < dragQuizQuestionObjs.Count; i++)
+            ordered[dragQuizQuestionObjs[i].GetIndex()] = dragQuizQuestionObjs[i];
+
+        if (gameData.GetDragQuiz().ValidateAnswers(ordered, orderedAnswers)) StartCoroutine(OnDragQuizComplete(true));
 
     }
 
@@ -195,6 +343,9 @@ public class UIController : MonoBehaviour {
 
     public void ShowVictoryScreen() {
 
+        StartCoroutine(CloseHomework(false));
+        StartCoroutine(CloseDragQuiz(false));
+
         victoryScreen.alpha = 0f;
         victoryScreen.gameObject.SetActive(true);
         taskHUD.DOFade(0f, victoryFadeDuration).SetEase(Ease.InCubic).OnComplete(() => taskHUD.gameObject.SetActive(false));
@@ -203,6 +354,9 @@ public class UIController : MonoBehaviour {
     }
 
     public void ShowLossScreen() {
+
+        StartCoroutine(CloseHomework(false));
+        StartCoroutine(CloseDragQuiz(false));
 
         lossScreen.alpha = 0f;
         lossScreen.gameObject.SetActive(true);

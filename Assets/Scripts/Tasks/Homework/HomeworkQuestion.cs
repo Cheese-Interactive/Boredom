@@ -3,23 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class QuizQuestion {
+public class HomeworkQuestion {
 
     [Header("Answers")]
     [SerializeField] private string questionText;
-    [SerializeField] private QuizAnswer[] answers;
+    [SerializeField] private HomeworkAnswer[] answers;
 
     public void Initialize() {
 
         // make sure all conditions are met
         int correctAnswers = 0;
 
-        foreach (QuizAnswer answer in answers)
+        foreach (HomeworkAnswer answer in answers) {
+
+            answer.Initialize();
+
             if (answer.IsCorrect())
                 correctAnswers++;
 
+        }
+
+        if (questionText.Length == 0)
+            Debug.LogError("HomeworkQuestion:Initialize - Question text cannot be empty.");
+
         if (correctAnswers == 0)
-            Debug.LogError("QuizQuestion:Initialize - There must be a correct answer.\nQuestion: " + questionText);
+            Debug.LogError("HomeworkQuestion:Initialize - There must be a correct answer.\nQuestion: " + questionText);
 
     }
 

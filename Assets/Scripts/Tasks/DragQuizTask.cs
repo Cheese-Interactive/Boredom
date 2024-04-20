@@ -7,7 +7,5 @@ public class DragQuizTask : Task {
 
     public override void OnTaskComplete() {
 
-        Debug.Log("Quiz Finished");
-
     }
 }

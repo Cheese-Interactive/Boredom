@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class QuizOption : MonoBehaviour {
+public class HomeworkOption : MonoBehaviour {
 
     [Header("References")]
     private Button button;
@@ -11,7 +11,7 @@ public class QuizOption : MonoBehaviour {
     [Header("Order")]
     private int optionIndex;
 
-    public void Initialize(QuestionUI questionUI, int optionIndex) {
+    public void Initialize(HomeworkQuestionUI questionUI, int optionIndex) {
 
         this.optionIndex = optionIndex;
         button = GetComponent<Button>();

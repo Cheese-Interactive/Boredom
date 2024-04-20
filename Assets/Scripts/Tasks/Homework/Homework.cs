@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class Quiz {
+public class Homework {
 
     [Header("Questions")]
     [SerializeField] private int questionsPerQuiz;
-    [SerializeField] private QuizQuestion[] questions;
-    private QuizQuestion[] currQuestions;
+    [SerializeField] private HomeworkQuestion[] questions;
+    private HomeworkQuestion[] currQuestions;
 
     [Header("Checking")]
     [SerializeField] private Color correctColor;
@@ -19,15 +19,18 @@ public class Quiz {
 
     public void Initialize() {
 
-        foreach (QuizQuestion question in questions)
+        foreach (HomeworkQuestion question in questions)
             question.Initialize();
+
+        if (questionsPerQuiz > questions.Length)
+            Debug.LogError("Homework:Initialize - Question per quiz exceeds total questions.");
 
     }
 
-    public QuizQuestion[] GetRandomQuestions() {
+    public HomeworkQuestion[] GetRandomQuestions() {
 
-        List<QuizQuestion> availableQuestions = new List<QuizQuestion>(questions);
-        currQuestions = new QuizQuestion[questionsPerQuiz];
+        List<HomeworkQuestion> availableQuestions = new List<HomeworkQuestion>(questions);
+        currQuestions = new HomeworkQuestion[questionsPerQuiz];
 
         for (int i = 0; i < questionsPerQuiz; i++) {
 
@@ -41,7 +44,7 @@ public class Quiz {
 
     }
 
-    public bool ValidateAnswers(List<QuestionUI> questionUIs) {
+    public bool ValidateAnswers(List<HomeworkQuestionUI> questionUIs) {
 
         for (int i = 0; i < questionUIs.Count; i++)
             if (questionUIs[i].GetSelectedIndex() == -1) // a question is unanswered

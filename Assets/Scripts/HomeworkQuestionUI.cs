@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class QuestionUI : MonoBehaviour {
+public class HomeworkQuestionUI : MonoBehaviour {
 
     [Header("References")]
     [SerializeField] private TMP_Text questionText;
-    [SerializeField] private QuizOption[] optionButtons;
+    [SerializeField] private HomeworkOption[] optionButtons;
     private int selectedIndex;
 
     [Header("Colors")]
@@ -30,11 +30,11 @@ public class QuestionUI : MonoBehaviour {
 
     }
 
-    public void OnOptionSelect(QuizOption option) {
+    public void OnOptionSelect(HomeworkOption option) {
 
         selectedIndex = option.GetIndex();
 
-        foreach (QuizOption btn in optionButtons)
+        foreach (HomeworkOption btn in optionButtons)
             if (btn == option)
                 btn.GetComponentInChildren<TMP_Text>().color = selectedColor;
             else

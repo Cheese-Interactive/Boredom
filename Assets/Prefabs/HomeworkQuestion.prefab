@@ -858,9 +858,9 @@ GameObject:
   - component: {fileID: 2953113045816199265}
   - component: {fileID: 3398119540570881775}
   - component: {fileID: 3170766740273411884}
-  - component: {fileID: 8232844732933495554}
+  - component: {fileID: 2889989848075091455}
   m_Layer: 5
-  m_Name: Question
+  m_Name: HomeworkQuestion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -931,7 +931,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
---- !u!114 &8232844732933495554
+--- !u!114 &2889989848075091455
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -940,7 +940,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5740871766796793096}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1739cfc3a29390e46954d6abb7892a34, type: 3}
+  m_Script: {fileID: 11500000, guid: 5701bf4793f0ade499f44e1dabc6afa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   questionText: {fileID: 5442574214417273021}
@@ -949,7 +949,7 @@ MonoBehaviour:
   - {fileID: 5175555519169707710}
   - {fileID: 8015434255344817004}
   - {fileID: 864528538740206127}
-  selectedColor: {r: 0.053209525, g: 0.7735849, b: 0, a: 1}
+  selectedColor: {r: 0.03660608, g: 0.764151, b: 0, a: 1}
   scoreMarker: {fileID: 8765413968974563156}
 --- !u!1 &7494255704513320754
 GameObject:
@@ -1586,7 +1586,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 52.3, y: 0}
+  m_AnchoredPosition: {x: 5, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3001576935559514496

@@ -5,7 +5,5 @@ public class MoppingTask : Task {
 
     public override void OnTaskComplete() {
 
-        Debug.Log("Mopping Finished");
-
     }
 }
