@@ -100,14 +100,15 @@ public class PlayerController : MonoBehaviour {
     private void Update() {
 
         /* PHONE */
-        if (Input.GetKeyDown(phoneKey) && mechanicStatuses[(int) MechanicType.Movement]) {
+        if (Input.GetKeyDown(phoneKey) && mechanicStatuses[(int)MechanicType.Movement]) {
 
             hasPhoneOut = true;
 
             ResetAnimations();
             animator.SetBool(horizontalInput >= 0f ? "isPhoneOutRight" : "isPhoneOutLeft", true); // moving right or standing still, animation faces right, else left
 
-        } else if (Input.GetKeyUp(phoneKey) || !mechanicStatuses[(int) MechanicType.Movement]) {
+        }
+        else if (Input.GetKeyUp(phoneKey) || !mechanicStatuses[(int)MechanicType.Movement]) {
 
             hasPhoneOut = false;
             ResetAnimations();
@@ -321,7 +322,7 @@ public class PlayerController : MonoBehaviour {
 
         if (taskManager.IsGameComplete()) { // disable mechanic if game is complete
 
-            mechanicStatuses[(int) mechanicType] = false;
+            mechanicStatuses[(int)mechanicType] = false;
             return;
 
         }
