@@ -47,10 +47,10 @@ public class UIController : MonoBehaviour {
     [SerializeField] private CanvasGroup dragQuiz;
     [SerializeField] private float dragQuizFadeDuration;
     [SerializeField] private float dragQuizCompleteWaitDuration;
-    [SerializeField] private List<DragQuizQuestionUI> dragQuizQuestionObjs;
+    [SerializeField] private List<TVRepairQuestionUI> dragQuizQuestionObjs;
     [SerializeField] private List<DragQuizAnswerUI> dragQuizAnswerObjs;
     [SerializeField] private GameObject checkmark;
-    private DragQuizQuestion[] dragQuizQuestions;
+    private TVRepairQuestion[] dragQuizQuestions;
     private List<string> orderedAnswers;
     private bool dragQuizOpen;
 
@@ -186,7 +186,7 @@ public class UIController : MonoBehaviour {
 
         taskNameText.text = taskName;
         taskDescriptionText.text = taskDescription;
-        RefreshLayout(mainHUD.transform);
+        StartCoroutine(RebuildLayout(taskInfo));
 
     }
 
@@ -286,7 +286,7 @@ public class UIController : MonoBehaviour {
         playerController.SetMechanicStatus(MechanicType.Movement, false);
         checkmark.SetActive(false);
 
-        DragQuiz dragQuiz = gameData.GetDragQuiz();
+        TVRepair dragQuiz = gameData.GetDragQuiz();
         dragQuizQuestions = dragQuiz.GetRandomQuestions();
         List<string> availableAnswers = new List<string>();
         orderedAnswers = new List<string>(new string[dragQuizQuestions.Length]);
@@ -343,7 +343,7 @@ public class UIController : MonoBehaviour {
 
         this.dragQuiz.gameObject.SetActive(true);
 
-        animator.SetTrigger("openDragQuiz");
+        animator.SetTrigger("openTVRepair");
         dragQuizOpen = true;
 
     }
@@ -351,7 +351,7 @@ public class UIController : MonoBehaviour {
     private IEnumerator OnDragQuizComplete(bool pass) {
 
         checkmark.SetActive(true);
-        animator.SetTrigger("completeDragQuiz");
+        animator.SetTrigger("completeTVRepair");
         dragQuiz.blocksRaycasts = false; // stop interactions
         yield return new WaitForSeconds(dragQuizCompleteWaitDuration);
         yield return StartCoroutine(CloseDragQuiz(pass)); // wait for drag quiz to close
@@ -362,7 +362,7 @@ public class UIController : MonoBehaviour {
 
         if (!dragQuizOpen) yield break; // quiz already closed
 
-        animator.SetTrigger("closeDragQuiz");
+        animator.SetTrigger("closeTVRepair");
         yield return new WaitForEndOfFrame(); // wait for animation to start playing
 
         if (pass)
@@ -385,7 +385,7 @@ public class UIController : MonoBehaviour {
     public void OnDragQuizDrop() {
 
         /* order drag quiz questions by index */
-        List<DragQuizQuestionUI> ordered = new List<DragQuizQuestionUI>(new DragQuizQuestionUI[dragQuizQuestionObjs.Count]);
+        List<TVRepairQuestionUI> ordered = new List<TVRepairQuestionUI>(new TVRepairQuestionUI[dragQuizQuestionObjs.Count]);
 
         for (int i = 0; i < dragQuizQuestionObjs.Count; i++)
             ordered[dragQuizQuestionObjs[i].GetIndex()] = dragQuizQuestionObjs[i];

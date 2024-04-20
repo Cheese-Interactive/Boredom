@@ -5,16 +5,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
-public class DragQuiz {
+public class TVRepair {
 
     [Header("Questions")]
     [SerializeField] private int questionsPerQuiz;
-    [SerializeField] private DragQuizQuestion[] questions;
-    private DragQuizQuestion[] currQuestions;
+    [SerializeField] private TVRepairQuestion[] questions;
+    private TVRepairQuestion[] currQuestions;
 
     public void Initialize() {
 
-        foreach (DragQuizQuestion question in questions)
+        foreach (TVRepairQuestion question in questions)
             question.Initialize();
 
         if (questionsPerQuiz > questions.Length)
@@ -22,10 +22,10 @@ public class DragQuiz {
 
     }
 
-    public DragQuizQuestion[] GetRandomQuestions() {
+    public TVRepairQuestion[] GetRandomQuestions() {
 
-        List<DragQuizQuestion> availableQuestions = new List<DragQuizQuestion>(questions);
-        currQuestions = new DragQuizQuestion[questionsPerQuiz];
+        List<TVRepairQuestion> availableQuestions = new List<TVRepairQuestion>(questions);
+        currQuestions = new TVRepairQuestion[questionsPerQuiz];
 
         for (int i = 0; i < questionsPerQuiz; i++) {
 
@@ -39,7 +39,7 @@ public class DragQuiz {
 
     }
 
-    public bool ValidateAnswers(List<DragQuizQuestionUI> questions, List<string> answers) {
+    public bool ValidateAnswers(List<TVRepairQuestionUI> questions, List<string> answers) {
 
         // validate answers
         for (int i = 0; i < questions.Count; i++)

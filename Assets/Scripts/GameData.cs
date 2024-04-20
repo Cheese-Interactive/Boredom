@@ -7,7 +7,7 @@ public class GameData : MonoBehaviour {
     [SerializeField] private Homework homework;
 
     [Header("Drag Quiz")]
-    [SerializeField] private DragQuiz dragQuiz;
+    [SerializeField] private TVRepair dragQuiz;
 
     private void Start() {
 
@@ -18,6 +18,6 @@ public class GameData : MonoBehaviour {
 
     public Homework GetQuiz() { return homework; }
 
-    public DragQuiz GetDragQuiz() { return dragQuiz; }
+    public TVRepair GetDragQuiz() { return dragQuiz; }
 
 }

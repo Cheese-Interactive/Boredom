@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class DragQuizQuestion {
+public class TVRepairQuestion {
 
     [Header("Answers")]
     [SerializeField] private string questionText;

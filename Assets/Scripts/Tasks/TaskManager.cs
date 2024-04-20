@@ -91,7 +91,6 @@ public class TaskManager : MonoBehaviour {
 
     public void OnGameLoss() {
 
-        print("loss");
         gameComplete = true;
         playerController.PauseBoredomTick();
         playerController.SetMechanicStatus(MechanicType.Movement, false);
@@ -110,8 +109,6 @@ public class TaskManager : MonoBehaviour {
 
         playerController.SetArrowVisible(false);
 
-        print(currTask.GetType());
-
         if (currTask is CleanupTask)
             SpawnTrash();
 
@@ -121,7 +118,7 @@ public class TaskManager : MonoBehaviour {
         if (currTask is HomeworkTask)
             uiController.OpenHomework();
 
-        if (currTask is DragQuizTask)
+        if (currTask is TVRepairTask)
             StartCoroutine(uiController.OpenDragQuiz());
 
         if (currTask is Sandwich)
@@ -137,8 +134,6 @@ public class TaskManager : MonoBehaviour {
             return;
 
         playerController.SetArrowVisible(true);
-
-        UpdateTaskInteractables(destinations[Random.Range(0, destinations.Count)]);
         TaskInteractable dest = destinations[Random.Range(0, destinations.Count)];
 
         UpdateTaskInteractables(dest);

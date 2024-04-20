@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class DragQuizQuestionUI : MonoBehaviour {
+public class TVRepairQuestionUI : MonoBehaviour {
 
     [Header("References")]
     [SerializeField] private TMP_Text questionText;
-    private DragQuizQuestion question;
+    private TVRepairQuestion question;
 
-    public void SetQuestionText(DragQuizQuestion question) {
+    public void SetQuestionText(TVRepairQuestion question) {
 
         this.question = question;
         questionText.text = question.GetQuestionText();
@@ -20,6 +20,6 @@ public class DragQuizQuestionUI : MonoBehaviour {
 
     public int GetIndex() => transform.parent.GetSiblingIndex();
 
-    public DragQuizQuestion GetQuestion() => question;
+    public TVRepairQuestion GetQuestion() => question;
 
 }
