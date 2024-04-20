@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class DraggableElement : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
 
     [Header("References")]
-    [SerializeField] private Transform dragQuiz;
+    [SerializeField] private Transform tvRepair;
     private DragSlot dragSlot;
     private Image image;
 
@@ -24,7 +24,7 @@ public class DraggableElement : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     public void OnBeginDrag(PointerEventData eventData) {
 
         dragParent = transform.parent;
-        transform.SetParent(dragQuiz);
+        transform.SetParent(tvRepair);
         transform.SetAsLastSibling();
         image.raycastTarget = false;
 

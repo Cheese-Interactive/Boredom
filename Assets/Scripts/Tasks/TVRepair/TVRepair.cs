@@ -18,7 +18,7 @@ public class TVRepair {
             question.Initialize();
 
         if (questionsPerQuiz > questions.Length)
-            Debug.LogError("DragQuiz:Initialize - Question per quiz exceeds total questions.");
+            Debug.LogError("TVRepair:Initialize - Question per quiz exceeds total questions.");
 
     }
 

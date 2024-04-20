@@ -119,7 +119,7 @@ public class TaskManager : MonoBehaviour {
             uiController.OpenHomework();
 
         if (currTask is TVRepairTask)
-            StartCoroutine(uiController.OpenDragQuiz());
+            StartCoroutine(uiController.OpenTVRepair());
 
         if (currTask is Sandwich)
             BeginSandwich();

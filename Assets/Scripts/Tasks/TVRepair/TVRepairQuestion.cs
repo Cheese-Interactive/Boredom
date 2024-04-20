@@ -6,14 +6,14 @@ public class TVRepairQuestion {
 
     [Header("Answers")]
     [SerializeField] private string questionText;
-    [SerializeField] private DragQuizAnswer answer;
+    [SerializeField] private TVRepairAnswer answer;
 
     public void Initialize() {
 
         answer.Initialize();
 
         if (questionText.Length == 0)
-            Debug.LogError("DragQuizQuestion:Initialize - Question text cannot be empty.");
+            Debug.LogError("TVRepairQuestion:Initialize - Question text cannot be empty.");
 
     }
 

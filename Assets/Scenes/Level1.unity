@@ -2122,14 +2122,14 @@ MonoBehaviour:
   homeworkQuestionPrefab: {fileID: 2889989848075091455, guid: 0c0493bae35640d47aadc36b127b0249, type: 3}
   submitButtonPrefab: {fileID: 7751158402492519360, guid: 455d7210337efd44cb630acedead4612, type: 3}
   homeworkCompleteWaitDuration: 1.5
-  dragQuiz: {fileID: 530820194}
-  dragQuizFadeDuration: 0.5
-  dragQuizCompleteWaitDuration: 1.5
-  dragQuizQuestionObjs:
+  tvRepair: {fileID: 530820194}
+  tvRepairFadeDuration: 0.5
+  tvRepairCompleteWaitDuration: 1.5
+  tvRepairQuestionObjs:
   - {fileID: 296512777}
   - {fileID: 1032378311}
   - {fileID: 436347267}
-  dragQuizAnswerObjs:
+  tvRepairAnswerObjs:
   - {fileID: 2068490172}
   - {fileID: 865292228}
   - {fileID: 1439460078}
@@ -5430,6 +5430,10 @@ PrefabInstance:
       propertyPath: dragQuiz
       value: 
       objectReference: {fileID: 530820190}
+    - target: {fileID: 3099201314216951813, guid: ef27ab8e7e7d67b4ba7c9d2b9212e9d8, type: 3}
+      propertyPath: tvRepair
+      value: 
+      objectReference: {fileID: 530820190}
     - target: {fileID: 6526109733118161336, guid: ef27ab8e7e7d67b4ba7c9d2b9212e9d8, type: 3}
       propertyPath: m_Color.b
       value: 0.20179982
@@ -6838,7 +6842,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -15}
-  m_SizeDelta: {x: 261.89, y: 48.25}
+  m_SizeDelta: {x: 477.52, y: 48.25}
   m_Pivot: {x: 0.5000002, y: 0.9999996}
 --- !u!114 &613245304
 MonoBehaviour:
@@ -6860,7 +6864,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Click and Drag!
+  m_text: Click and Drag On The Left!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30ed662a6a936a34d928a24ebe1338fc, type: 2}
   m_sharedMaterial: {fileID: 5239089773564319063, guid: 30ed662a6a936a34d928a24ebe1338fc, type: 2}
@@ -20261,7 +20265,7 @@ MonoBehaviour:
     incorrectColor: {r: 0.8584906, g: 0, b: 0, a: 1}
     incorrectMarker: X
     markerFadeDuration: 0.5
-  dragQuiz:
+  tvRepair:
     questionsPerQuiz: 3
     questions:
     - questionText: x
@@ -20369,7 +20373,7 @@ MonoBehaviour:
     - questionText: 'am i '
       answer:
         answerText: wrong
-    - questionText: im so
+    - questionText: im so glad we're
       answer:
         answerText: acquainted
     - questionText: 'maybe youre '
@@ -20407,7 +20411,7 @@ MonoBehaviour:
         answerText: diamond
     - questionText: thats why they call it
       answer:
-        answerText: morning
+        answerText: mourning
     - questionText: i think im finally
       answer:
         answerText: clean
@@ -24882,9 +24886,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destinations:
   - {fileID: 1730918166}
-  - {fileID: 930982789}
-  - {fileID: 1485036455}
-  - {fileID: 1209638912}
   level: {fileID: 11400000, guid: 18cc19c9c67bec64d90d3d9e292c2f33, type: 2}
   totalTasks: 3
   trosh: {fileID: 5163038317141402837, guid: b3bab21284c4d944fa0635a5538502b8, type: 3}
@@ -27573,6 +27574,10 @@ PrefabInstance:
       propertyPath: dragQuiz
       value: 
       objectReference: {fileID: 530820190}
+    - target: {fileID: 3099201314216951813, guid: ef27ab8e7e7d67b4ba7c9d2b9212e9d8, type: 3}
+      propertyPath: tvRepair
+      value: 
+      objectReference: {fileID: 530820190}
     - target: {fileID: 6526109733118161336, guid: ef27ab8e7e7d67b4ba7c9d2b9212e9d8, type: 3}
       propertyPath: m_Color.b
       value: 0.754717
@@ -29650,6 +29655,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3099201314216951813, guid: ef27ab8e7e7d67b4ba7c9d2b9212e9d8, type: 3}
       propertyPath: dragQuiz
+      value: 
+      objectReference: {fileID: 530820190}
+    - target: {fileID: 3099201314216951813, guid: ef27ab8e7e7d67b4ba7c9d2b9212e9d8, type: 3}
+      propertyPath: tvRepair
       value: 
       objectReference: {fileID: 530820190}
     - target: {fileID: 6526109733118161336, guid: ef27ab8e7e7d67b4ba7c9d2b9212e9d8, type: 3}

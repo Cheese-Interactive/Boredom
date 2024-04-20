@@ -44,16 +44,16 @@ public class UIController : MonoBehaviour {
     private List<HomeworkQuestionUI> questionPrefabs;
     private bool homeworkOpen;
 
-    [Header("Drag Quiz")]
-    [SerializeField] private CanvasGroup dragQuiz;
-    [SerializeField] private float dragQuizFadeDuration;
-    [SerializeField] private float dragQuizCompleteWaitDuration;
-    [SerializeField] private List<TVRepairQuestionUI> dragQuizQuestionObjs;
-    [SerializeField] private List<DragQuizAnswerUI> dragQuizAnswerObjs;
+    [Header("TV Repair")]
+    [SerializeField] private CanvasGroup tvRepair;
+    [SerializeField] private float tvRepairFadeDuration;
+    [SerializeField] private float tvRepairCompleteWaitDuration;
+    [SerializeField] private List<TVRepairQuestionUI> tvRepairQuestionObjs;
+    [SerializeField] private List<TVRepairAnswerUI> tvRepairAnswerObjs;
     [SerializeField] private GameObject checkmark;
-    private TVRepairQuestion[] dragQuizQuestions;
+    private TVRepairQuestion[] tvRepairQuestions;
     private List<string> orderedAnswers;
-    private bool dragQuizOpen;
+    private bool tvRepairOpen;
 
     [Header("Victory Screen")]
     [SerializeField] private CanvasGroup victoryScreen;
@@ -87,7 +87,7 @@ public class UIController : MonoBehaviour {
         questionPrefabs = new List<HomeworkQuestionUI>();
         //quizCloseButton.onClick.AddListener(() => StartCoroutine(CloseQuiz(false)));
 
-        dragQuiz.gameObject.SetActive(false);
+        tvRepair.gameObject.SetActive(false);
         checkmark.SetActive(false);
 
         menuButton1.onClick.AddListener(LoadMainMenu);
@@ -96,17 +96,17 @@ public class UIController : MonoBehaviour {
         quitButton1.onClick.AddListener(() => Application.Quit());
         quitButton2.onClick.AddListener(() => Application.Quit());
 
-        /* order drag quiz answers by index */
-        List<DragQuizAnswerUI> ordered = new List<DragQuizAnswerUI>(new DragQuizAnswerUI[dragQuizAnswerObjs.Count]);
+        /* order tv repair answers by index */
+        List<TVRepairAnswerUI> ordered = new List<TVRepairAnswerUI>(new TVRepairAnswerUI[tvRepairAnswerObjs.Count]);
 
-        for (int i = 0; i < dragQuizAnswerObjs.Count; i++) {
+        for (int i = 0; i < tvRepairAnswerObjs.Count; i++) {
 
-            dragQuizAnswerObjs[i].Initialize();
-            ordered[dragQuizAnswerObjs[i].GetIndex()] = dragQuizAnswerObjs[i];
+            tvRepairAnswerObjs[i].Initialize();
+            ordered[tvRepairAnswerObjs[i].GetIndex()] = tvRepairAnswerObjs[i];
 
         }
 
-        dragQuizAnswerObjs = ordered;
+        tvRepairAnswerObjs = ordered;
 
         taskTimerText.gameObject.SetActive(false);
 
@@ -279,94 +279,94 @@ public class UIController : MonoBehaviour {
 
     #endregion
 
-    #region Drag Quiz
+    #region TV Repair
 
-    public IEnumerator OpenDragQuiz() {
+    public IEnumerator OpenTVRepair() {
 
-        if (dragQuizOpen) yield break; // quiz already open
+        if (tvRepairOpen) yield break; // tv repair already open
 
         taskTimerText.gameObject.SetActive(true);
-        this.dragQuiz.blocksRaycasts = true; // allow interactions
+        this.tvRepair.blocksRaycasts = true; // allow interactions
 
         playerController.PauseBoredomTick(); // stop ticking boredom
         playerController.SetMechanicStatus(MechanicType.Movement, false);
         checkmark.SetActive(false);
 
-        TVRepair dragQuiz = gameData.GetDragQuiz();
-        dragQuizQuestions = dragQuiz.GetRandomQuestions();
+        TVRepair tvRepair = gameData.GetTVRepair();
+        tvRepairQuestions = tvRepair.GetRandomQuestions();
         List<string> availableAnswers = new List<string>();
-        orderedAnswers = new List<string>(new string[dragQuizQuestions.Length]);
+        orderedAnswers = new List<string>(new string[tvRepairQuestions.Length]);
 
         // set questions
-        for (int i = 0; i < dragQuizQuestions.Length; i++) {
+        for (int i = 0; i < tvRepairQuestions.Length; i++) {
 
-            dragQuizQuestionObjs[i].SetQuestionText(dragQuizQuestions[i]);
-            availableAnswers.Add(dragQuizQuestions[i].GetAnswerText());
+            tvRepairQuestionObjs[i].SetQuestionText(tvRepairQuestions[i]);
+            availableAnswers.Add(tvRepairQuestions[i].GetAnswerText());
 
         }
 
         // randomize answers
-        int guaranteedRandom = Random.Range(0, dragQuizQuestions.Length); // INDEX OF ANSWER THAT WILL BE INSERTED (FROM AVAILABLE ANSWERS)
+        int guaranteedRandom = Random.Range(0, tvRepairQuestions.Length); // INDEX OF ANSWER THAT WILL BE INSERTED (FROM AVAILABLE ANSWERS)
         int randIndex; // INDEX OF WHICH POSITION ANSWER IS INSERTED INTO
 
         if (guaranteedRandom == 0) {
 
-            randIndex = Random.Range(1, dragQuizQuestions.Length); // random index from 1 to length - 1
+            randIndex = Random.Range(1, tvRepairQuestions.Length); // random index from 1 to length - 1
 
-        } else if (guaranteedRandom == dragQuizQuestions.Length - 1) {
+        } else if (guaranteedRandom == tvRepairQuestions.Length - 1) {
 
-            randIndex = Random.Range(0, dragQuizQuestions.Length - 1); // random index from 0 to length - 2
+            randIndex = Random.Range(0, tvRepairQuestions.Length - 1); // random index from 0 to length - 2
 
         } else {
 
-            int[] ranges = { Random.Range(0, guaranteedRandom), Random.Range(guaranteedRandom, dragQuizQuestions.Length) }; // random ranges from 0 to guaranteedRandom - 1 and guaranteedRandom to length - 1
+            int[] ranges = { Random.Range(0, guaranteedRandom), Random.Range(guaranteedRandom, tvRepairQuestions.Length) }; // random ranges from 0 to guaranteedRandom - 1 and guaranteedRandom to length - 1
             randIndex = ranges[Random.Range(0, ranges.Length)]; // random index from ranges
 
         }
 
         orderedAnswers[randIndex] = availableAnswers[guaranteedRandom]; // insert guaranteed random answer at random index
-        dragQuizAnswerObjs[randIndex].SetAnswerText(availableAnswers[guaranteedRandom]); // set answer text (same index as insert index of ordered answers)
+        tvRepairAnswerObjs[randIndex].SetAnswerText(availableAnswers[guaranteedRandom]); // set answer text (same index as insert index of ordered answers)
         availableAnswers.RemoveAt(guaranteedRandom); // remove guaranteed random answer
 
-        for (int i = 0; i < dragQuizQuestions.Length; i++) { // I IS THE INDEX OF THE ANSWER THAT WILL BE INSERTED (FROM AVAILABLE ANSWERS)
+        for (int i = 0; i < tvRepairQuestions.Length; i++) { // I IS THE INDEX OF THE ANSWER THAT WILL BE INSERTED (FROM AVAILABLE ANSWERS)
 
             if (availableAnswers.Count == 0) break; // no more answers to randomize
 
             do {
 
                 yield return null;
-                randIndex = Random.Range(0, dragQuizQuestions.Length); // random index from ranges
+                randIndex = Random.Range(0, tvRepairQuestions.Length); // random index from ranges
 
             } while (orderedAnswers[randIndex] != null);
 
             if (i == guaranteedRandom) continue; // skip guaranteed random answer
 
             orderedAnswers[randIndex] = availableAnswers[availableAnswers.Count - 1]; // insert random answer at random index
-            dragQuizAnswerObjs[randIndex].SetAnswerText(availableAnswers[availableAnswers.Count - 1]); // set answer text (same index as insert index of ordered answers)
+            tvRepairAnswerObjs[randIndex].SetAnswerText(availableAnswers[availableAnswers.Count - 1]); // set answer text (same index as insert index of ordered answers)
             availableAnswers.RemoveAt(availableAnswers.Count - 1); // remove random answer
 
         }
 
-        this.dragQuiz.gameObject.SetActive(true);
+        this.tvRepair.gameObject.SetActive(true);
 
         animator.SetTrigger("openTVRepair");
-        dragQuizOpen = true;
+        tvRepairOpen = true;
 
     }
 
-    private IEnumerator OnDragQuizComplete(bool pass) {
+    private IEnumerator OnTVRepairComplete(bool pass) {
 
         checkmark.SetActive(true);
         animator.SetTrigger("completeTVRepair");
-        dragQuiz.blocksRaycasts = false; // stop interactions
-        yield return new WaitForSeconds(dragQuizCompleteWaitDuration);
-        yield return StartCoroutine(CloseDragQuiz(pass)); // wait for drag quiz to close
+        tvRepair.blocksRaycasts = false; // stop interactions
+        yield return new WaitForSeconds(tvRepairCompleteWaitDuration);
+        yield return StartCoroutine(CloseTVRepair(pass)); // wait for tv repair to close
 
     }
 
-    private IEnumerator CloseDragQuiz(bool pass) {
+    private IEnumerator CloseTVRepair(bool pass) {
 
-        if (!dragQuizOpen) yield break; // quiz already closed
+        if (!tvRepairOpen) yield break; // tv repair already closed
 
         taskTimerText.gameObject.SetActive(false);
         animator.SetTrigger("closeTVRepair");
@@ -377,27 +377,27 @@ public class UIController : MonoBehaviour {
         else
             taskManager.FailCurrentTask(); // fail task
 
-        playerController.SetMechanicStatus(MechanicType.Movement, true); // allow movement before quiz closes fully
+        playerController.SetMechanicStatus(MechanicType.Movement, true); // allow movement before tv repair closes fully
 
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length); // wait for animation to finish playing
 
-        dragQuiz.gameObject.SetActive(false);
-        dragQuizOpen = false;
+        tvRepair.gameObject.SetActive(false);
+        tvRepairOpen = false;
 
         if (!taskManager.IsGameComplete())
             playerController.StartBoredomTick(); // start ticking boredom again only if game is still going
 
     }
 
-    public void OnDragQuizDrop() {
+    public void OnTVRepairDrop() {
 
-        /* order drag quiz questions by index */
-        List<TVRepairQuestionUI> ordered = new List<TVRepairQuestionUI>(new TVRepairQuestionUI[dragQuizQuestionObjs.Count]);
+        /* order tv repair questions by index */
+        List<TVRepairQuestionUI> ordered = new List<TVRepairQuestionUI>(new TVRepairQuestionUI[tvRepairQuestionObjs.Count]);
 
-        for (int i = 0; i < dragQuizQuestionObjs.Count; i++)
-            ordered[dragQuizQuestionObjs[i].GetIndex()] = dragQuizQuestionObjs[i];
+        for (int i = 0; i < tvRepairQuestionObjs.Count; i++)
+            ordered[tvRepairQuestionObjs[i].GetIndex()] = tvRepairQuestionObjs[i];
 
-        if (gameData.GetDragQuiz().ValidateAnswers(ordered, orderedAnswers)) StartCoroutine(OnDragQuizComplete(true));
+        if (gameData.GetTVRepair().ValidateAnswers(ordered, orderedAnswers)) StartCoroutine(OnTVRepairComplete(true));
 
     }
 
@@ -420,7 +420,7 @@ public class UIController : MonoBehaviour {
     public void ShowVictoryScreen() {
 
         StartCoroutine(CloseHomework(false));
-        StartCoroutine(CloseDragQuiz(false));
+        StartCoroutine(CloseTVRepair(false));
 
         victoryScreen.alpha = 0f;
         victoryScreen.gameObject.SetActive(true);
@@ -432,7 +432,7 @@ public class UIController : MonoBehaviour {
     public void ShowLossScreen() {
 
         StartCoroutine(CloseHomework(false));
-        StartCoroutine(CloseDragQuiz(false));
+        StartCoroutine(CloseTVRepair(false));
 
         lossScreen.alpha = 0f;
         lossScreen.gameObject.SetActive(true);

@@ -33,7 +33,7 @@ public class DragSlot : MonoBehaviour, IDropHandler {
         newElem.GetDragSlot().SetCurrElement(currElement);
         SetCurrElement(tempElem);
 
-        uiController.OnDragQuizDrop();
+        uiController.OnTVRepairDrop();
 
     }
 

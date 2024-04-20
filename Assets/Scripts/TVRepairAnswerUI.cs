@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class DragQuizAnswerUI : MonoBehaviour {
+public class TVRepairAnswerUI : MonoBehaviour {
 
     [Header("References")]
     [SerializeField] private TMP_Text answerText;
