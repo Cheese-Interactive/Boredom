@@ -1,5 +1,6 @@
 
 using DG.Tweening;
+using DG.Tweening.Core;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -10,8 +11,12 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour {
 
+    [Header("References")]
+    private Animator animator;
+
     [Header("Main Menu")]
     [SerializeField] private CanvasGroup mainMenu;
+    [SerializeField] private float mainMenuFadeDuration;
     [SerializeField] private Transform mainContent;
     [SerializeField] private Button playButton;
     [SerializeField] private Button tutorialButton;
@@ -20,17 +25,21 @@ public class MenuManager : MonoBehaviour {
 
     [Header("Level Select")]
     [SerializeField] private CanvasGroup levelMenu;
+    [SerializeField] private float levelMenuFadeDuration;
     [SerializeField] private Level[] levels;
     [SerializeField] private Transform levelButtonsParent;
     [SerializeField] private LevelButton levelButtonPrefab;
     [SerializeField] private Button levelsCloseButton;
+    [SerializeField] private int levelIndexOffset;
 
     [Header("Tutorial")]
     [SerializeField] private CanvasGroup tutorialMenu;
+    [SerializeField] private float tutorialMenuFadeDuration;
     [SerializeField] private Button tutorialCloseButton;
 
     [Header("Credits")]
     [SerializeField] private CanvasGroup creditsMenu;
+    [SerializeField] private float creditsMenuFadeDuration;
     [SerializeField] private Button creditsCloseButton;
 
     [Header("Loading Screen")]
@@ -38,27 +47,35 @@ public class MenuManager : MonoBehaviour {
     [SerializeField] private float loadingFadeDuration;
     private AsyncOperation sceneLoad;
 
+    [Header("Animations")]
+    [SerializeField] private Transform ground;
+    [SerializeField] private Vector2 groundStart;
+    [SerializeField] private Vector2 groundTarget;
+    [SerializeField] private float groundDuration;
+
     private void Start() {
 
-        mainMenu.gameObject.SetActive(true);
-        tutorialMenu.gameObject.SetActive(false);
-        levelMenu.gameObject.SetActive(false);
-        creditsMenu.gameObject.SetActive(false);
+        animator = GetComponent<Animator>();
+
+        OpenMainMenu();
+        CloseTutorialMenu();
+        CloseLevelMenu();
+        CloseCreditsMenu();
 
         HideLoadingScreen();
 
-        playButton.onClick.AddListener(OpenLevelSelector);
+        playButton.onClick.AddListener(OpenLevelMenu);
         quitButton.onClick.AddListener(() => Application.Quit());
-        tutorialButton.onClick.AddListener(OpenTutorial);
-        creditsButton.onClick.AddListener(OpenCredits);
+        tutorialButton.onClick.AddListener(OpenTutorialMenu);
+        creditsButton.onClick.AddListener(OpenCreditsMenu);
 
-        tutorialCloseButton.onClick.AddListener(CloseTut);
-        levelsCloseButton.onClick.AddListener(CloseLevelSelector);
-        creditsCloseButton.onClick.AddListener(CloseCredits);
+        tutorialCloseButton.onClick.AddListener(CloseTutorialMenu);
+        levelsCloseButton.onClick.AddListener(CloseLevelMenu);
+        creditsCloseButton.onClick.AddListener(CloseCreditsMenu);
 
         LevelButton button = Instantiate(levelButtonPrefab, levelButtonsParent);
         button.Initialize(1, levels[0]);
-        button.onClick.AddListener(() => LoadLevel(levels[0].GetScene()));
+        button.onClick.AddListener(() => LoadLevel(levelIndexOffset));
         button.interactable = true; // level 1 is always unlocked
 
         for (int i = 1; i < levels.Length; i++) {
@@ -69,10 +86,17 @@ public class MenuManager : MonoBehaviour {
 
             button = Instantiate(levelButtonPrefab, levelButtonsParent);
             button.Initialize(i + 1, levels[i]);
-            button.onClick.AddListener(() => LoadLevel(levels[i].GetScene()));
+            button.onClick.AddListener(() => LoadLevel(i + levelIndexOffset));
             button.interactable = levels[i - 1].IsCompleted();
 
         }
+
+        /* INTRO ANIMATIONS */
+        animator.SetTrigger("mainMenuIntro");
+
+        ground.position = groundStart;
+        ground.DOMove(Vector3.zero, groundDuration);
+
     }
 
     private void OnDestroy() {
@@ -81,19 +105,41 @@ public class MenuManager : MonoBehaviour {
 
     }
 
-    #region Tutorial Menu
+    #region Main Menu
 
-    private void OpenTutorial() {
+    private void OpenMainMenu() {
 
-        mainMenu.gameObject.SetActive(false);
-        tutorialMenu.gameObject.SetActive(true);
+        animator.SetTrigger("mainMenuIntro");
+        mainMenu.gameObject.SetActive(true);
+        mainMenu.DOFade(1f, mainMenuFadeDuration);
 
     }
 
-    private void CloseTut() {
+    private void CloseMainMenu() {
 
-        mainMenu.gameObject.SetActive(true);
+        mainMenu.alpha = 0f;
+        mainMenu.gameObject.SetActive(false);
+
+    }
+
+    #endregion
+
+    #region Tutorial Menu
+
+    private void OpenTutorialMenu() {
+
+        animator.SetTrigger("tutorialIntro");
+        CloseMainMenu();
+        tutorialMenu.gameObject.SetActive(true);
+        tutorialMenu.DOFade(1f, tutorialMenuFadeDuration);
+
+    }
+
+    private void CloseTutorialMenu() {
+
+        tutorialMenu.alpha = 0f;
         tutorialMenu.gameObject.SetActive(false);
+        OpenMainMenu();
 
     }
 
@@ -101,25 +147,27 @@ public class MenuManager : MonoBehaviour {
 
     #region Level Menu
 
-    private void OpenLevelSelector() {
+    private void OpenLevelMenu() {
 
-        mainMenu.gameObject.SetActive(false);
+        animator.SetTrigger("levelsIntro");
+        CloseMainMenu();
         levelMenu.gameObject.SetActive(true);
+        levelMenu.DOFade(1f, levelMenuFadeDuration);
         StartCoroutine(RebuildLayout(mainContent, levelButtonsParent)); // rebuild layout EACH time the level menu is opened, rebuild AFTER making it visible
 
     }
 
-    private void CloseLevelSelector() {
+    private void CloseLevelMenu() {
 
-        mainMenu.gameObject.SetActive(true);
+        levelMenu.alpha = 0f;
         levelMenu.gameObject.SetActive(false);
+        OpenMainMenu();
 
     }
 
-    private void LoadLevel(Object scene) {
+    private void LoadLevel(int buildIndex) {
 
-        print(scene.name);
-        sceneLoad = SceneManager.LoadSceneAsync(scene.name);
+        sceneLoad = SceneManager.LoadSceneAsync(buildIndex);
         sceneLoad.allowSceneActivation = false;
         ShowLoadingScreen();
 
@@ -129,17 +177,20 @@ public class MenuManager : MonoBehaviour {
 
     #region Credits Menu
 
-    private void OpenCredits() {
+    private void OpenCreditsMenu() {
 
-        mainMenu.gameObject.SetActive(false);
+        animator.SetTrigger("creditsIntro");
+        CloseMainMenu();
         creditsMenu.gameObject.SetActive(true);
+        creditsMenu.DOFade(1f, creditsMenuFadeDuration);
 
     }
 
-    private void CloseCredits() {
+    private void CloseCreditsMenu() {
 
-        mainMenu.gameObject.SetActive(true);
+        creditsMenu.alpha = 0f;
         creditsMenu.gameObject.SetActive(false);
+        OpenMainMenu();
 
     }
 

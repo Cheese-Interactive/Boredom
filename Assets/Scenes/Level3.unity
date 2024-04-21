@@ -2293,6 +2293,7 @@ MonoBehaviour:
   quitButton2: {fileID: 927510842}
   loadingScreen: {fileID: 1633709769}
   loadingFadeDuration: 0.5
+  mainMenuBuildIndex: 1
 --- !u!114 &210720300
 MonoBehaviour:
   m_ObjectHideFlags: 0

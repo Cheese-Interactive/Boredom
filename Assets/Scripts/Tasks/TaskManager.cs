@@ -79,6 +79,7 @@ public class TaskManager : MonoBehaviour {
     public int GetCompletedTasks() { return completedTasks; }
 
     public void OnGameVictory() {
+
         audioMangager.PlaySound(AudioManager.GameSoundEffectType.Win);
         gameComplete = true;
         playerController.PauseBoredomTick();

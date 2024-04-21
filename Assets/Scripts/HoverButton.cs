@@ -32,6 +32,12 @@ public class HoverButton : MonoBehaviour {
 
     }
 
+    private void OnDisable() {
+
+        text.DOColor(startColor, hoverFadeDuration); // reset color
+
+    }
+
     private void OnPointerEnter(PointerEventData eventData) {
 
         text.DOColor(hoverColor, hoverFadeDuration); // color transition

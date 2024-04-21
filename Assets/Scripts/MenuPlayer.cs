@@ -7,23 +7,39 @@ public class MenuPlayer : MonoBehaviour {
     [SerializeField] private Transform targetPoint;
     [SerializeField] private float delay;
     [SerializeField] private float moveDuration;
+    [SerializeField] private Vector3 playerStart;
+    [SerializeField] private Vector3 playerTarget;
+    [SerializeField] private float playerDuration;
     private Vector3 startPoint;
     private bool toTarget;
     private Tweener tweener;
+    private bool initialized;
+    private bool lastInitialized;
 
     private void Start() {
 
-        startPoint = transform.position;
-        toTarget = true;
-        transform.Rotate(0f, 180f, 0f); // place this here so it rotates to normal position when the game starts
+        transform.position = playerStart;
+        transform.DOMove(playerTarget, playerDuration).OnComplete(() => {
 
+            startPoint = transform.position;
+            toTarget = true;
+
+            initialized = true;
+
+        });
     }
 
     private void FixedUpdate() {
 
-        if (tweener != null && tweener.IsActive()) return;
+        if ((tweener != null && tweener.IsActive()) || !initialized) {
 
-        transform.Rotate(0f, 180f, 0f);
+            lastInitialized = initialized;
+            return;
+
+        }
+
+        if (lastInitialized == initialized) // prevents flip on first time
+            transform.Rotate(0f, 180f, 0f);
 
         tweener = transform.DOMove(toTarget ? targetPoint.position : startPoint, moveDuration).SetDelay(delay).OnComplete(() => {
 
