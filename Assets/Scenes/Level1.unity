@@ -2088,8 +2088,8 @@ MonoBehaviour:
   walkLoop: {fileID: 8300000, guid: 96d98603b95ec494e97e17cbc6a15e11, type: 3}
   phoneLoop: {fileID: 8300000, guid: b4e53e64d86fbb14cb34dc1c37483e98, type: 3}
   taskComplete: {fileID: 8300000, guid: 98bebd6ca87eb704fab1a4aa2e09bf5d, type: 3}
-  win: {fileID: 0}
-  lose: {fileID: 0}
+  win: {fileID: 8300000, guid: 3700c283a6cf2014eb7b3f9c9220fb1a, type: 3}
+  lose: {fileID: 8300000, guid: 889512caf3f805f4388ab20766d3171e, type: 3}
 --- !u!4 &175660646
 Transform:
   m_ObjectHideFlags: 0
@@ -13545,7 +13545,7 @@ MonoBehaviour:
   flipTime: 0.32
   initialBoredom: 70
   boredomMax: 100
-  boredomDecayRate: 7
+  boredomDecayRate: 2
   boredomRecoveryRate: 13
   boredomFatigueThreshold: 0.3
   fatigueSpeedModifier: 0.5
@@ -22830,7 +22830,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 92.6, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1608105930
@@ -25723,7 +25723,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 189.405, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1766613313
@@ -26788,7 +26788,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 102.96, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1841824764

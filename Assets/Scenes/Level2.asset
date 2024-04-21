@@ -15,5 +15,5 @@ MonoBehaviour:
   levelNum: 2
   isCompleted: 0
   scene: {fileID: 102900000, guid: e03196e5493f759479e48324bff64278, type: 3}
-  tasksToComplete: 2
+  tasksToComplete: 5
   timeLimit: 250
