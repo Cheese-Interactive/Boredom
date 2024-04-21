@@ -13541,7 +13541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrow: {fileID: 1596234317}
-  baseMoveSpeed: 5.5
+  baseMoveSpeed: 5
   flipTime: 0.32
   initialBoredom: 70
   boredomMax: 100
@@ -13549,6 +13549,8 @@ MonoBehaviour:
   boredomRecoveryRate: 13
   boredomFatigueThreshold: 0.3
   fatigueSpeedModifier: 0.5
+  boredomDopamineThreshold: 0.8
+  dopamineSpeedModifier: 1.3
   boredomMultiplier: 0
   flashWaitDuration: 0.15
   meterReference: {fileID: 1007386389}
