@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level4
   m_EditorClassIdentifier: 
   levelNum: 4
-  isCompleted: 1
+  isCompleted: 0
   tasksToComplete: 9999
   timeLimit: 30
   boredomDecayRate: 45

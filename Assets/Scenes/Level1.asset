@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: 
   levelNum: 1
-  isCompleted: 1
+  isCompleted: 0
   tasksToComplete: 3
   timeLimit: 250
   boredomDecayRate: 3
