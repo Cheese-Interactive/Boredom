@@ -86,7 +86,8 @@ public class MenuManager : MonoBehaviour {
 
             button = Instantiate(levelButtonPrefab, levelButtonsParent);
             button.Initialize(i + 1, levels[i]);
-            button.onClick.AddListener(() => LoadLevel(i + levelIndexOffset));
+            int levelIndex = i + levelIndexOffset;
+            button.onClick.AddListener(() => LoadLevel(levelIndex));
             button.interactable = levels[i - 1].IsCompleted();
 
         }
@@ -96,6 +97,8 @@ public class MenuManager : MonoBehaviour {
 
         ground.position = groundStart;
         ground.DOMove(Vector3.zero, groundDuration);
+
+        Time.timeScale = 1f; // reset time scale
 
     }
 

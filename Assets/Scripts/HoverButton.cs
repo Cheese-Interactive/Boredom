@@ -34,19 +34,19 @@ public class HoverButton : MonoBehaviour {
 
     private void OnDisable() {
 
-        text.DOColor(startColor, hoverFadeDuration); // reset color
+        text.DOColor(startColor, hoverFadeDuration).SetUpdate(true); // reset color
 
     }
 
     private void OnPointerEnter(PointerEventData eventData) {
 
-        text.DOColor(hoverColor, hoverFadeDuration); // color transition
+        text.DOColor(hoverColor, hoverFadeDuration).SetUpdate(true); // color transition
 
     }
 
     private void OnPointerExit(PointerEventData eventData) {
 
-        text.DOColor(startColor, hoverFadeDuration); // color transition
+        text.DOColor(startColor, hoverFadeDuration).SetUpdate(true); // color transition
 
     }
 }

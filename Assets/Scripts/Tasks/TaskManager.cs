@@ -33,6 +33,9 @@ public class TaskManager : MonoBehaviour {
     private bool[] ingredientStatuses;
     private int currIngredientIdx;
 
+    [Header("Pausing")]
+    private bool isPaused;
+
     private void Start() {
 
         audioMangager = FindObjectOfType<AudioManager>();
@@ -43,13 +46,51 @@ public class TaskManager : MonoBehaviour {
         ingredientStatuses = new bool[ingredients.Length];
         ResetIngredients();
 
-        uiController.StartTimer(level.GetTimeLimit()); // begin timer
+        uiController.InitializeTimer(level.GetTimeLimit()); // begin timer
+
+        Time.timeScale = 1f; // reset time scale
 
     }
 
     private void OnDestroy() {
 
         DOTween.KillAll();
+
+    }
+
+    public void TogglePause() {
+
+        if (gameComplete) // game already ended
+            return;
+
+        if (isPaused)
+            UnpauseGame();
+        else
+            PauseGame();
+
+    }
+
+    private void PauseGame() {
+
+        Time.timeScale = 0f;
+        isPaused = true;
+        playerController.PauseBoredomTick();
+        playerController.SetMechanicStatus(MechanicType.Movement, false);
+        playerController.StopMeterFlash();
+        uiController.PauseTimer();
+        uiController.OpenPauseMenu();
+
+    }
+
+    private void UnpauseGame() {
+
+        Time.timeScale = 1f;
+        isPaused = false;
+        playerController.StartBoredomTick();
+        playerController.SetMechanicStatus(MechanicType.Movement, true);
+        uiController.ResumeTimer();
+        uiController.ClosePauseMenu();
+        // meter flash will start automatically if needed
 
     }
 
@@ -85,7 +126,7 @@ public class TaskManager : MonoBehaviour {
         playerController.PauseBoredomTick();
         playerController.SetMechanicStatus(MechanicType.Movement, false);
         playerController.StopMeterFlash();
-        uiController.StopTimer();
+        uiController.PauseTimer();
         uiController.ShowVictoryScreen();
         level.SetCompleted(true);
 
@@ -98,7 +139,7 @@ public class TaskManager : MonoBehaviour {
         playerController.PauseBoredomTick();
         playerController.SetMechanicStatus(MechanicType.Movement, false);
         playerController.StopMeterFlash();
-        uiController.StopTimer();
+        uiController.PauseTimer();
         uiController.ShowLossScreen();
 
     }

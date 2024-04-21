@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private KeyCode phoneKey;
 
     private void Start() {
+
         cam = FindObjectOfType<PlayerCamFollow>().GetComponent<Camera>();
         arrowTarget = Vector3.zero;
         SetArrowVisible(true);
@@ -93,7 +94,7 @@ public class PlayerController : MonoBehaviour {
         mechanicStatuses = new bool[Enum.GetValues(typeof(MechanicType)).Length];
 
         foreach (MechanicType mechanicType in Enum.GetValues(typeof(MechanicType)))
-            mechanicStatuses[(int)mechanicType] = true;
+            mechanicStatuses[(int) mechanicType] = true;
 
         boredom = initialBoredom;
         boredomText.text = $"{boredom}";
@@ -112,7 +113,7 @@ public class PlayerController : MonoBehaviour {
     private void Update() {
 
         /* PHONE */
-        if (Input.GetKeyDown(phoneKey) && mechanicStatuses[(int)MechanicType.Movement]) {
+        if (Input.GetKeyDown(phoneKey) && mechanicStatuses[(int) MechanicType.Movement]) {
 
             hasPhoneOut = true;
             ResetAnimations();
@@ -121,7 +122,7 @@ public class PlayerController : MonoBehaviour {
         }
         /* if (Input.GetKey(phoneKey))
              dopamineAmount += Time.deltaTime;*/
-        else if (Input.GetKeyUp(phoneKey) || !mechanicStatuses[(int)MechanicType.Movement]) {
+        else if (Input.GetKeyUp(phoneKey) || !mechanicStatuses[(int) MechanicType.Movement]) {
             //StartCoroutine(DopamineRush(dopamineAmount));
             hasPhoneOut = false;
             ResetAnimations();
@@ -143,7 +144,7 @@ public class PlayerController : MonoBehaviour {
         if (verticalInput != 0 || horizontalInput != 0)
             audioManager.PlaySound(AudioManager.GameSoundEffectType.WalkLoop);
 
-        if (!hasPhoneOut && mechanicStatuses[(int)MechanicType.Movement]) {
+        if (!hasPhoneOut && mechanicStatuses[(int) MechanicType.Movement]) {
 
             // vertical movement gets priority
             if (verticalInput > 0f) {
@@ -151,26 +152,22 @@ public class PlayerController : MonoBehaviour {
                 ResetAnimations();
                 animator.SetBool("isWalkingForward", true);
 
-            }
-            else if (verticalInput < 0f) {
+            } else if (verticalInput < 0f) {
 
                 ResetAnimations();
                 animator.SetBool("isWalkingBack", true);
 
-            }
-            else if (horizontalInput < 0f) {
+            } else if (horizontalInput < 0f) {
 
                 ResetAnimations();
                 animator.SetBool("isWalkingLeft", true);
 
-            }
-            else if (horizontalInput > 0f) {
+            } else if (horizontalInput > 0f) {
 
                 ResetAnimations();
                 animator.SetBool("isWalkingRight", true);
 
-            }
-            else {
+            } else {
 
                 ResetAnimations();
 
@@ -201,23 +198,24 @@ public class PlayerController : MonoBehaviour {
 
                 interactKeyIcon.transform.DOScale(iconStartScale * iconAnimScaleMultiplier, iconAnimScaleDuration / 2f).OnComplete(() => interactKeyIcon.transform.DOScale(iconStartScale, iconAnimScaleDuration / 2f));
 
-            }
-            else if (interactable is TaskInteractable && interactable.IsInteractable() && !taskManager.IsTaskStarted()) { // task interactable, has current task
+            } else if (interactable is TaskInteractable && interactable.IsInteractable() && !taskManager.IsTaskStarted()) { // task interactable, has current task
+
+                ShowInteractKeyIcon();
+
+            } else if (interactable is not TaskInteractable && interactable.IsInteractable()) { // anything other than task interactable, but key not pressed
 
                 ShowInteractKeyIcon();
 
             }
-            else if (interactable is not TaskInteractable && interactable.IsInteractable()) { // anything other than task interactable, but key not pressed
-
-                ShowInteractKeyIcon();
-
-            }
-        }
-        else {
+        } else {
 
             HideInteractKeyIcon(); // if no interactables in range, hide interact key icon
 
         }
+
+        /* PAUSING */
+        if (Input.GetKeyDown(KeyCode.Escape))
+            taskManager.TogglePause();
 
         /* ANIMATIONS */
         if (isAnimatingBoredom && !hasPhoneOut)
@@ -234,7 +232,7 @@ public class PlayerController : MonoBehaviour {
 
     private void FixedUpdate() {
 
-        if (mechanicStatuses[(int)MechanicType.Movement] && !hasPhoneOut)
+        if (mechanicStatuses[(int) MechanicType.Movement] && !hasPhoneOut)
             rb.velocity = new Vector3(horizontalInput, 0, verticalInput).normalized * moveSpeed;
         else
             rb.velocity = Vector3.zero;
@@ -278,14 +276,12 @@ public class PlayerController : MonoBehaviour {
                 if (flashMeterCoroutine == null)
                     flashMeterCoroutine = StartCoroutine(FlashMeter()); // start flashing meter
 
-            }
-            else if (boredom >= boredomMax * boredomDopamineThreshold) {
+            } else if (boredom >= boredomMax * boredomDopamineThreshold) {
 
                 moveSpeed = baseMoveSpeed * dopamineSpeedModifier;
                 //cam.fieldOfView = camDopamineFov;
 
-            }
-            else if (boredom < boredomMax * boredomDopamineThreshold && boredom > boredomMax * boredomFatigueThreshold) {
+            } else if (boredom < boredomMax * boredomDopamineThreshold && boredom > boredomMax * boredomFatigueThreshold) {
 
                 moveSpeed = baseMoveSpeed;
                 //cam.fieldOfView = camBaseFov;
@@ -346,12 +342,12 @@ public class PlayerController : MonoBehaviour {
 
         if (taskManager.IsGameComplete()) { // disable mechanic if game is complete
 
-            mechanicStatuses[(int)mechanicType] = false;
+            mechanicStatuses[(int) mechanicType] = false;
             return;
 
         }
 
-        mechanicStatuses[(int)mechanicType] = status;
+        mechanicStatuses[(int) mechanicType] = status;
 
     }
 

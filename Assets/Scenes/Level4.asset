@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Level4
   m_EditorClassIdentifier: 
   levelNum: 4
-  isCompleted: 0
+  isCompleted: 1
   tasksToComplete: 9999
   timeLimit: 30

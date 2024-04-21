@@ -20,6 +20,7 @@ public class UIController : MonoBehaviour {
 
     [Header("Tasks")]
     [SerializeField] private CanvasGroup mainHUD;
+    [SerializeField] private float mainHUDFadeDuration;
     [SerializeField] private Transform taskInfo;
     [SerializeField] private TMP_Text taskHeaderText;
     [SerializeField] private TMP_Text taskNameText;
@@ -33,6 +34,7 @@ public class UIController : MonoBehaviour {
     [SerializeField] private Color flashColor;
     private Coroutine flashTimerCoroutine;
     private Coroutine timerCoroutine;
+    private int timerSeconds;
 
     [Header("Quiz")]
     [SerializeField] private GameObject homework;
@@ -67,6 +69,12 @@ public class UIController : MonoBehaviour {
     [SerializeField] private Button menuButton2;
     [SerializeField] private Button quitButton2;
 
+    [Header("Pause Menu")]
+    [SerializeField] private CanvasGroup pauseMenu;
+    [SerializeField] private Button resumeButton;
+    [SerializeField] private Button restartButton;
+    [SerializeField] private Button mainMenuButton;
+
     [Header("Loading Screen")]
     [SerializeField] private CanvasGroup loadingScreen;
     [SerializeField] private float loadingFadeDuration;
@@ -81,6 +89,7 @@ public class UIController : MonoBehaviour {
 
         victoryScreen.gameObject.SetActive(false);
         lossScreen.gameObject.SetActive(false);
+        pauseMenu.gameObject.SetActive(false);
         HideLoadingScreen();
 
         homework.gameObject.SetActive(false);
@@ -111,6 +120,11 @@ public class UIController : MonoBehaviour {
         taskTimerText.gameObject.SetActive(false);
 
         StartCoroutine(RebuildLayout(taskInfo));
+
+        resumeButton.onClick.AddListener(taskManager.TogglePause);
+        restartButton.onClick.AddListener(ReloadLevel);
+        mainMenuButton.onClick.AddListener(LoadMainMenu);
+
         ResetTaskInfo();
 
     }
@@ -125,13 +139,19 @@ public class UIController : MonoBehaviour {
 
     #region Timer
 
-    public void StartTimer(int seconds) {
+    public void InitializeTimer(int seconds) {
 
         timerCoroutine = StartCoroutine(HandleTimer(seconds));
 
     }
 
-    public void StopTimer() {
+    public void ResumeTimer() {
+
+        timerCoroutine = StartCoroutine(HandleTimer(timerSeconds));
+
+    }
+
+    public void PauseTimer() {
 
         if (timerCoroutine != null) StopCoroutine(timerCoroutine);
 
@@ -139,9 +159,11 @@ public class UIController : MonoBehaviour {
 
     private IEnumerator HandleTimer(int seconds) {
 
-        while (seconds > 0) {
+        this.timerSeconds = seconds;
 
-            if (seconds <= flashThreshold) {
+        while (timerSeconds > 0) {
+
+            if (timerSeconds <= flashThreshold) {
 
                 if (flashTimerCoroutine == null) // make sure timer isn't already flashing
                     flashTimerCoroutine = StartCoroutine(FlashTimer()); // start flashing
@@ -152,9 +174,9 @@ public class UIController : MonoBehaviour {
 
             }
 
-            taskTimerText.text = timerText.text = string.Format("{0:0}:{1:00}", seconds / 60, seconds % 60);
+            taskTimerText.text = timerText.text = string.Format("{0:0}:{1:00}", timerSeconds / 60, timerSeconds % 60);
             yield return new WaitForSeconds(1f);
-            seconds--;
+            timerSeconds--;
 
         }
 
@@ -179,6 +201,19 @@ public class UIController : MonoBehaviour {
     #endregion
 
     #region Tasks
+
+    private void ShowMainHUD() {
+
+        mainHUD.gameObject.SetActive(true);
+        mainHUD.DOFade(1f, mainHUDFadeDuration).SetUpdate(true);
+
+    }
+
+    private void HideMainHUD() {
+
+        mainHUD.DOFade(0f, mainHUDFadeDuration).SetUpdate(true).OnComplete(() => mainHUD.gameObject.SetActive(false));
+
+    }
 
     public void SetTaskInfo(int taskNum, string taskName, string taskDescription) {
 
@@ -403,13 +438,51 @@ public class UIController : MonoBehaviour {
 
     #endregion
 
-    #region Main Menu
+    #region Scene Loading
 
     private void LoadMainMenu() {
 
         sceneLoad = SceneManager.LoadSceneAsync(0);
         sceneLoad.allowSceneActivation = false;
         ShowLoadingScreen();
+
+    }
+
+    private void ReloadLevel() {
+
+        sceneLoad = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        sceneLoad.allowSceneActivation = false;
+        ShowLoadingScreen();
+
+    }
+
+    #endregion
+
+    #region Pausing
+
+    public void OpenPauseMenu() {
+
+        HideMainHUD();
+        pauseMenu.gameObject.SetActive(true);
+        pauseMenu.DOFade(1f, mainHUDFadeDuration).SetUpdate(true);
+        animator.SetTrigger("openPauseMenu");
+
+    }
+
+    public void ClosePauseMenu() {
+
+        ShowMainHUD();
+        animator.SetTrigger("closePauseMenu");
+        pauseMenu.DOFade(0f, lossFadeDuration).SetUpdate(true);
+        StartCoroutine(HidePauseMenu());
+
+    }
+
+    private IEnumerator HidePauseMenu() { // helper method, actually closes the menu
+
+        yield return new WaitForEndOfFrame(); // wait for animation to start playing
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length); // wait for animation to finish playing
+        pauseMenu.gameObject.SetActive(false); // hide pause menu after animation ends
 
     }
 
@@ -449,7 +522,7 @@ public class UIController : MonoBehaviour {
 
         loadingScreen.alpha = 0f;
         loadingScreen.gameObject.SetActive(true);
-        loadingScreen.DOFade(1f, loadingFadeDuration).SetEase(Ease.InCubic).OnComplete(() => {
+        loadingScreen.DOFade(1f, loadingFadeDuration).SetUpdate(true).SetEase(Ease.InCubic).OnComplete(() => {
 
             if (sceneLoad != null) sceneLoad.allowSceneActivation = true;
 
