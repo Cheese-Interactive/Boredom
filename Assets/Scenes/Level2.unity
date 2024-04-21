@@ -2084,7 +2084,7 @@ MonoBehaviour:
   footstepSourceVol: 0.446
   soundEffectSource: {fileID: 175660647}
   sfxSourceVol: 1
-  levelMusic: {fileID: 8300000, guid: c30277a517387d247a479191b7b05263, type: 3}
+  levelMusic: {fileID: 8300000, guid: 01a01d4eb051c9940a45e67cedb65b4c, type: 3}
   walkLoop: {fileID: 8300000, guid: 96d98603b95ec494e97e17cbc6a15e11, type: 3}
   phoneLoop: {fileID: 8300000, guid: b4e53e64d86fbb14cb34dc1c37483e98, type: 3}
   taskComplete: {fileID: 8300000, guid: 98bebd6ca87eb704fab1a4aa2e09bf5d, type: 3}
@@ -6378,9 +6378,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: c30277a517387d247a479191b7b05263, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 01a01d4eb051c9940a45e67cedb65b4c, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.537
+  m_Volume: 0.523
   m_Pitch: 0.97
   Loop: 1
   Mute: 0
@@ -13985,6 +13985,7 @@ MonoBehaviour:
   flipTime: 0.32
   initialBoredom: 70
   boredomMax: 100
+  boredomDecayRate: 2
   boredomRecoveryRate: 13
   boredomFatigueThreshold: 0.3
   fatigueSpeedModifier: 0.5
@@ -17851,7 +17852,7 @@ Transform:
   m_GameObject: {fileID: 1209638911}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.87087584, z: -0, w: 0.49150318}
-  m_LocalPosition: {x: 16.07, y: 1.1067141, z: 16.33}
+  m_LocalPosition: {x: 16.08, y: 1.1067141, z: 16.68}
   m_LocalScale: {x: 0.45359862, y: 0.043476, z: 0.38121387}
   m_ConstrainProportionsScale: 0
   m_Children:
