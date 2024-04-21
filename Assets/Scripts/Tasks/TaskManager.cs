@@ -230,11 +230,12 @@ public class TaskManager : MonoBehaviour {
             while (!ingredientStatuses[idx])
                 yield return null;
             ingredients[idx].SetActive(false);
-            print("starting next ing");
             currIngredientIdx++;
             StartCoroutine(SpawnIngredient(currIngredientIdx));
         }
     }
+
+    public float GetBoredomDecayRate() => level.GetBoredomDecayRate();
 
     public void OnIngredientPickup() {
         ingredientStatuses[currIngredientIdx] = true;

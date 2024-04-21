@@ -13985,7 +13985,6 @@ MonoBehaviour:
   flipTime: 0.32
   initialBoredom: 70
   boredomMax: 100
-  boredomDecayRate: 2
   boredomRecoveryRate: 13
   boredomFatigueThreshold: 0.3
   fatigueSpeedModifier: 0.5

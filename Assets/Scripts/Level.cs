@@ -8,6 +8,7 @@ public class Level : ScriptableObject {
     [SerializeField] private bool isCompleted;
     [SerializeField] private int tasksToComplete;
     [SerializeField][Tooltip("In seconds")] private int timeLimit;
+    [SerializeField] private float boredomDecayRate;
 
     public bool IsCompleted() => isCompleted;
 
@@ -16,5 +17,7 @@ public class Level : ScriptableObject {
     public int GetTasksToComplete() => tasksToComplete;
 
     public int GetTimeLimit() => timeLimit;
+
+    public float GetBoredomDecayRate() => boredomDecayRate;
 
 }

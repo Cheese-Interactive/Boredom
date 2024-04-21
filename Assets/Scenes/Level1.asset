@@ -16,3 +16,4 @@ MonoBehaviour:
   isCompleted: 1
   tasksToComplete: 3
   timeLimit: 250
+  boredomDecayRate: 3

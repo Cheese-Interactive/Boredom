@@ -35,7 +35,6 @@ public class PlayerController : MonoBehaviour {
     [Header("Boredom")]
     [SerializeField] private float initialBoredom;
     [SerializeField] private float boredomMax;
-    [SerializeField] private float boredomDecayRate;
     [SerializeField] private float boredomRecoveryRate;
     [Range(0f, 1f)][SerializeField] private float boredomFatigueThreshold; //ex: if this is 0.3, then when under 30% of boredom, you get fatigued
     [SerializeField] private float fatigueSpeedModifier;
@@ -312,7 +311,7 @@ public class PlayerController : MonoBehaviour {
             if (hasPhoneOut)
                 yield return new WaitForSeconds(1f / boredomRecoveryRate);
             else
-                yield return new WaitForSeconds(1f / boredomDecayRate);
+                yield return new WaitForSeconds(1f / taskManager.GetBoredomDecayRate());
 
         }
     }
@@ -357,11 +356,7 @@ public class PlayerController : MonoBehaviour {
 
     public void SetArrowVisible(bool t) { arrow.SetActive(t); }
 
-    public void PointArrow(Vector3 position) {
-
-        arrowTarget = position;
-
-    }
+    public void PointArrow(Vector3 position) => arrowTarget = position;
 
     private IEnumerator FlashMeter() {
 
