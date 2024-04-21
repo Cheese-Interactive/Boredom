@@ -11,6 +11,7 @@ public class Level : ScriptableObject {
     [SerializeField][Tooltip("Level 1 begins at index 1.")] private int levelNum;
     [SerializeField] private bool isCompleted;
     [SerializeField] private Object scene;
+    [SerializeField] private int tasksToComplete;
     [SerializeField][Tooltip("In seconds")] private int timeLimit;
 
     public bool IsCompleted() => isCompleted;
@@ -18,6 +19,8 @@ public class Level : ScriptableObject {
     public void SetCompleted(bool completed) => isCompleted = completed;
 
     public Object GetScene() => scene;
+
+    public int GetTasksToComplete() => tasksToComplete;
 
     public int GetTimeLimit() => timeLimit;
 

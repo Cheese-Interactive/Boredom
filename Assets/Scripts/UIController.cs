@@ -319,7 +319,7 @@ public class UIController : MonoBehaviour {
 
         } else {
 
-            int[] ranges = { Random.Range(0, guaranteedRandom), Random.Range(guaranteedRandom, tvRepairQuestions.Length) }; // random ranges from 0 to guaranteedRandom - 1 and guaranteedRandom to length - 1
+            int[] ranges = { Random.Range(0, guaranteedRandom), Random.Range(guaranteedRandom + 1, tvRepairQuestions.Length) }; // random ranges from 0 to guaranteedRandom - 1 and guaranteedRandom + 1 to length - 1
             randIndex = ranges[Random.Range(0, ranges.Length)]; // random index from ranges
 
         }
@@ -492,4 +492,5 @@ public class UIController : MonoBehaviour {
     }
 
     #endregion
+
 }

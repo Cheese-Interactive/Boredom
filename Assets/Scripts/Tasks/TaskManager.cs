@@ -13,7 +13,6 @@ public class TaskManager : MonoBehaviour {
     private AudioManager audioMangager;
 
     [Header("Tasks")]
-    [SerializeField] private int totalTasks;
     private int completedTasks;
     private bool taskStarted;
     private bool gameComplete;
@@ -35,6 +34,7 @@ public class TaskManager : MonoBehaviour {
     private int currIngredientIdx;
 
     private void Start() {
+
         audioMangager = FindObjectOfType<AudioManager>();
         playerController = FindObjectOfType<PlayerController>();
         uiController = FindObjectOfType<UIController>();
@@ -69,12 +69,12 @@ public class TaskManager : MonoBehaviour {
         completedTasks++;
         FindObjectOfType<AudioManager>().PlaySound(AudioManager.GameSoundEffectType.TaskComplete);
 
-        if (completedTasks >= totalTasks)
+        if (completedTasks >= level.GetTasksToComplete())
             OnGameVictory();
 
     }
 
-    public int GetTotalTasks() { return totalTasks; }
+    public int GetTotalTasks() => level.GetTasksToComplete();
 
     public int GetCompletedTasks() { return completedTasks; }
 
@@ -91,6 +91,7 @@ public class TaskManager : MonoBehaviour {
     }
 
     public void OnGameLoss() {
+
         audioMangager.PlaySound(AudioManager.GameSoundEffectType.Lose);
         gameComplete = true;
         playerController.PauseBoredomTick();
@@ -180,8 +181,7 @@ public class TaskManager : MonoBehaviour {
             if (currTask is Sandwich)
                 CompleteCurrentTask();
             yield break;
-        }
-        else {
+        } else {
             ingredients[idx].SetActive(true);
             playerController.SetArrowVisible(true);
             playerController.PointArrow(ingredients[idx].transform.position);

@@ -6,10 +6,15 @@ using UnityEngine;
 public class TVRepairAnswerUI : MonoBehaviour {
 
     [Header("References")]
-    [SerializeField] private TMP_Text answerText;
+    private TMP_Text answerText;
     private int index;
 
-    public void Initialize() => index = transform.GetSiblingIndex();
+    public void Initialize() {
+
+        answerText = GetComponent<TMP_Text>();
+        index = transform.parent.GetSiblingIndex();
+
+    }
 
     public void SetAnswerText(string answer) => answerText.text = answer;
 

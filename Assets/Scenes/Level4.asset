@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelNum: 4
   isCompleted: 0
-  scene: {fileID: 102900000, guid: a25f960949f18eb498012ab114ab4e47, type: 3}
+  scene: {fileID: 102900000, guid: 250001c56dbc8a44d881495948a55687, type: 3}
+  tasksToComplete: 4
   timeLimit: 60

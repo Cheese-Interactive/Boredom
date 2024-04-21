@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class TVRepairQuestion {
 
-    [Header("Answers")]
+    [Header("Information")]
     [SerializeField] private string questionText;
     [SerializeField] private TVRepairAnswer answer;
 
