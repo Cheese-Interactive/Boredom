@@ -1,2 +1,2 @@
-# Boredom
+# boredom.
 All you have to do is finish your tasks...
