@@ -1,7 +1,9 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public class TaskManager : MonoBehaviour {
 
@@ -11,6 +13,7 @@ public class TaskManager : MonoBehaviour {
     private PlayerController playerController;
     private UIController uiController;
     private AudioManager audioMangager;
+    private GameManager gameManager;
 
     [Header("Tasks")]
     private int completedTasks;
@@ -41,6 +44,7 @@ public class TaskManager : MonoBehaviour {
         audioMangager = FindObjectOfType<AudioManager>();
         playerController = FindObjectOfType<PlayerController>();
         uiController = FindObjectOfType<UIController>();
+        gameManager = FindObjectOfType<GameManager>();
         AssignDestination();
 
         ingredientStatuses = new bool[ingredients.Length];
@@ -128,7 +132,8 @@ public class TaskManager : MonoBehaviour {
         playerController.StopMeterFlash();
         uiController.PauseTimer();
         uiController.ShowVictoryScreen();
-        level.SetCompleted(true);
+        gameManager.SetLevelCompleted(level);
+        gameManager.SaveLevelData();
 
     }
 
@@ -141,6 +146,7 @@ public class TaskManager : MonoBehaviour {
         playerController.StopMeterFlash();
         uiController.PauseTimer();
         uiController.ShowLossScreen();
+        gameManager.SaveLevelData();
 
     }
 
@@ -214,7 +220,6 @@ public class TaskManager : MonoBehaviour {
     private void BeginSandwich() {
         ResetIngredients();
         StartCoroutine(SpawnIngredient(currIngredientIdx));
-        print(currIngredientIdx);
     }
 
     private IEnumerator SpawnIngredient(int idx) {
@@ -259,7 +264,6 @@ public class TaskManager : MonoBehaviour {
 
         currTask = null;
         OnTaskComplete();
-        uiController.ResetTaskInfo();
         AssignDestination();
         taskStarted = false;
 
@@ -268,7 +272,6 @@ public class TaskManager : MonoBehaviour {
     public void FailCurrentTask() {
 
         currTask = null;
-        uiController.ResetTaskInfo();
         AssignDestination();
         taskStarted = false;
 

@@ -2,11 +2,13 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class HoverButton : MonoBehaviour {
+public class HoverTextButton : MonoBehaviour {
 
     [Header("References")]
     [SerializeField] private TMP_Text text;
+    private Button button;
 
     [Header("Animations")]
     [SerializeField] private Color hoverColor;
@@ -14,6 +16,8 @@ public class HoverButton : MonoBehaviour {
     private Color startColor;
 
     private void Start() {
+
+        button = GetComponent<Button>();
 
         EventTrigger eventTriggers = gameObject.AddComponent<EventTrigger>();
 
@@ -40,7 +44,8 @@ public class HoverButton : MonoBehaviour {
 
     private void OnPointerEnter(PointerEventData eventData) {
 
-        text.DOColor(hoverColor, hoverFadeDuration).SetUpdate(true); // color transition
+        if (button.interactable)
+            text.DOColor(hoverColor, hoverFadeDuration).SetUpdate(true); // color transition
 
     }
 

@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour {
 
     [Header("References")]
     [SerializeField] private GameObject arrow;
-    private Camera cam;
     private Vector3 arrowTarget;
     private AudioManager audioManager;
     private TaskManager taskManager;
@@ -78,7 +77,6 @@ public class PlayerController : MonoBehaviour {
 
     private void Start() {
 
-        cam = FindObjectOfType<PlayerCamFollow>().GetComponent<Camera>();
         arrowTarget = Vector3.zero;
         SetArrowVisible(true);
         audioManager = FindObjectOfType<AudioManager>();
@@ -173,14 +171,15 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-
         /* INTERACTABLES */
         Interactable interactable = null;
 
         foreach (Collider obj in Physics.OverlapSphere(transform.position, interactRadius, interactMask)) {
 
             interactable = obj?.GetComponent<Interactable>();
-            break;
+
+            if (interactable != null && interactable.IsInteractable()) // make sure it's interactable
+                break;
 
         }
 
@@ -248,7 +247,6 @@ public class PlayerController : MonoBehaviour {
         animator.SetBool("isPhoneOutRight", false);
 
     }
-
 
     private IEnumerator TickBoredom() {
 

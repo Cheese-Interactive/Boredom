@@ -75,8 +75,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4289065727
-  m_fontColor: {r: 1, g: 0.9490196, b: 0.64705884, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 1322817587165534114}
   - component: {fileID: 6739432796403962829}
   - component: {fileID: 4033927891839046996}
+  - component: {fileID: 3378079770729762434}
   m_Layer: 5
   m_Name: LevelButton
   m_TagString: Untagged
@@ -186,7 +187,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 150}
+  m_SizeDelta: {x: 200, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1322817587165534114
 CanvasRenderer:
@@ -225,7 +226,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.2
+  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &4033927891839046996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,7 +252,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0, g: 0, b: 0, a: 0.27450982}
+    m_DisabledColor: {r: 0, g: 0, b: 0, a: 0.47058824}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -271,3 +272,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   levelNumText: {fileID: 20034865173919193}
+--- !u!114 &3378079770729762434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4055534236526880337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 604ff41f3186a9a48841230dceb7d71e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 20034865173919193}
+  hoverColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  hoverFadeDuration: 0.5

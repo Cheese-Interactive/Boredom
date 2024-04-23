@@ -60,14 +60,16 @@ public class UIController : MonoBehaviour {
     [Header("Victory Screen")]
     [SerializeField] private CanvasGroup victoryScreen;
     [SerializeField] private float victoryFadeDuration;
-    [SerializeField] private Button menuButton1;
-    [SerializeField] private Button quitButton1;
+    [SerializeField] private Button victoryMenuButton;
+    [SerializeField] private Button victoryRestartButton;
+    [SerializeField] private Button victoryQuitButton;
 
     [Header("Loss Screen")]
     [SerializeField] private CanvasGroup lossScreen;
     [SerializeField] private float lossFadeDuration;
-    [SerializeField] private Button menuButton2;
-    [SerializeField] private Button quitButton2;
+    [SerializeField] private Button lossMenuButton;
+    [SerializeField] private Button lossRestartButton;
+    [SerializeField] private Button lossQuitButton;
 
     [Header("Pause Menu")]
     [SerializeField] private CanvasGroup pauseMenu;
@@ -99,11 +101,13 @@ public class UIController : MonoBehaviour {
         tvRepair.gameObject.SetActive(false);
         checkmark.SetActive(false);
 
-        menuButton1.onClick.AddListener(LoadMainMenu);
-        menuButton2.onClick.AddListener(LoadMainMenu);
+        victoryMenuButton.onClick.AddListener(LoadMainMenu);
+        victoryRestartButton.onClick.AddListener(ReloadLevel);
+        victoryQuitButton.onClick.AddListener(() => Application.Quit());
 
-        quitButton1.onClick.AddListener(() => Application.Quit());
-        quitButton2.onClick.AddListener(() => Application.Quit());
+        lossMenuButton.onClick.AddListener(LoadMainMenu);
+        lossRestartButton.onClick.AddListener(ReloadLevel);
+        lossQuitButton.onClick.AddListener(() => Application.Quit());
 
         /* order tv repair answers by index */
         List<TVRepairAnswerUI> ordered = new List<TVRepairAnswerUI>(new TVRepairAnswerUI[tvRepairAnswerObjs.Count]);
@@ -180,7 +184,9 @@ public class UIController : MonoBehaviour {
 
         }
 
-        StopCoroutine(flashTimerCoroutine); // stop flashing
+        if (flashTimerCoroutine != null)
+            StopCoroutine(flashTimerCoroutine); // stop flashing
+
         taskTimerText.text = timerText.text = "0:00";
         taskManager.OnGameLoss();
 

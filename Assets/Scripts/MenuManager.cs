@@ -12,6 +12,7 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour {
 
     [Header("References")]
+    private GameManager gameManager;
     private Animator animator;
 
     [Header("Main Menu")]
@@ -55,6 +56,7 @@ public class MenuManager : MonoBehaviour {
 
     private void Start() {
 
+        gameManager = FindObjectOfType<GameManager>();
         animator = GetComponent<Animator>();
 
         OpenMainMenu();
@@ -80,15 +82,11 @@ public class MenuManager : MonoBehaviour {
 
         for (int i = 1; i < levels.Length; i++) {
 
-#if UNITY_EDITOR
-            EditorUtility.SetDirty(levels[i]);
-#endif
-
             button = Instantiate(levelButtonPrefab, levelButtonsParent);
             button.Initialize(i + 1, levels[i]);
             int levelIndex = i + levelIndexOffset;
             button.onClick.AddListener(() => LoadLevel(levelIndex));
-            button.interactable = levels[i - 1].IsCompleted();
+            button.interactable = gameManager.IsLevelCompleted(levels[i - 1]);
 
         }
 

@@ -7,6 +7,5 @@ public class SandwichIngredient : Interactable {
 
     public override void Interact() {
         tm.OnIngredientPickup();
-        print("collected ingredient");
     }
 }
